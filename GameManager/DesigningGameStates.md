@@ -1,4 +1,4 @@
-## 📜 Designing Your Game States
+# 📜 Designing Your Game States
 
 Before writing any code, it’s important to **think about the states your game actually needs** and how they relate to each other. Not all states are the same—some represent **exclusive modes**, while others are **temporary overlays** that sit on top of whatever the player is currently doing.
 
