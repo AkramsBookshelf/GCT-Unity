@@ -2,11 +2,11 @@
 
 An **interface** is like a **contract** that a class agrees to follow. It specifies **what methods and properties a class must have**, but **does not provide any implementation**. Think of it as a checklist: any class that signs the contract must include the items on the list, but the way it fulfills them is up to the class itself.
 
-In C#, interface methods are **always public**. This makes sense because the whole point of an interface is to allow other classes to interact with your object in a consistent way, without needing to know the details of its implementation.
+In C#, interface methods are **always public**. This makes sense because the whole point of an interface is to allow other classes to interact with your object consistently, without needing to know the details of its implementation.
 
 ---
 
-##⚡ ENCOUNTER: Interactable Objects
+## ⚡ ENCOUNTER: Interactable Objects
 Imagine a player exploring a game world full of interactive objects. Some objects can be picked up, others opened, and some consumed. For example:
 
 - A **Box** that can be picked up and thrown.
@@ -14,7 +14,7 @@ Imagine a player exploring a game world full of interactive objects. Some object
 - A **Door** that can be opened or locked.
 - A **Magic Potion** that can be picked up and consumed.
 
-To implment these interactions, the beginner approach would be to have the `Player` class for example, check what it is interacting with and then run the approiate method. For example: 
+To implement these interactions, the beginner approach would be to have the `Player` class for example, check what it is interacting with and then run the appropriate method. For example: 
 
 ```csharp
 void OnTriggerEnter(Collider other)
@@ -28,12 +28,12 @@ void OnTriggerEnter(Collider other)
             other.Toggle();
         case Potion: 
             other.Consume();
-        case Defult:
+        case Default:
             break;
     }
 ```
 
-While this approach works, it requires that we know the **class** types of objects we could potentially interact with and the **specfic method** that they need to call. Furthermore as the number of interactable objects grows we are faced with the following challenges: 
+While this approach works, it requires that we know the **class** types of objects we could potentially interact with and the **specific method** that they need to call. Furthermore, as the number of interactable objects grows, we are faced with the following challenges: 
 
 -   The code is **long and hard to maintain**.
     
@@ -41,7 +41,7 @@ While this approach works, it requires that we know the **class** types of objec
     
 -   Each object’s behavior is **scattered across multiple places**.
 
-A more modular solution is implmenting an **IInteractable** interface. 
+A more modular solution is implementing an **IInteractable** interface. 
 
 We can define a contract for all interactable objects:
 
@@ -56,7 +56,7 @@ public interface IInteractable
 - Each object implements the interface in its own way
 
 ```csharp
-public class Box : IInteractable
+public class Box: MonoBehaviour, IInteractable
 {
     public void Interact()
     {
@@ -64,7 +64,7 @@ public class Box : IInteractable
     }
 }
 
-public class Chest : IInteractable
+public class Chest: MonoBehaviour, IInteractable
 {
     public void Interact()
     {
@@ -86,5 +86,6 @@ void OnTriggerEnter(Collider other)
 }
 ```
 Now the player can interact with any object that implements IInteractable, without checking its specific type.
+
 
 ---
