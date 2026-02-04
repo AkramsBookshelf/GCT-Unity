@@ -1,4 +1,4 @@
-# 📜 Designing Your Game States
+# 📜 Designing Game States
 > By: Akram Taghavi-Burris | © 2026
 
 You’ve just loaded your current game of choice. The loading screen appears, followed by the main menu, with the main score playing softly in the background. Once you start a new game or load a save, the menu disappears, the music shifts to the ambient sounds of the level, and you take control of the player, exploring a vast world. Later, you might pause to check your inventory. Each of these moments requires the game to behave differently, even if the same world or elements are still visible.
