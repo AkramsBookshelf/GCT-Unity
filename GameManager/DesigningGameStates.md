@@ -10,7 +10,7 @@ In previous lessons, we discussed how states help control behaviors like **Walk*
 
 Similarly, games can also have **game states**. These can be thought of as **global states**, not tied to any single object, but other objects in the game may need to respond when a specific game state is active.
 
-For example, when the player is actively **playing the game**, the world is fully alive: the player can move, interact with objects, fight enemies, and explore the environment. Every character and object in the world behaves independently—enemies patrol, NPCs walk around, and items respond to interactions. In contrast, when the player is navigating the **main menu**, the game world is effectively paused. Nothing in the environment moves, enemies are inactive, and the player cannot interact with the world; instead, the focus is entirely on navigating menu options.
+For example, when the player is actively **playing the game**, the world is fully alive: the player can move, interact with objects, fight enemies, and explore the environment. Every character and object in the world behaves independently, enemies patrol, NPCs walk around, and items respond to interactions. In contrast, when the player is navigating the **main menu**, the game world is effectively paused. Nothing in the environment moves, enemies are inactive, and the player cannot interact with the world; instead, the focus is entirely on navigating menu options.
 
 **Game states** allow us to better manage the **overall flow of the game**. They determine:
 
