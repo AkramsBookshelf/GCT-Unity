@@ -7,8 +7,41 @@ The story of Highlander is one of immortal beings who exist among humans, each w
 
 In a similar vein, **Singletons** represent the “immortal” objects in your game. Just as the Highlanders cannot coexist peacefully, your Singleton class ensures that only one instance of the class survives throughout the entire game. Any additional instances created are destroyed, just as an immortal would face beheading if they crossed paths with another.
 
+![Singletons in Game Development](imgs/gct-Singleton.png)
+
 ## Using Singletons
 
-In game development a common use case for a singleton is in the creation of a single instance of a manager or controller class (e.g. AudioManager, GameManager, or PlayerControler) where creating multiple instances could lead to conflicts or inefficiencies. By implementing the Singleton pattern, you can ensure that no matter how many times the object is requested or instantiated, only one instance will exist. Use of Singleton Pattern in Unity
+In game development, a common use case for a singleton is in the creation of a single instance of a manager or controller class (e.g. AudioManager, GameManager, or PlayerControler) where creating multiple instances could lead to conflicts or inefficiencies. By implementing the Singleton pattern, you can ensure that no matter how many times the object is requested or instantiated, only one instance will exist. Use of Singleton Pattern in Unity
 
 Example of how the Singleton pattern can be used inside a class:
+```csharp
+public class GameManager: MonoBehaviour
+{
+    //Creates the global access to the instance
+    public static GameManager Instance { get; private set; }
+
+    void Awake()
+    {
+        // If no GameManager exists, assign this instance and mark it as persistent across scenes
+        if (Instance == null)
+        {
+            //make this the game manager
+            Instance = this; 
+
+            // Prevents the instance from being destroyed when changing scenes
+            DontDestroyOnLoad(gameObject); 
+        }
+
+        // Else if a GameManager already exists and it's not this one, destroy this instance to maintain the Singleton
+        else
+        {
+            //if there is a game manager, destroy this object
+            Destroy(gameObject);
+
+        }//end if (Instance == null)
+
+    }//end Awake()
+
+   //other game manager behaviors go here
+}
+```
