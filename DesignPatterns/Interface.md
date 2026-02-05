@@ -1,12 +1,25 @@
-# What is an Interface?
+# 📜 Interface Pattern
+> By: Akram Taghavi-Burris | © 2026
 
-An **interface** is like a **contract** that a class agrees to follow. It specifies **what methods and properties a class must have**, but **does not provide any implementation**. Think of it as a checklist: any class that signs the contract must include the items on the list, but the way it fulfills them is up to the class itself.
+Imagine you walk into a fast-food joint and need to place an order. You **don’t need to know each employee personally**—you can spot them by their uniform. All employees wear the **same uniform**, so you instantly know who can take your order.
 
-In C#, interface methods are **always public**. This makes sense because the whole point of an interface is to allow other classes to interact with your object consistently, without needing to know the details of its implementation.
+Just like the employee is **contracted to wear the uniform**, an **interface** ensures that a class **adheres to a specific contract**. Any class that implements the interface can be recognized and interacted with consistently, without needing to know the details of how it works.
+
+## Understanding Interfaces
+
+An **interface** is more than just a checklist—it’s a **guarantee** that a class will provide certain capabilities. Any system or object interacting with that class can **rely on the interface**, knowing exactly which methods and properties are available.
+
+In C#, all interface methods are **always public**. This makes sense because the purpose of an interface is to allow other objects or systems to interact with your class **without needing to know the internal details**. Think of it like the uniform from the fast-food example: it signals what the employee can do, but not how they take your order behind the counter.
+
+Some key points about interfaces:
+
+-   **No implementation:** Interfaces define **what** must be done, not **how** it is done. That’s up to the implementing class.
+-   **Multiple implementations:** Different classes can implement the same interface in completely different ways. For example, a `Box`, `Chest`, and `Door` might all implement `IInteractable`, but each behaves differently when interacted with.
+-   **Decoupling:** Systems can interact with objects via their interface, rather than depending on specific class types. This makes your code more **modular**, **flexible**, and **testable**.
 
 ---
 
-### 🌟 Game Design Challenge: Interacting with Game Objects
+## 🌟 Game Design Challenge: Interacting with Game Objects
 
 Imagine a player exploring a game world full of interactive objects. Some objects can be picked up, others opened, and some consumed. For example:
 
@@ -42,6 +55,10 @@ While this approach works, it requires that we know the **class** types of objec
     
 -   Each object’s behavior is **scattered across multiple places**.
 
+#
+
+### Implementing an Interface
+
 A more modular solution is implementing an **IInteractable** interface. 
 
 We can define a contract for all interactable objects:
@@ -52,9 +69,9 @@ public interface IInteractable
     void Interact();
 }
 ```
+Here, the interface declares the Interact method, but does not define its behavior.
 
-- The interface declares the Interact method, but does not define its behavior.
-- Each object implements the interface in its own way
+Each object implements the interface in its own way of interacting:
 
 ```csharp
 public class Box: MonoBehaviour, IInteractable
@@ -86,8 +103,19 @@ void OnTriggerEnter(Collider other)
     }
 }
 ```
-Now the player can interact with any object that implements IInteractable, without checking its specific type.
-
+No matter what object the player encounters, as long as it implements `IInteractable`, the player can interact with it **without knowing its type or specific methods**.
 
 ---
+
+## 🛡️ **Checkpoint**
+
+After exploring interfaces, here’s what to remember:
+
+-   **Contract, not implementation:** Interfaces define **what must be done**, not **how**.
+-   **Consistency:** Other systems can interact with your object **without knowing details**.
+-   **Flexibility:** Adding new behaviors doesn’t require changes to the player or other systems.
+-   **Decoupling:** Objects manage their own behavior, keeping code modular and testable.
+
+Using interfaces effectively allows your game architecture to grow without turning your player code into a tangled mess of type checks.
+
 
