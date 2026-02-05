@@ -6,7 +6,8 @@ In C#, interface methods are **always public**. This makes sense because the who
 
 ---
 
-## ⚡ ENCOUNTER: Interactable Objects
+### 🌟 Game Design Challenge: Interacting with Game Objects
+
 Imagine a player exploring a game world full of interactive objects. Some objects can be picked up, others opened, and some consumed. For example:
 
 - A **Box** that can be picked up and thrown.
@@ -14,7 +15,7 @@ Imagine a player exploring a game world full of interactive objects. Some object
 - A **Door** that can be opened or locked.
 - A **Magic Potion** that can be picked up and consumed.
 
-To implement these interactions, the beginner approach would be to have the `Player` class for example, check what it is interacting with and then run the appropriate method. For example: 
+To implement these interactions, the beginner approach would be to have the `Player` class, for example, check what it is interacting with and then run the appropriate method. For example: 
 
 ```csharp
 void OnTriggerEnter(Collider other)
@@ -89,3 +90,4 @@ Now the player can interact with any object that implements IInteractable, witho
 
 
 ---
+
