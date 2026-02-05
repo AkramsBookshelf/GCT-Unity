@@ -1,4 +1,4 @@
-# 📜 Interface Pattern
+# 📜 Interfaces
 > By: Akram Taghavi-Burris | © 2026
 
 Imagine you walk into a fast-food joint and need to place an order. You **don’t need to know each employee personally**—you can spot them by their uniform. All employees wear the **same uniform**, so you instantly know who can take your order.
@@ -117,5 +117,6 @@ After exploring interfaces, here’s what to remember:
 -   **Decoupling:** Objects manage their own behavior, keeping code modular and testable.
 
 Using interfaces effectively allows your game architecture to grow without turning your player code into a tangled mess of type checks.
+
 
 
