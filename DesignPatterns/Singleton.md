@@ -179,7 +179,7 @@ By analyzing the **requirements and constraints**, a solution emerges naturally:
     
 These properties make it a perfect candidate for a **Singleton**.
 
-# 
+![Singletons in Game Development](imgs/gct-SingletonDilema.png)
 
 Thinking critically about what truly needs to be unique in your game helps ensure that using a Singleton improves your architecture rather than creating long-term problems. By carefully outlining your game requirements and identifying which entities need global access, and which should remain flexible, you can determine whether a Singleton is the right pattern to implement.
 
