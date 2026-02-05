@@ -42,7 +42,7 @@ Here, **only one state exists at a time**, and each state fully replaces the pre
 
 # 
 
-### 🌟 Adventure Crafting Game States
+### 🌟 Game Design Challenge: Adventure Crafting Game States
 
 Let’s imagine our adventure crafting game. In this game, the player needs to **explore the world, collect resources, craft items, and interact with NPCs**, all while navigating menus and handling game progression. To manage this, the game is divided into **different types of game states**, each responsible for controlling **what the player can do and how the game behaves** at that moment.
 
