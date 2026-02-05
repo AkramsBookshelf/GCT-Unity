@@ -105,6 +105,95 @@ void OnTriggerEnter(Collider other)
 ```
 No matter what object the player encounters, as long as it implements `IInteractable`, the player can interact with it **without knowing its type or specific methods**.
 
+### Multiple Interfaces
+
+One of the powerful features of interfaces is that a **class can implement multiple interfaces**, even though it can only inherit from a single class. This allows you to mix and match behaviors without being constrained by a rigid class hierarchy.
+
+For example, a player character might implement both:
+
+```csharp
+public class Player : MonoBehaviour, IInteractable, IDamageable
+{
+    public void Interact()
+    {
+        // Player interacts with objects
+    }
+
+    public void TakeDamage()
+    {
+        // Player takes damage
+    }
+}
+
+```
+
+Here, `Player` can be **interactable** and **damageable**, while still inheriting from `MonoBehaviour`.
+
+This flexibility is another reason why interfaces are so useful in game development: you can combine multiple capabilities into a single class **without bloating a base class or breaking the class hierarchy**.
+
+---
+## Interface Segregation Principle (ISP)
+While using an interface can be extremely useful, it’s important to **implement an interface only when all of its requirements make sense for the class**. In other words, don’t force a class to implement methods it doesn’t actually use. This is exactly what the **Interface Segregation Principle (ISP)** is about:
+
+> **No client should be forced to depend on methods it does not use.**
+
+Put simply: **avoid bloated interfaces**. This follows the same idea as the **Single-Responsibility Principle**, which encourages short, focused classes and methods.
+
+Keeping interfaces small and focused gives you **maximum flexibility**, allowing objects to implement **only what they truly need**.
+
+**Example:** Strategy game units
+
+```csharp
+public interface IUnitStats
+{
+    public float Health { get; set; }
+    public int Defense { get; set; }
+    public void Die();
+    public void TakeDamage();
+    public void RestoreHealth();
+    public float MoveSpeed { get; set; }
+    public float Acceleration { get; set; }
+    public void GoForward();
+    public void Reverse();
+    public void TurnLeft();
+    public void TurnRight();
+}
+
+```
+
+This works for player units, but what if you want a **breakable crate or barrel**?
+
+-   The prop needs **health**, but it doesn’t move or attack.
+-   It doesn’t need `GoForward()`or `TurnLeft()`.
+    
+
+**Solution:** Split the interface into smaller, focused pieces:
+
+```csharp
+public interface IDamageable
+{
+    float Health { get; set; }
+    void TakeDamage();
+    void Die();
+}
+
+public interface IMovable
+{
+    float MoveSpeed { get; set; }
+    void GoForward();
+    void Reverse();
+    void TurnLeft();
+    void TurnRight();
+}
+
+```
+
+Now, a **breakable crate** can implement `IDamageable` only, without being forced to implement irrelevant methods.
+
+> [!TIP]
+> **ISP** keeps your code **flexible, modular, and easier to maintain**.
+> 
+
 ---
 
 ## 🛡️ **Checkpoint**
@@ -117,6 +206,7 @@ After exploring interfaces, here’s what to remember:
 -   **Decoupling:** Objects manage their own behavior, keeping code modular and testable.
 
 Using interfaces effectively allows your game architecture to grow without turning your player code into a tangled mess of type checks.
+
 
 
 
