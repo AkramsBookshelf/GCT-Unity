@@ -85,8 +85,6 @@ The **BootState** is the _initial_ state of the game.
 
 Think of it as the game’s **single point of entry** — the first thing that runs when your game starts.
 
-This state happens _before_ the player ever sees:
-
 In a real game, the BootState is often responsible for tasks like:
 -   Loading the Main Menu scene
 -   Loading save data
@@ -152,7 +150,7 @@ public class MainMenuState : IState
 
     public void Execute()
     {
-        // Boot logic will go here later
+        // Menu logic will go here later
     }
 
     public void Exit()
@@ -163,5 +161,22 @@ public class MainMenuState : IState
 ```
 
 ---
+
+# 🎉 New Achievement: State Scaffolds Created!
+
+You’ve successfully created the **IState interface**, along with **BootState** and **MainMenuState** classes. These states follow a consistent lifecycle and form the **foundation of your game’s state system**. You now have a structure you can safely expand with real functionality.
+
+When ready, you can **add new states** or **fill in the behavior** for each state, following the same pattern we’ve established.
+
+## 🛡️ Checkpoint
+
+Key takeaways from this lesson:
+
+-   **IState interface** defines a standard lifecycle (`Enter()`, `Execute()`, `Exit()`) for all game states.
+-   **BootState** is the initial point of entry for the game and sets up startup logic.
+-   **MainMenuState** is a skeleton for the game’s main menu; future logic will be added to handle menu interactions.
+-   **States are not MonoBehaviours**; they are controlled and executed by the GameManager (coming in the next lesson).
+-   **Creating new states** follows the same pattern: implement `IState` and define the three lifecycle methods.
+-   This structure keeps your code **modular, organized, and easy to expand** as your game grows.
 
 
