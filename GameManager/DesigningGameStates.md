@@ -6,7 +6,7 @@ You’ve just loaded your current game of choice. The loading screen appears, fo
 Before writing any code, it’s important to **plan out the different modes of your game**, from menus to gameplay to temporary interruptions. Designing these **game states** first provides a clear blueprint for creating a **predictable, engaging, and maintainable game experience**.
 
 ## What Are Game States?
-In previous lessons, we discussed how states help control behaviors like **Walk**, **Run**, **Patrol**, or **Attack** on an NPC or player character. Any object in the game can have different states, which trigger different behaviors at the right time.
+We've discussed how **[states](../DesignPatterns/StatePattern.md)** help control behaviors like **Walk**, **Run**, **Patrol**, or **Attack** on an NPC or player character. Any object in the game can have different states, which trigger different behaviors at the right time.
 
 Similarly, games can also have **game states**. These can be thought of as **global states**, not tied to any single object, but other objects in the game may need to respond when a specific game state is active.
 
