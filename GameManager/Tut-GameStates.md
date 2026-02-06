@@ -3,7 +3,7 @@
 
 In our previous lesson, we discussed key considerations for designing game states and the decisions that should be made before implementation. Now, we will begin implementing those design choices by building a more complete Game Manager and Game State system.
 
-It’s important to note that there are many valid ways to construct a Game Manager and state system, and the best approach depends on the needs and scale of the game. The method used in this tutorial is intended primarily as a teaching tool, helping illustrate concepts such as the **Singleton pattern**, **interfaces**, the **State Patter**, and how to structure systems using **SOLID principles**.
+It’s important to note that there are many valid ways to construct a Game Manager and state system, and the best approach depends on the needs and scale of the game. The method used in this tutorial is intended primarily as a teaching tool, helping illustrate concepts such as the **Singleton pattern**, **interfaces**, the **State Pattern**, and how to structure systems using **SOLID principles**.
 
 
 ## ⚒️ Implementing Game States with the State Pattern
@@ -38,10 +38,20 @@ It’s important to note that there are many valid ways to construct a Game Mana
 
 
 ---
+### Step 1: Create the IState Interface
+After opening your Unity project, go to the **Project** window and create a new script using your **custom script templates**:
 
-### Step 1: Implement the IState Interface
+1.   Right-click in your Scripts folder and choose your custom script
+    -    (e.g., **Create → CSG Templates → MonoBehaviour → MonoBehaviour Basic Script**)
+2.   Name the script: **IState**
 
-All game states will implement the `IState` interface we discussed:
+> [!NOTE]
+> While we are starting with a **Monobehavior** script template, our IState is an interface, a special class type that does not inerhert any classes.
+>
+
+3. Double-click on the **IState** class in the Unity **Project** window
+4. In your IDE, replace the start code with the following
+   - _Leave the documentation comments at the very top and update them as needed_
 
 ```csharp
 public interface IState
@@ -60,12 +70,73 @@ public interface IState
 }
 ```
 
-This ensures **every state follows a consistent lifecycle** and can be handled uniformly by the GameManager.
+This ensures **every state follows a consistent lifecycle** : 
+-   **Enter()** = setup
+-   **Execute()** = run
+-   **Exit()** = cleanup
+
+This keeps our code organized and makes it easier for a GameManager to control states later.
 
 #
-### Step 2: Create the Main Menu State
 
-We’ll start with the **MainMenuState**, one of our mutually exclusive states. This state will **display the menu, handle navigation, and transition to gameplay** when the player starts a new session.
+### Step 2 — Create Your First State: BootState
+
+The **BootState** is the _initial_ state of the game.
+
+Think of it as the game’s **single point of entry** — the first thing that runs when your game starts.
+
+This state happens _before_ the player ever sees:
+
+In a real game, the BootState is often responsible for tasks like:
+-   Loading the Main Menu scene
+-   Loading save data
+-   Loading global settings
+-   Loading assets/resources
+-   Showing a loading screen
+-   Initializing core systems
+    
+Even in small projects, BootState is useful because it keeps your startup logic **separate** from your menu logic.
+
+1. Return to your Unity Project; right-click in your Scripts folder and choose your custom script
+2. Name the script: **BootState**
+3. Double-click on the **BootState** class in the Unity **Project** window
+4. In your IDE, replace the start code with the following
+
+```csharp
+using UnityEngine;
+
+public class BootState : IState
+{
+    public string Name => "Boot";
+
+    public void Enter()
+    {
+        Debug.Log($"Entering {Name} State");
+    }
+
+    public void Execute()
+    {
+        // Boot logic will go here later
+    }
+
+    public void Exit()
+    {
+        Debug.Log($"Exiting {Name} State");
+    }
+}
+
+```
+> [!IMPORTANT]
+> #### Why isn’t this a MonoBehaviour?
+> `MonoBehaviour` scripts are designed to live on GameObjects and run automatically using Unity’s lifecycle (`Start()`, `Update()`, etc.).
+>
+> Game states are not attached to GameObjects. They are created and executed by the **GameManager**, so they only need to implement `IState`.
+
+#
+
+### Step 3 — Create the MainMenu State
+1. Repeat **Step 2** above to create a **MainMenuState**
+2. The resulting code should match the following: 
 
 ```csharp
 using UnityEngine;
@@ -77,204 +148,20 @@ public class MainMenuState : IState
     public void Enter()
     {
         Debug.Log($"Entering {Name} State");
-        // TODO: Show main menu UI
-        // TODO: Play menu music, pause gameplay systems if necessary
-
-    }//end Enter()
+    }
 
     public void Execute()
     {
-        // TODO: Handle menu navigation, button selection
-
-    }//end Execute()
+        // Boot logic will go here later
+    }
 
     public void Exit()
     {
         Debug.Log($"Exiting {Name} State");
-        // TODO: Hide main menu UI, stop menu music
-
-    }//end Exit()
+    }
 }
-
 ```
+
 ---
-
-## Adding State Management to the GameManager
-
-Now that we’ve defined what a **state** is and identified the **states our game needs**, we can teach the `GameManager` how to _control_ those states.
-
-To do that, we need three things:
-
-1.  A reference to the **current active state**
-2.  A way to **replace** states (for major game phases)
-3.  A way to **temporarily interrupt** states and then return to them
-
-# 
-    
-### Step 1: Tracking the Active State
-
-First, the GameManager needs to know **which state is currently running**.
-
-```csharp
-private IState currentState;
-```
-
-This reference tells us:
-
--   Which state should receive `Execute()` calls
-    
--   Which state should be exited when a transition occurs
-    
-
-At any given moment, **only one state is “active”**, even if others are waiting underneath.
-
-# 
-
-### Step 2: Why We Need a Stack
-
-Earlier, we decided that some states:
-
--   **Replace** each other (MainMenu → Playing)
-    
--   **Stack on top of each other** (Paused over Playing)
-    
-
-To support stacked states, we need a structure that can:
-
--   Remember the previous state
-    
--   Restore it later
-    
--   Preserve the order of interruptions
-    
-
-This is exactly what a **stack** is designed for.
-
-```csharp
-private Stack<IState> stateStack = new Stack<IState>();
-```
-A stack works on a **Last In, First Out (LIFO)** principle:
-
--   The **most recent state pushed** is the first one removed
-    
--   This mirrors how pause menus, inventories, and dialogue work
-    
-
->[!NOTE]
-> _If you pause the game, then open inventory, closing inventory should return you to pause—not directly back to gameplay._
-
-#
-
-### Step 3: Running the Active Game State
-
-With our states defined and transitions in place, we now need to decide **where execution actually happens**. In this architecture, the **GameManager owns the game loop**, and states do not update themselves.
-
-> [!TIP]
-> A helpful way to think about this system is:
-> - **GameManager** → owns the game loop
-> - **Active State** → controls behavior for this frame
-> - **Stacked States** → stored, suspended, waiting to resume
->   
-> Only the state at the top of the stack is ever allowed to execute.
-
-Every frame, the GameManager forwards control to **exactly one state**:
-```csharp
-void Update()
-{
-    currentState?.Execute();
-}
-```
-#### What Is Being Executed?
-
-Only the **currently active state**—the state at the top of the stack—receives an `Execute()` call.
-
--   If the game is in `PlayingState`, then `PlayingState.Execute()` runs.
--   If the player pauses the game, `PausedState` becomes active, and **only** `PausedState.Execute()` runs.
--   Any states beneath the active state are **suspended**, not executing.
-
-This ensures that the game is never “half-playing and half-paused” at the same time.
-
->[!IMPORTANT]
->By keeping execution centralized in the GameManager:
-> - Only **one state runs per frame**
-> - Execution order is explicit and predictable
-> - State stacking behaves consistently
-> - Pausing and overlays work naturally
->  
-> States describe **how to behave**, but the GameManager decides **when they are allowed to behave**.
-
-#
-
-### Step 4: Replacing a State (ChangeState)
-
-Some transitions represent **major shifts in game mode**.  
-These states should **never coexist**.
-
-Examples:
-
--   MainMenu → Playing
--   Playing → GameOver
-    
-For these transitions, we **replace** the current state.
-
-```csharp
-public void ChangeState(IState newState)
-{
-    currentState?.Exit();
-    currentState = newState;
-    currentState.Enter();
-}
-```
-What happens here, step by step:
-
-1.  The current state cleans itself up (`Exit`)
-2.  The reference is replaced
-3.  The new state initializes (`Enter`)
-
-Once replaced, the old state is **gone forever**.
-
-
-### Step 5: Stacking a Temporary State (PushState)
-
-Some states are **interruptions**, not replacements.
-
-Examples:
-
--   Paused
-    
--   Inventory
-    
--   Dialogue
-    
-
-In these cases, we want to:
-
--   Suspend the current state
-    
--   Remember it
-    
--   Restore it later
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
