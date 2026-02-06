@@ -88,7 +88,7 @@ In a real game, the BootState is often responsible for tasks like:
     
 Even in small projects, BootState is useful because it keeps your startup logic **separate** from your menu logic.
 
-1. Return to your Unity Project; right-click in your Scripts folder and choose your custom script
+1. Return to the Unity Editor; right-click in your Scripts folder and choose your custom script
 2. Name the script: **BootState**
 3. Double-click on the **BootState** class in the Unity **Project** window
 4. In your IDE, replace the start code with the following
