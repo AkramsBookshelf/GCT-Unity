@@ -28,209 +28,231 @@ This gives us a solution that is:
 
 </details>
 
-# 
-# ✅ Step 1 — Create a Singleton Base Script
-
-1. In Unity, go to your **Scripts** folder
-2. Right-click → **Create Script**
-3. Name it:
-
-**Singleton**
-
+### Step 1: Create a Singleton Base Script
+1. Return to the Unity Editor; right-click in your **Scripts** folder and choose your custom script
+3. Name it: **Singleton**
 4. Open it in your IDE
 
----
+# 
 
-# ✅ Step 2 — Replace the Code with a Generic Singleton
+### Step 2: Class Declaration
 
-Replace your script contents with the following:
+1. Start by declaring the generic class:
 
 ```csharp
 using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    // Static instance that holds the reference to the Singleton
-    public static T Instance { get; private set; }
-
-    [SerializeField]
-    [Tooltip("Is the game object persistent through scenes")]
-    private bool _isPersistent = true;
-
-    // Awake is called once on initialization (before Start)
-    protected virtual void Awake()
-    {
-        CheckForSingleton();
-        CheckForPersistence();
-    } //end Awake()
-
-
-    /// <summary>
-    /// Ensures that only one instance of the Singleton exists
-    /// </summary>
-    private void CheckForSingleton()
-    {
-        if (Instance == null)
-        {
-            Instance = this as T;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        Debug.Log(Instance);
-
-    }//end CheckForSingleton()
-
-
-    /// <summary>
-    /// Checks is the object does not destroy on load
-    /// </summary>
-    private void CheckForPersistence()
-    {
-        if (_isPersistent)
-        {
-            if (transform.parent != null)
-            {
-                //Detach from parent object
-                transform.SetParent(null);
-            }
-
-            //Mark this GameObject as not to be destroyed
-            DontDestroyOnLoad(gameObject);
-        }
-
-    }//end CheckForPersistence()
-
 
 }//end Singleton
 
 ```
 
-# 🧩 Understanding This Singleton
+#####  Breakdown
 
-Let’s break down what this is doing.
-
-## ✅ Generic Singleton (Why `<T>`?)
-
-This line is the core of the pattern:
-
-`public class Singleton<T> : MonoBehaviour where T : MonoBehaviour`
-
-This means:
-
--   `Singleton<T>` is a **generic base class**
+-   `Singleton<T>` is **generic**: `T` will be whatever manager class inherits from it (GameManager, AudioManager, etc.)
+-   `where T : MonoBehaviour` ensures that `T` is a Unity component
+-   This is just the skeleton — nothing runs yet
     
--   `T` must be a Unity component (`MonoBehaviour`)
+**📝 Task:** Save the script. No errors should appear.
+
+# 
+
+### Step 3: Add the Static Instance
+
+2. Inside the class, add:
+
+```csharp
+
+public static T Instance { get; private set; }
+
+```
+
+#####  Breakdown
+
+-   This gives us a **global access point** (`GameManager.Instance`)
+-   `private set` ensures **no other class can overwrite it**
+
+#
+
+### Step 4: Check for Singleton
+1. Create a custom method named **CheckForSingleton**
+2. This method will check if the Singleton `Instance` is null
+   - if true, it will set `this` class **type** as the `Instance
+   - else, it will **destroy**, `this` **GameObject**
+3. The method should look like the following:
+
+```csharp
+
+private void CheckForSingleton()
+{
+    // Check if there is no instance
+    if (Instance == null)
+    {
+        // Set this class type as the instance
+        Instance = this as T;
+    }
+    else
+    {
+        // Otherwise destroy this game object
+        Destroy(gameObject);
+    }
     
--   Any class that inherits from it becomes a singleton automatically
+    Debug.Log(Instance);
     
+}//end CheckForSingleton()
+```
+#
 
-Example:
+### Step 5: Add Singleton Check to Awake()
+1. The **CheckForSingleton** method should be called from the `Awake()` method
+2. Make the `Awake()` method **protected virtual** in case child classes need access to run additional behaviors in the `Awake()`
 
-`public class GameManager : Singleton<GameManager>`
+```csharp
+protected virtual void Awake()
+{
+    CheckForSingleton();
 
-## ✅ The Instance Property
+}//end Awake()
 
-`public static T Instance { get; private set; }`
+```
+# 
+### Step 6: Make the Singleton Persistent Across Scenes
 
-This creates a **global access point**:
+Singletons are often designed to **persist throughout the entire game**, meaning they are **not destroyed when switching scenes**. However, there may be cases where you don’t want a particular singleton to persist.
 
-`GameManager.Instance`
+Since we are creating a **base class for all singletons**, we provide a **flexible option** to make a singleton persistent or not, depending on the needs of the specific manager.
 
-And because it has a `private set`, nothing else can overwrite it.
+1. Add a **boolean** to control if the singleton **is persistant**
+   - Set this field to be **serialized** so that it can be configuredin the **Inspector**
+   - Provided a **Tool Tip** to clarify how the field is used
 
-## ✅ Why Awake()?
+```csharp
+    [SerializeField]
+    [Tooltip("Is the game object persistent through scenes")]
+    private bool _isPersistent = true;
 
-Unity calls `Awake()` before `Start()`.
+```
+# 
 
-That makes it perfect for singleton initialization because:
-
--   We want our manager to exist before anything else runs
+2. Create a method named **MakePersistent()**
+3. Add a **`DontDestroyOnLoad(gameObject)`**
     
--   We want to destroy duplicates immediately
-    
+    -   This is a built-in Unity method that keeps a GameObject alive (persistent) **when changing scenes**.
+    -   Without this, singletons would be destroyed whenever a new scene loads.
+  
+4. **Unparent** the game object first
+    -   `DontDestroyOnLoad` **only works on objects in the root of the hierarchy**.  
+    -   If your singleton is nested inside another GameObject (even an empty one), Unity would **still destroy it when the parent is destroyed**.
+    -   To prevent this, we check if the object has a parent at runtime (`transform.parent != null`) and **detach it from the parent**.
+    -   This doesn’t affect the hierarchy in the Editor; it only changes the object hierarchy temporarily at runtime.
 
-## ✅ CheckForSingleton()
+```csharp
+private void MakePersistent()
+{
+    // Detach from parent if this object is nested
+    if (transform.parent != null)
+    {
+        transform.SetParent(null);
+    } 
 
-This is the rule enforcement:
+    // Prevent Unity from destroying this GameObject when loading a new scene
+    DontDestroyOnLoad(gameObject);
 
-`if (Instance == null) {     Instance = this as T; } else {     Destroy(gameObject); }`
+} // end MakePersistent()
 
-Meaning:
+```
 
--   The first one becomes the singleton
-    
--   Any additional ones destroy themselves
-    
+With this safeguard, your singleton will reliably persist across scenes, no matter where it is placed in the hierarchy.
 
-## ✅ Persistence Across Scenes
+#
 
-This part:
+### Step 7: Check Persistence in Awake
+1. In the `Awake()` method check if the singleton is _not_ persistent
+   - If true, exit the `Awake()` method
+   - else, call the `MakePersistent()` method
+  
+```csharp
+protected virtual void Awake()
+{
+    CheckForSingleton();
 
-`DontDestroyOnLoad(gameObject);`
+    if (!_isPersistent) return;
 
-Makes the singleton survive when you load new scenes.
+    MakePersistent();
 
-> \[!NOTE\]
-> 
-> ## Why do we detach from the parent?
-> 
-> If your singleton object is nested inside another object (like a UI Canvas),  
-> Unity may destroy it when the parent is destroyed.
-> 
-> Detaching ensures the singleton is at the root of the scene hierarchy and safe.
+}//end Awake()
 
-# 🧪 Step 3 — Testing the Singleton
+```
+---
 
-You should always test patterns immediately.
-
-## Create a Quick Test Script
-
-1.  Create a new script named:
-    
-
-**SingletonTester**
-
-1.  Paste this:
-    
-
-`using UnityEngine;  public class SingletonTester : Singleton<SingletonTester> {     protected override void Awake()     {         base.Awake();         Debug.Log("SingletonTester Awake() ran!");     } }`
-
-## Add it to a GameObject
-
-1.  Create an empty GameObject in your scene
-    
-2.  Name it:
-    
-
-**SingletonTester**
-
-1.  Add the `SingletonTester` script to it
-    
-
-## Duplicate the Object (On Purpose)
-
-1.  Duplicate the object (Ctrl+D)
-    
-2.  Press Play
-    
-
-You should see:
-
--   One object survives
-    
--   The duplicate destroys itself
-    
--   The console logs confirm which one became the Instance
-    
 
 # 🎉 New Achievement: Singleton Base Class Created!
 
 You now have a reusable generic Singleton base class that can be used for any manager system in your game.
 
 This is the foundation for our next lesson, where we build the **GameManager** and finally begin controlling our game states properly.
+
+```csharp
+
+using UnityEngine;
+
+public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+{
+
+    public static T Instance { get; private set; }
+
+    [SerializeField]
+    [Tooltip("Is the game object persistent through scenes")]
+    private bool _isPersistent = true;
+
+    protected virtual void Awake()
+    {
+        CheckForSingleton();
+
+        if (!_isPersistent) return;
+    
+        MakePersistent();
+    
+    }//end Awake()
+
+    private void CheckForSingleton()
+    {
+        // Check if there is no instance
+        if (Instance == null)
+        {
+            // Set this class type as the instance
+            Instance = this as T;
+        }
+        else
+        {
+            // Otherwise destroy this game object
+            Destroy(gameObject);
+        }
+    
+        Debug.Log(Instance);
+    
+    }//end CheckForSingleton()
+    
+    
+    private void MakePersistent()
+    {
+        // Detach from parent if this object is nested
+        if (transform.parent != null)
+        {
+            transform.SetParent(null);
+        } 
+    
+        // Prevent Unity from destroying this GameObject when loading a new scene
+        DontDestroyOnLoad(gameObject);
+    
+    } // end MakePersistent()
+
+}//end Singleton
+
+```
+
 
 ## 🛡️ Checkpoint
 
