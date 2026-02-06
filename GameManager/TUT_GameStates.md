@@ -6,7 +6,7 @@
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Managment | 5 minutes        |   Unity, IDE  |
+| Project Managment | 15 minutes        |   Unity, IDE  |
 
 </details>
 
