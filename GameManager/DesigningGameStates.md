@@ -99,7 +99,7 @@ In addition to determining the flow of the states, we also need to define **what
 A common approach is to define a **consistent [interface](../DesignPatterns/Interface.md)** for all game states, such as:
 
 ```csharp
-public interface IGameState
+public interface IState
 {
     void Enter();   // Called when the state becomes active
     void Execute(); // Called each frame while the state is active
