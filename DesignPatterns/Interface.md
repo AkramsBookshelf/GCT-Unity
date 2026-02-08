@@ -17,7 +17,7 @@ Some key points about interfaces:
 -   **Multiple implementations:** Different classes can implement the same interface in completely different ways. For example, a `Box`, `Chest`, and `Door` might all implement `IInteractable`, but each behaves differently when interacted with.
 -   **Decoupling:** Systems can interact with objects via their interface, rather than depending on specific class types. This makes your code more **modular**, **flexible**, and **testable**.
 
-![Interfaces in Game Development](imgs/gct-Interfaces.png)
+![Interfaces in Game Development](imgs/gct-interfaces.png)
 ---
 
 ## 🌟 Game Design Challenge: Interacting with Game Objects
@@ -209,6 +209,7 @@ After exploring interfaces, here’s what to remember:
 -   **Decoupling:** Objects manage their own behavior, keeping code modular and testable.
 
 Using interfaces effectively allows your game architecture to grow without turning your player code into a tangled mess of type checks.
+
 
 
 
