@@ -69,23 +69,21 @@ public static T Instance { get; private set; }
 
 ```
 
-#####  Breakdown
-
 -   This gives us a **global access point** (`GameManager.Instance`)
 -   `private set` ensures **no other class can overwrite it**
 
 #
 
 ### Step 4: Check for Singleton
-1. Create a custom method named **CheckForSingleton**
-2. This method will check if the Singleton `Instance` is null
-   - if true, it will set `this` class **type** as the `Instance
+1. Create a custom method named **`ValidateInstance()`**
+2. This method will validate if this object can be the Singleton `Instance`. 
+   - if true, it will set `Instance` to **this** object's **type**
    - else, it will **destroy**, `this` **GameObject**
 3. The method should look like the following:
 
 ```csharp
 
-private void CheckForSingleton()
+private void ValidateInstance()
 {
     // Check if there is no instance
     if (Instance == null)
@@ -106,17 +104,25 @@ private void CheckForSingleton()
 #
 
 ### Step 5: Add Singleton Check to Awake()
-1. The **CheckForSingleton** method should be called from the `Awake()` method
-2. Make the `Awake()` method **protected virtual** in case child classes need access to run additional behaviors in the `Awake()`
+1. The **`ValidateInstance()`** method should be called from the `Awake()` method
+2. Declare `Awake()` as **protected virtual** so that **child classes can extend the behavior** without breaking the singleton base logic.
 
 ```csharp
 protected virtual void Awake()
 {
-    CheckForSingleton();
+    ValidateInstance();
 
 }//end Awake()
 
 ```
+> [!IMPORTANT]
+> Virtual methods in C# can be **completely overridden** in a child class.
+>
+> When overriding **`Awake()`** in a **Singleton** child class, it’s **critical to call `base.Awake()`** to preserve the singleton behavior and persistence logic. Failing to do so could result in **multiple instances** or a Singleton that **does not persist across scenes**.
+>
+> Requirements like this should always be **documented in your technical documentation** so that everyone on the team is aware of these dependencies.
+> 
+
 # 
 ### Step 6: Make the Singleton Persistent Across Scenes
 
@@ -209,7 +215,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
-        CheckForSingleton();
+        ValidateInstance();
 
         if (!_isPersistent) return;
     
@@ -217,7 +223,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     
     }//end Awake()
 
-    private void CheckForSingleton()
+    private void ValidateInstance()
     {
         // Check if there is no instance
         if (Instance == null)
@@ -233,7 +239,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     
         Debug.Log(Instance);
     
-    }//end CheckForSingleton()
+    }//end ValidateInstance()
     
     
     private void MakePersistent()
