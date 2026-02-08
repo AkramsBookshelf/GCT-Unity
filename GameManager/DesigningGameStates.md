@@ -125,7 +125,7 @@ By separating the **management of states** (handled by the Game Manager) from th
 
 ---
 
-## Refining Our State Architecture: Why an Interface Isn’t Enough
+## ⚙️Refining Our State Architecture: Why an Interface Isn’t Enough
 
 The game state architecture we’ve laid out so far is a clean and common starting point. It gives every state a predictable lifecycle and makes transitions easier to manage.
 
