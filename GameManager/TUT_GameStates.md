@@ -1,4 +1,4 @@
-# ⚒️ Implementing Game States with the State Pattern
+# ⚒️ Defining Game States 
 > By: Akram Taghavi-Burris | © 2026
 
 <details>
