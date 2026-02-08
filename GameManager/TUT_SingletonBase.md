@@ -16,7 +16,7 @@ This gives us a solution that is:
 - Easy to maintain as our project grows
 
 
-# ⚒️ Creating a Singleton Base Class
+# ⚒️ Tutorial: Creating a Singleton Base Class
 > By: Akram Taghavi-Burris | © 2026
 
 <details>
