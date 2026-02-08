@@ -1,36 +1,43 @@
-# ⚒️ Defining Game States 
+# 📜 Defining Game States 
 > By: Akram Taghavi-Burris | © 2026
+
+Before we write any code, let’s **connect back to our earlier design**. In the “Designing Your Game States” stage, we identified the **main flow and overlays** for our game:
+
+#### Mutually Exclusive States (Replace)
+-   **Boot → MainMenu**: Boot is done forever
+-   **MainMenu → Playing**: New game session
+-   **Playing → GameOver**: Session ends
+-   **GameOver → MainMenu**: Fresh start
+    
+#### Stacked States (PushState)
+-   **Paused**: Temporarily freeze gameplay
+-   **Inventory**: Keep gameplay underneath intact
+-   **Crafting**: Player returns to same position
+-   **Settings Menu**: Overlay, not a new phase
+    
+These states define the **skeleton of our game flow**. When we implement them using the **State Pattern**, each state will have its own behavior, and transitions will handle both **replacements** and **overlays** cleanly.
+
+## Structuring Game States
+Now that we understand our game flow, we’ll organize our states into **three layers**:
+1.  **IState Interface** – Defines the lifecycle every state must follow
+2.  **BaseGameState Abstract Class** – Provides default behavior and shared logic
+3.  **Concrete States** – Implement actual game-specific logic (e.g., BootState, MainMenuState)
+
+This approach keeps code **organized, reusable, and scalable**, allowing easy addition of new states in the future.
+
+---
+
+# ⚒️ Create the IState Interface
 
 <details>
 <summary><strong><em>Tutorial Details</em></strong></summary>
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Managment | 15 minutes        |   Unity, IDE  |
+| Project Managment | 5 minutes         |   Unity, IDE  |
 
 </details>
 
-# 
-
->[!NOTE]
-> #### Understanding Game Flow Before Implementation
-> Before we write any code, let’s **connect back to our earlier design**. In the “Designing Your Game States” stage, we identified the main flow and overlays for our game:
-> **Mutually Exclusive States (Replace)**
-> - **Boot → MainMenu**: Boot is done forever
-> - **MainMenu → Playing**: New game session
-> - **Playing → GameOver**: Session ends
-> - **GameOver → MainMenu**: Fresh start
->   
-> **Stacked States (PushState)**
-> - **Paused**: Temporarily freeze gameplay
-> - **Inventory**: Keep gameplay underneath intact
-> - **Crafting**: Player returns to same position
-> - **Settings Menu**: Overlay, not a new phase
->
-> 💡 **Reference:** These states define the **skeleton of our game flow**. When we implement them using the State Pattern, we’ll give each state its own behavior, allowing transitions to handle both **replacements** and **overlays** cleanly.
-
-
----
 ### Step 1: Create the IState Interface
 After opening your Unity project, go to the **Project** window and create a new script using your **custom script templates**:
 
@@ -69,6 +76,14 @@ This ensures **every state follows a consistent lifecycle** :
 -   **Exit()** = cleanup
 
 This keeps our code organized and makes it easier for a GameManager to control states later.
+
+> #### 💾 Save & Commit
+> - Save your script
+> - Commit your changes with the message:
+>    - *feat: IState Interface*
+> - No need to _push_ changes just yet
+>
+
 
 #
 
