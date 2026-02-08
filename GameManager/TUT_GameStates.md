@@ -38,6 +38,10 @@ This approach keeps code **organized, reusable, and scalable**, allowing easy ad
 
 </details>
 
+> [!NOTE]
+> Before starting this tutorial, you may want to review the [Interface Lesson](../DesignPatterns/Interface.md)
+> 
+
 ### Step 1: Create the IState Interface
 After opening your Unity project, go to the **Project** window and create a new script using your **custom script templates**:
 
