@@ -37,7 +37,9 @@ This gives us a solution that is:
 
 ### Step 2: Class Declaration
 
-1. Start by declaring the generic class:
+1. Declare the Singleton Class 
+-   Use a **generic type parameter `<T>`** so this base class can work with any class (GameManager, AudioManager, etc.).
+-   Add the constraint **`where T : MonoBehaviour`** to ensure **`T`** is a Unity component, which lets us safely use Unity-specific methods like **`DontDestroyOnLoad()`**.
 
 ```csharp
 using UnityEngine;
@@ -49,11 +51,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 ```
 
-#####  Breakdown
-
--   `Singleton<T>` is **generic**: `T` will be whatever manager class inherits from it (GameManager, AudioManager, etc.)
--   `where T : MonoBehaviour` ensures that `T` is a Unity component
--   This is just the skeleton — nothing runs yet
     
 **📝 Task:** Save the script. No errors should appear.
 
@@ -61,7 +58,10 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 ### Step 3: Add the Static Instance
 
-2. Inside the class, add:
+1. **Add the Static Instance Property**
+
+-   Use **`static`** so this instance is **shared globally** and accessible anywhere.
+-   Add **`private set`** to prevent other classes from overwriting it.
 
 ```csharp
 
@@ -69,8 +69,6 @@ public static T Instance { get; private set; }
 
 ```
 
--   This gives us a **global access point** (`GameManager.Instance`)
--   `private set` ensures **no other class can overwrite it**
 
 #
 
@@ -99,13 +97,13 @@ private void ValidateInstance()
     
     Debug.Log(Instance);
     
-}//end CheckForSingleton()
+}//end ValidateInstance()
 ```
 #
 
 ### Step 5: Add Singleton Check to Awake()
-1. The **`ValidateInstance()`** method should be called from the `Awake()` method
-2. Declare `Awake()` as **protected virtual** so that **child classes can extend the behavior** without breaking the singleton base logic.
+1. Declare **`Awake()`** as **protected virtual** so that **child classes can extend the behavior** without breaking the singleton base logic.
+2.  The **`ValidateInstance()`** method should be called in the **`Awake()`** method
 
 ```csharp
 protected virtual void Awake()
