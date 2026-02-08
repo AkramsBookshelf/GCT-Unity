@@ -65,7 +65,7 @@ These states **replace each other completely**. Only one exclusive state should 
 | GameOver | Playing  | Session ends                          |
 | MainMenu | GameOver | Player can start fresh                |
 
-#### **Stacked States (PushState)**
+#### **Stacked States (Layered)**
 These states do not replace the current state. Instead, they are **stacked on top of it**, allowing the game to return to the previous state afterward.
 | State          | Reason                                                           |
 | -------------- | ---------------------------------------------------------------- |
@@ -76,6 +76,9 @@ These states do not replace the current state. Instead, they are **stacked on to
 | Cutscenes      | Plays cinematic sequences while preserving the underlying state      |
 | Shop / Trading | Player buys or sells items without leaving the current state     |
 | Tutorial       | Guides the player through instructions while gameplay continues  |
+
+![Exclusive vs Stacked States](gct-gameStates-flow.png)
+
 
 ---
 
@@ -199,6 +202,8 @@ This way:
 -   The system stays consistent
 -   We can visually see in each state class which lifecycle methods are actually being used
     
+![Game States UML ](gct-gameStates-uml.png)
+
 
 This approach gives us the benefits of an interface-based design (consistency and predictability), while also addressing the two practical issues we discovered during implementation.
 
