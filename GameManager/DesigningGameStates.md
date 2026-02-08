@@ -42,7 +42,7 @@ Here, **only one state exists at a time**, and each state fully replaces the pre
 
 # 
 
-### 🌟 Game Design Challenge: Adventure Crafting Game States
+## 🌟 Game Design Challenge: Adventure Crafting Game States
 
 Let’s imagine our adventure crafting game. In this game, the player needs to **explore the world, collect resources, craft items, and interact with NPCs**, all while navigating menus and handling game progression. To manage this, the game is divided into **different types of game states**, each responsible for controlling **what the player can do and how the game behaves** at that moment.
 
@@ -106,32 +106,143 @@ public interface IState
     void Exit();    // Called when the state ends or is replaced
 }
 ```
-By implementing this interface, each state is forced to explicitly declare its lifecycle behaviors, making transitions predictable, overlay states safer to stack, and the overall system easier to extend or modify without breaking unrelated code.  
-
-Designing states this way forces us to **clearly identify the responsibilities of each state**, and whether it **replaces another state** or **temporarily overlays it**. This results in **cleaner transitions, safer stacking of overlay states**, and a system that can be **extended or modified** without accidentally breaking unrelated parts of the game.
+By implementing this interface, each state is forced to declare its lifecycle behaviors explicitly. This makes transitions predictable, overlay states safer to stack, and the overall system easier to extend or modify without breaking unrelated code.
 
 By separating the **management of states** (handled by the Game Manager) from the **behavior of each state**, we achieve both **predictable flow** and **flexible, maintainable logic**.
 
 ---
 
+## Refining Our State Architecture: Why an Interface Isn’t Enough
+
+The game state architecture we’ve laid out so far is a clean and common starting point. It gives every state a predictable lifecycle and makes transitions easier to manage.
+
+However, once we begin implementing real game states, we quickly run into two design issues.
+
+#
+
+### Issue 1: Every State Needs a GameManager Reference
+
+Each game state will need to communicate with the Game Manager. Since the Game Manager is a Singleton, we can always access it directly:
+
+`GameManager.Instance;`
+
+However, if we need the singleton multiple times, we typically create a shorthand reference:
+
+```csharp
+private GameManager _gm;
+
+private void Start()
+{
+    _gm = GameManager.Instance;
+}
+```
+
+The reference doesn’t have to be assigned in `Start()` specifically; it just needs to be assigned early in the state’s lifecycle. This allows us to use `_gm` instead of repeatedly typing `GameManager.Instance`.
+
+While it’s only a few lines of code, it breaks the **DRY principle**, because the same setup code gets repeated in every state.
+
+#
+
+### Issue 2: Forcing an Execute() Method
+
+A bigger issue is that our interface forces every state to implement an `Execute()` method.
+
+Switching between states will always require `Enter()` and `Exit()`, but not all states need to run logic every frame.
+
+The `Execute()` method makes sense for states like:
+
+-   **Boot**, which might check loading progress
+-   **Playing**, which needs per-frame gameplay logic
+-   **Dialogue**, which might wait for player input
+
+However, the **Pause** state often doesn’t need to execute anything once it has entered. It simply displays UI and waits until the player unpauses.
+
+That means we end up writing an empty method just to satisfy the interface:
+
+```csharp
+public void Execute()
+{
+    // Nothing to do here
+}
+```
+
+This isn’t a major problem, but it does make us think about the **Interface Segregation Principle**, which encourages smaller, more specific interfaces and avoid forcing classes to implement rules they don’t actually use.
+
+We _could_ solve this by splitting the interface into multiple smaller interfaces (for example, one for states that execute and one for states that do not). However, in our case, that solution would introduce more complexity than it removes. For a small-to-medium game state system, the overhead of managing multiple interfaces often outweighs the benefits.
+
+Instead, we’ll use a simpler and more practical solution.
+
+#
+
+### A Practical Fix: BaseGameState
+
+While these issues are minor, we can create a more robust setup.
+
+Our interface was intentionally named `IState` instead of `IGameState`, because many systems can use the **State Pattern**, not just game flow. NPCs, players, UI systems, and gameplay systems can all use state-based logic.
+
+However, **game states have an additional requirement**: they need communication with the **Game Manager**.
+
+To solve this, we can create an abstract `BaseGameState` class that implements the `IState` interface.
+
+This base class will:
+
+-   automatically set up a `protected` reference to the Game Manager that child states can access
+    
+-   provide safe “boilerplate” implementations of lifecycle methods
+    
+-   allow child states to `override` only what they need
+    
+
+The lifecycle methods will be `virtual`, so a child state can override them as needed. In the case of Pause, the state can override only `Enter()` and `Exit()` and simply ignore `Execute()`.
+
+This way:
+-   The interface is still implemented
+-   The system stays consistent
+-   We can visually see in each state class which lifecycle methods are actually being used
+    
+
+This approach gives us the benefits of an interface-based design (consistency and predictability), while also addressing the two practical issues we discovered during implementation.
+
+Most importantly, it keeps our architecture:
+
+-   clean and readable
+-   flexible enough for both exclusive and overlay states
+-   simple enough to maintain
+-   easy to extend without rewriting existing states
+    
+In the grand scheme of things, there are many ways to design game states and game manager architectures. This is one practical approach, and it fits the scope of our Adventure Crafting Game well.
+
+
+> [!IMPORTANT]
+> These issues usually don’t always appear during the initial design. As we begin to build real systems, we discover such design pitfalls and improve our architecture. That’s why **refactoring** is such a big part of game development. 
+> 
+> We are recognizing these issues and applying the refactored solutions now, so the rest of the lesson stays clean and consistent.
+> 
+
+---
+
 ## 🛡️ Checkpoint
 
-Having explored the different **states** of the game world, here are some things to **keep in mind**:
+Having explored the different **states** of the game world, here are some key points to **keep in mind**:
 
--   **Game states vs object states:** Game states control the **overall flow of the game**, whereas object states (like Walk, Run, Attack) control the **behavior of individual entities**. A clear distinction helps prevent confusion when designing interactions.
+-   **Game states vs object states:** Game states control the **overall flow of the game**, while object states (like Walk, Run, Attack) control the **behavior of individual entities**. Keeping this distinction clear prevents confusion when designing interactions.
     
--   **More than scene changes:** While states may load different scenes, their purpose is to **control what happens in the game**, not just change visuals. For example, a Pause state may keep the Playing scene loaded but temporarily stops gameplay systems.
+-   **More than scene changes:** States may load different scenes, but their purpose is to **control what happens in the game**, not just visuals. For example, a Pause state may keep the Playing scene loaded but temporarily stop gameplay systems.
     
--   **Core and overlay states:** Core states (Boot, Main Menu, Playing, Game Over) are **mutually exclusive** and form the backbone of the game’s flow. Overlay or stacked states (Pause, Inventory, Dialogue) **temporarily take control** of certain systems without replacing the underlying state.
+-   **Core and overlay states:** Core states (Boot, Main Menu, Playing, Game Over) are **mutually exclusive** and form the backbone of game flow. Overlay or stacked states (Pause, Inventory, Dialogue) **temporarily take control** of specific systems without replacing the underlying state.
     
--   **Game Manager responsibilities:** The **Game Manager** coordinates which states are active, manages transitions, and ensures that both exclusive and overlay states behave consistently.
+-   **Game Manager responsibilities:** The **Game Manager** coordinates active states, manages transitions, and ensures both exclusive and overlay states behave consistently.
     
 -   **Implementation approach:**
     
-    -   **Finite State Machine (FSM):** Good for simple states with minimal behaviors, like Main Menu or Game Over screens.
+    -   **Finite State Machine (FSM):** Good for simple states with minimal behaviors, like Main Menu or Game Over.
         
-    -   **State Pattern:** Better for complex states with multiple behaviors, requiring specific logic when entering, executing, or exiting a state.
+    -   **State Pattern:** Better for complex states requiring logic when entering, executing, or exiting.
         
--   **Overlay management with stacks:** Temporary overlay states can be **pushed onto a stack**. When finished, they are **popped off**, and the underlying state resumes exactly where it left off. This ensures predictable, modular control of gameplay systems.
+-   **Overlay management with stacks:** Temporary overlay states can be **pushed onto a stack**. When finished, they are **popped off**, and the underlying state resumes exactly where it left off, ensuring predictable, modular control.
     
--   **State behaviors:** Defining consistent lifecycle methods (Enter, Execute, Exit) for each state, often via an **interface**, forces clear responsibilities, safer stacking, and maintainable logic.
+-   **State behaviors:** Defining consistent lifecycle methods (**Enter, Execute, Exit**), often via an **interface**, enforces clear responsibilities, safer stacking, and maintainable logic.
+    
+-   **BaseGameState helps reduce repetition:** Child states inherit common setup and only override what they need, keeping code cleaner and simpler.
+    
+-   **Design evolves during implementation:** Many issues don’t appear on paper—they emerge once we start writing real code, like repeated setup logic or states being forced to implement methods they don’t use. This is a natural **refactoring moment** in game development.
