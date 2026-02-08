@@ -259,14 +259,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 Key takeaways from this lesson:
 
 -   A **Singleton** ensures only one instance of a class exists.
-    
 -   A Singleton provides a global access point using `ClassName.Instance`.
-    
 -   A **generic singleton** (`Singleton<T>`) lets you reuse the same pattern for multiple managers.
-    
 -   `Awake()` is used because it runs early and is ideal for initialization.
-    
 -   `_isPersistent` allows you to control whether the singleton survives scene loads.
     
--   This pattern is the setup for our next tutorial: **GameManager + State Handling**.
     
