@@ -79,23 +79,9 @@ These states do not replace the current state. Instead, they are **stacked on to
 
 ---
 
-## 🧭 Adventure: Camp Craft Game States
-Let’s now start thinking about the design for our sample game, _Camp Craft_. In this game, the player needs to **explore the world, collect resources, craft items, and interact with NPCs**, all while navigating menus and handling game progression.
-
-After considering the **core gameplay systems** and what players typically **expect from a game experience**, we’ve determined the following **set of game states** for Camp Craft:
-
-| **Exclusive States**                             | **Stacked States**                                                 |
-| ------------------------------------------------ | ------------------------------------------------------------------ |
-| Boot – Initializes the game                      | Paused – Temporarily freezes gameplay                              |
-| MainMenu – Player chooses to start a new session | Inventory – Player manages items without leaving the game          |
-| Playing – Player explores the game world         | Crafting – Player crafts items while gameplay continues underneath |
-| GameOver – Player finishes or fails the session  | –                                                                  |
-
----
-
 ## Managing Game States
 
-Now that we’ve seen how core and overlay states work in practice, we can explore **how the game actually manages them**. In most games, **game states are controlled by a global Game Manager**, a central system responsible for keeping track of which state is active and coordinating transitions between them. This ensures that only the appropriate behaviors, rules, and interactions are active at any given time.
+Now that we’ve seen how states work in practice, we can explore **how the game actually manages them**. In most games, **game states are controlled by a global Game Manager**, a central system responsible for keeping track of which state is active and coordinating transitions between them. This ensures that only the appropriate behaviors, rules, and interactions are active at any given time.
 
 The way we implement game states depends on their **complexity**. If a state has **minimal behaviors**, such as a simple Main Menu or Game Over screen, it can often be handled using a **finite state machine (FSM)**, which is easy to manage. However, if states have **many behaviors** or require **specific transitions** when entering, executing, or exiting a state, a **State Pattern** is usually a better choice. This pattern provides more flexibility and helps organize complex logic.
 
