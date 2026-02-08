@@ -10,7 +10,7 @@ We've discussed how **[States](../DesignPatterns/StatePattern.md)** help control
 
 Similarly, games can also have **game states**. These can be thought of as **global states**, not tied to any single object, but other objects in the game may need to respond when a specific game state is active.
 
-For example, when the player is actively **playing the game**, the world is fully alive: the player can move, interact with objects, fight enemies, and explore the environment. Every character and object in the world behaves independently, enemies patrol, NPCs walk around, and items respond to interactions. In contrast, when the player is navigating the **main menu**, the game world is effectively paused. Nothing in the environment moves, enemies are inactive, and the player cannot interact with the world; instead, the focus is entirely on navigating menu options.
+For example, when the player is actively **playing the game**, the world is fully alive: the player can move, interact with objects, fight enemies, and explore the environment. Every character and object in the world behaves independently, enemies patrol, NPCs walk around, and items respond to interactions. In contrast, when the player is navigating the **main menu**, the game world is effectively paused. Nothing in the environment moves; enemies are inactive, and the player cannot interact with the world; instead, the focus is entirely on navigating menu options.
 
 **Game states** allow us to better manage the **overall flow of the game**. They determine:
 
@@ -77,7 +77,7 @@ These states do not replace the current state. Instead, they are **stacked on to
 | Shop / Trading | Player buys or sells items without leaving the current state     |
 | Tutorial       | Guides the player through instructions while gameplay continues  |
 
-![Exclusive vs Stacked States](gct-gameStates-flow.png)
+![Exclusive vs Stacked States](imgs/gct-gameStates-flow.png)
 
 
 ---
@@ -168,7 +168,7 @@ public void Execute()
 }
 ```
 
-This isn’t a major problem, but it does make us think about the **Interface Segregation Principle**, which encourages smaller, more specific interfaces and avoid forcing classes to implement rules they don’t actually use.
+This isn’t a major problem, but it does make us think about the **Interface Segregation Principle**, which encourages smaller, more specific interfaces and avoids forcing classes to implement rules they don’t actually use.
 
 We _could_ solve this by splitting the interface into multiple smaller interfaces (for example, one for states that execute and one for states that do not). However, in our case, that solution would introduce more complexity than it removes. For a small-to-medium game state system, the overhead of managing multiple interfaces often outweighs the benefits.
 
@@ -202,7 +202,7 @@ This way:
 -   The system stays consistent
 -   We can visually see in each state class which lifecycle methods are actually being used
     
-![Game States UML ](gct-gameStates-uml.png)
+![Game States UML ](imgs/gct-gameStates-uml.png)
 
 
 This approach gives us the benefits of an interface-based design (consistency and predictability), while also addressing the two practical issues we discovered during implementation.
