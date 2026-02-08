@@ -1,4 +1,4 @@
-## 🧭 Adventure: Camp Craft Game States
+# 🧭 Adventure: Camp Craft Game States
 > By: Akram Taghavi-Burris | © 2026
 
 Now that we have a good understanding of how to design game states, we can start thinking about the specific states we will need for our sample game, _Camp Craft_. In this game, the player needs to **explore the world, collect resources, craft items, and interact with NPCs**, all while navigating menus and handling game progression.
@@ -12,9 +12,9 @@ After considering the **core gameplay systems** and what players typically **exp
 | Playing – Player explores the game world         | Crafting – Player crafts items while gameplay continues underneath |
 | GameOver – Player finishes or fails the session  | –                                                                  |
 
----
+#
 
-## Structuring Game States
+### Structuring Game States
 Now that we understand our game flow, we’ll organize the structure of our states into **three layers**:
 1.  **IState Interface** – Defines the lifecycle every state must follow
 2.  **BaseGameState Abstract Class** – Provides default behavior and shared logic
