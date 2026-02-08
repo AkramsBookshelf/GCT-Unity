@@ -1,7 +1,7 @@
 # 📜 Singleton Base Class
 > By: Akram Taghavi-Burris | © 2026
 
-In a previous lesson, we covered the **Singleton Pattern** in detail, including why it can be useful in Unity **when used appropriately and sparingly**.
+In a previous lesson, we covered the **[Singleton Pattern](../DesignPatterns/Singleton.md)** in detail, including why it can be useful in Unity **when used appropriately and sparingly**.
 Since the singleton implementation is basically the same for every manager class, we don’t want to rewrite that same code in **every** class that implements this design pattern. 
 
 >[!TIP]
@@ -27,6 +27,10 @@ This gives us a solution that is:
 | Project Managment | 15 minutes        |   Unity, IDE  |
 
 </details>
+
+> [!NOTE]
+> Before starting this tutorial, you may want to review the **[Singleton Pattern](../DesignPatterns/Singleton.md)**
+> 
 
 ### Step 1: Create a Singleton Base Script
 1. Return to the Unity Editor; right-click in your **Scripts** folder and choose your custom script
