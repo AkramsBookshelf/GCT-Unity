@@ -6,7 +6,7 @@ You’ve just loaded your current game of choice. The loading screen appears, fo
 Before writing any code, it’s important to **plan out the different modes of your game**, from menus to gameplay to temporary interruptions. Designing these **game states** first provides a clear blueprint for creating a **predictable, engaging, and maintainable game experience**.
 
 ## What Are Game States?
-We've discussed how **[states](../DesignPatterns/StatePattern.md)** help control behaviors like **Walk**, **Run**, **Patrol**, or **Attack** on an NPC or player character. Any object in the game can have different states, which trigger different behaviors at the right time.
+We've discussed how **[States](../DesignPatterns/StatePattern.md)** help control behaviors like **Walk**, **Run**, **Patrol**, or **Attack** on an NPC or player character. Any object in the game can have different states, which trigger different behaviors at the right time.
 
 Similarly, games can also have **game states**. These can be thought of as **global states**, not tied to any single object, but other objects in the game may need to respond when a specific game state is active.
 
@@ -15,11 +15,8 @@ For example, when the player is actively **playing the game**, the world is full
 **Game states** allow us to better manage the **overall flow of the game**. They determine:
 
 -   **What the player can do**
-    
 -   **How the game world behaves**
-    
 -   **Which rules are active**
-    
 -   **Which UI elements are shown**
     
 
@@ -28,29 +25,38 @@ Furthermore, **game states** are **more than just a scene change**. While a stat
 #
 
 ### Core Game States – What a Game Needs
+Once we understand what game states are, the next question is: **which states should a game have?** 
+**Core states** are the essential modes that most players expect, because they define the basic flow of the experience, from starting the game to ending a session.
 
-Once we understand what game states are, the next question is: **which states should a game have?** Core states are those essential modes that every player expects, because they define the basic flow of the game. These states form the backbone of the experience, guiding the player from starting the game to reaching the end.
-
-A typical set of core game states might include:
+A typical set of **core game states** might include:
 
 1.  **Boot** – The game starts up.
 2.  **Main Menu** – The player chooses options like “New Game” or “Load Game.”
 3.  **Playing** – The player explores the game world.
-4.  **Game Over** – The game ends and shows the final screen.
+4.  **Paused** – The player temporarily freezes gameplay.
+5.  **Game Over** – The session ends, and the game shows a final screen.
     
-Here, **only one state exists at a time**, and each state fully replaces the previous one. These are **core, mutually exclusive states**, forming the foundation of the game’s flow. Every other state, whether temporary overlays or special modes, builds on top of this core structure.
+While these are common baseline states, most games include **many additional states** depending on genre and features. For example:
 
----
+-   **Inventory**
+-   **Crafting**
+-   **Dialogue**
+-   **Cutscenes**
+-   **Shop / Trading**
+-   **Tutorial**
 
-## 🌟 Game Design Challenge: Adventure Crafting Game States
+#
 
-Let’s imagine our adventure crafting game. In this game, the player needs to **explore the world, collect resources, craft items, and interact with NPCs**, all while navigating menus and handling game progression. To manage this, the game is divided into **different types of game states**, each responsible for controlling **what the player can do and how the game behaves** at that moment.
+### Exclusive vs Stacked States
+Once we start mapping out the game’s **overall flow**, we quickly notice that not all states play the same role in the experience.
+Some states represent a **major step in the game loop**, where the player transitions into a new mode of play. For example, moving from **Main Menu → Playing** means the menu is no longer relevant, and gameplay takes over completely.
 
-Some states are **core and mutually exclusive**, forming the backbone of the game, while others are **temporary or overlay states** that **temporarily take control of certain game systems**, pausing or modifying behaviors as needed. For example, when the player enters a **Crafting** mode, gameplay systems like movement, enemy AI, or resource collection may be paused, while specific animations, logic, or interactions run. Once crafting is complete, the underlying gameplay **resumes exactly where it left off**, maintaining the flow of the game, whether or not any new visuals are shown.
+Other states are **stacked**, meaning they do not replace the current state. Instead, they become active **at the same time**, while preserving the underlying state. When the stacked state ends, the previous state continues exactly where it left off.
 
-#### Mutually Exclusive States
+With that in mind, we can break game states into two categories:
 
-These states **replace each other completely**. Only one of these can be active at a time. For example:
+#### **Exclusive States (Replace)**
+These states **replace each other completely**. Only one exclusive state should be active at a time.
 | State    | Replaces | Reason                                |
 | -------- | -------- | ------------------------------------- |
 | Boot     | None     | Runs once at startup                  |
@@ -59,24 +65,31 @@ These states **replace each other completely**. Only one of these can be active 
 | GameOver | Playing  | Session ends                          |
 | MainMenu | GameOver | Player can start fresh                |
 
-In this flow, the game **cannot be in MainMenu and Playing at the same time**. Each transition is like **closing one chapter and opening another**.
+#### **Stacked States (PushState)**
+These states do not replace the current state. Instead, they are **stacked on top of it**, allowing the game to return to the previous state afterward.
+| State          | Reason                                                           |
+| -------------- | ---------------------------------------------------------------- |
+| Paused         | Player wants to pause gameplay                                   |
+| Inventory      | Player manages items without leaving the current state           |
+| Crafting       | Player interacts with crafting without leaving the current state |
+| Dialogue       | Handles temporary interactions with NPCs                         |
+| Cutscenes      | Plays cinematic sequences while preserving the underlying state      |
+| Shop / Trading | Player buys or sells items without leaving the current state     |
+| Tutorial       | Guides the player through instructions while gameplay continues  |
 
-#### Stacked or Overlay States
+---
 
-Other states are **temporary overlays**. These states **do not replace the underlying core state**. Instead, they **take control of specific gameplay systems**, modify behaviors, and then **return control to the previous state** once finished. For example:
+## 🧭 Adventure: Camp Craft Game States
+Let’s now start thinking about the design for our sample game, _Camp Craft_. In this game, the player needs to **explore the world, collect resources, craft items, and interact with NPCs**, all while navigating menus and handling game progression.
 
-| State        | Reason                                                           |
-| ------------ | ---------------------------------------------------------------- |
-| Paused       | Player wants to pause gameplay                                   |
-| Inventory    | Player opens inventory without leaving the game                  |
-| Crafting     | Player interacts with crafting without leaving the current scene |
-| Dialogue     | Handles temporary interactions with NPCs                         |
-| SettingsMenu | Adjust options while the game continues underneath               |
+After considering the **core gameplay systems** and what players typically **expect from a game experience**, we’ve determined the following **set of game states** for Camp Craft:
 
-Overlay states are often **pushed onto a stack**, allowing multiple temporary states to coexist in order. When an overlay state is done, it is **popped off**, and the underlying game resumes exactly where it left off. This system allows the game to temporarily pause or modify gameplay without losing context or progress, and it works whether or not the overlay introduces new visuals.
-
-![Architecting Game Flow: Exclusive vs. Stacked States](imgs/gct-gameStates-flow.png)
-
+| **Exclusive States**                             | **Stacked States**                                                 |
+| ------------------------------------------------ | ------------------------------------------------------------------ |
+| Boot – Initializes the game                      | Paused – Temporarily freezes gameplay                              |
+| MainMenu – Player chooses to start a new session | Inventory – Player manages items without leaving the game          |
+| Playing – Player explores the game world         | Crafting – Player crafts items while gameplay continues underneath |
+| GameOver – Player finishes or fails the session  | –                                                                  |
 
 ---
 
