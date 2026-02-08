@@ -39,7 +39,7 @@ This approach keeps code **organized, reusable, and scalable**, allowing easy ad
 </details>
 
 > [!NOTE]
-> Before starting this tutorial, you may want to review the [Interface Lesson](../DesignPatterns/Interface.md)
+> Before starting this tutorial, you may want to review the **[Interface Lesson](../DesignPatterns/Interface.md)**
 > 
 
 ### Step 1: Create the IState Interface
@@ -48,20 +48,35 @@ After opening your Unity project, go to the **Project** window and create a new 
 1.   Right-click in your Scripts folder and choose your custom script
     -    (e.g., **Create → CSG Templates → MonoBehaviour → MonoBehaviour Basic Script**)
 2.   Name the script: **IState**
+3.  Double-click on the **IState** class in the Unity **Project** window to Open in your IDE.
 
-> [!NOTE]
-> While we are starting with a **Monobehavior** script template, our IState is an interface, a special class type that does not inerhert any classes.
+> [!WARNING]
+> While we are starting with a **Monobehavior** script template, our IState is an interface, a special class type that does not inherit from any classes.
 >
 
-3. Double-click on the **IState** class in the Unity **Project** window
-4. In your IDE, replace the start code with the following
-   - _Leave the documentation comments at the very top and update them as needed_
+### Step 2: Declare the Interface
+1. **Edit the class declaration** by declaring the **Interface** instad of a **Monobeahaviuor** class. 
 
 ```csharp
 public interface IState
 {
-    // read-only property for debugging/logging
+```
+
+### Step 3: Define the Interface requirements
+1. Remove all template methods in the class
+2. Add a public **Name** property
+```csharp 
+    // read-only property
     string Name { get; }
+
+```
+   
+4. Add the following methods to ensure that **every state follows a consistent lifecycle** : 
+    -   **Enter()** = setup
+    -   **Execute()** = run
+    -   **Exit()** = cleanup
+   
+```csharp 
 
     // called when the state becomes active
     void Enter();
@@ -73,13 +88,10 @@ public interface IState
     void Execute();
 }
 ```
-
-This ensures **every state follows a consistent lifecycle** : 
--   **Enter()** = setup
--   **Execute()** = run
--   **Exit()** = cleanup
-
-This keeps our code organized and makes it easier for a GameManager to control states later.
+> [!NOTE]
+> In an interface, all members are implicitly public and do not require access modifiers like `public`, as they define a visible contract for other classes to follow.
+> However, when you implement that interface in a class, you must explicitly mark those members as `public` to fulfill that contract.
+> 
 
 > #### 💾 Save & Commit
 > - Save your script
