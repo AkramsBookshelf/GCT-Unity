@@ -270,5 +270,3 @@ Key takeaways from this lesson:
     
 -   This pattern is the setup for our next tutorial: **GameManager + State Handling**.
     
-
-`If you want, I can immediately write **Tutorial 2: Building the GameManager (Replace + Push/Pop States)** so it connects directly to this lesson without any gaps.`
