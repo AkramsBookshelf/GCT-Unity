@@ -1,24 +1,21 @@
-# 📜 Defining Game States 
+## 🧭 Adventure: Camp Craft Game States
 > By: Akram Taghavi-Burris | © 2026
 
-Before we write any code, let’s **connect back to our earlier design**. In the “Designing Your Game States” stage, we identified the **main flow and overlays** for our game:
+Now that we have a good understanding of how to design game states, we can start thinking about the specific states we will need for our sample game, _Camp Craft_. In this game, the player needs to **explore the world, collect resources, craft items, and interact with NPCs**, all while navigating menus and handling game progression.
 
-#### Mutually Exclusive States (Replace)
--   **Boot → MainMenu**: Boot is done forever
--   **MainMenu → Playing**: New game session
--   **Playing → GameOver**: Session ends
--   **GameOver → MainMenu**: Fresh start
-    
-#### Stacked States (PushState)
--   **Paused**: Temporarily freeze gameplay
--   **Inventory**: Keep gameplay underneath intact
--   **Crafting**: Player returns to same position
--   **Settings Menu**: Overlay, not a new phase
-    
-These states define the **skeleton of our game flow**. When we implement them using the **State Pattern**, each state will have its own behavior, and transitions will handle both **replacements** and **overlays** cleanly.
+After considering the **core gameplay systems** and what players typically **expect from a game experience**, we’ve determined the following **set of game states** for Camp Craft:
+
+| **Exclusive States**                             | **Stacked States**                                                 |
+| ------------------------------------------------ | ------------------------------------------------------------------ |
+| Boot – Initializes the game                      | Paused – Temporarily freezes gameplay                              |
+| MainMenu – Player chooses to start a new session | Inventory – Player manages items without leaving the game          |
+| Playing – Player explores the game world         | Crafting – Player crafts items while gameplay continues underneath |
+| GameOver – Player finishes or fails the session  | –                                                                  |
+
+---
 
 ## Structuring Game States
-Now that we understand our game flow, we’ll organize our states into **three layers**:
+Now that we understand our game flow, we’ll organize the structure of our states into **three layers**:
 1.  **IState Interface** – Defines the lifecycle every state must follow
 2.  **BaseGameState Abstract Class** – Provides default behavior and shared logic
 3.  **Concrete States** – Implement actual game-specific logic (e.g., BootState, MainMenuState)
@@ -27,7 +24,7 @@ This approach keeps code **organized, reusable, and scalable**, allowing easy ad
 
 ---
 
-# ⚒️ Create the IState Interface
+# ⚒️ Tutorial: IState Interface
 
 <details>
 <summary><strong><em>Tutorial Details</em></strong></summary>
@@ -102,6 +99,34 @@ public interface IState
 
 
 #
+---
+
+# ⚒️ Tutorial: Abstract BaseGameState Class
+
+<details>
+<summary><strong><em>Tutorial Details</em></strong></summary>
+
+|📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
+| :---------------: | :---------------: | :---------------: |
+| Project Managment | 5 minutes         |   Unity, IDE  |
+
+</details>
+
+
+
+
+---
+
+# ⚒️ Tutorial: State Setup
+
+<details>
+<summary><strong><em>Tutorial Details</em></strong></summary>
+
+|📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
+| :---------------: | :---------------: | :---------------: |
+| Project Managment | 5 minutes         |   Unity, IDE  |
+
+</details>
 
 ### Step 2 — Create Your First State: BootState
 
