@@ -40,7 +40,7 @@ A typical set of core game states might include:
     
 Here, **only one state exists at a time**, and each state fully replaces the previous one. These are **core, mutually exclusive states**, forming the foundation of the game’s flow. Every other state, whether temporary overlays or special modes, builds on top of this core structure.
 
-# 
+---
 
 ## 🌟 Game Design Challenge: Adventure Crafting Game States
 
