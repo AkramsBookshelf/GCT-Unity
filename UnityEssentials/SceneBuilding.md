@@ -10,7 +10,7 @@
 </details>
 
 > [!NOTE]
-> Before starting this tutorial, ensure you have completed **[Level 01 setup](LevelSetup.md)** and that your project is synced with the **main branch** in GitHub Desktop.
+> Before starting this tutorial, ensure you have completed **[Importing Assets](ImportingAssets.md)** and that your project is synced with the **SceneBuilding** in GitHub Desktop.
 > 
 
 ---
