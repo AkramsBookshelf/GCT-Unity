@@ -272,7 +272,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 </details>
 
 > [!NOTE]
-> Before starting this tutorial, ensure you have completed **[Create the Park Wall with ProBuilder]()**
+> Before starting this tutorial, ensure you have completed **[Create the Park Wall with ProBuilder](#%EF%B8%8F-tutorial-create-the-park-wall-with-probuilder)**
  and that your project is synced with the SceneBuilding branch in GitHub Desktop.
 
 
