@@ -5,7 +5,7 @@
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Setp | 10 minutes         |   GitHub Desktop, Unity     |
+| Scene Building     | 30 minutes       |   GitHub Desktop, Unity     |
 
 </details>
 
@@ -14,7 +14,7 @@
 > 
 
 
-### Step 3 — Organize the Hierarchy for Environment Assets
+### Step 1 — Organize the Hierarchy for Environment Assets
 
 1.  In the **Hierarchy** window, right-click → **Create Hierarchy Folder**.
     - Name the folder: **Environment**.
