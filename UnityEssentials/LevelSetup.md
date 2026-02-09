@@ -5,12 +5,12 @@
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Managment | 5 minutes         |   Unity     |
+| Project Setp | 10 minutes         |   GitHub Desktop, Unity     |
 
 </details>
 
 > [!NOTE]
-> Before starting this tutorial, make sure your have accepeted the **GitHub Classroom assignment**, and have completed the **[project setup](https://github.com/CSG-3013/UnityRepoTemplate?tab=readme-ov-file#%EF%B8%8F-setup-instructions)**
+> Before starting this tutorial, make sure you have accepted the **GitHub Classroom assignment**, and have completed the **[project setup](https://github.com/CSG-3013/UnityRepoTemplate?tab=readme-ov-file#%EF%B8%8F-setup-instructions)**
 > 
 
 ### Step 1 — Open Project from GitHub Desktop
@@ -52,7 +52,7 @@
 > -   **MainCamera**
 > -   **Directional Light**
 >
-> We will organize these into folders to keep our **Hierarchy** window clean and managable.
+> We will organize these into folders to keep our **Hierarchy** window clean and manageable.
 >
 
 #
@@ -60,13 +60,13 @@
 **Step 5 — Organize the Hierarchy**
 
 1.  Right-click in the **Hierarchy** window and choose **Create Hierarch Folder**
-     - Nname the folder `Cameras`.
+     - Name the folder `Cameras`.
      - Set the folder color to **Silver**.
     
 2.  In the **Hierarchy** window, drag and drop the **Main Camera** Game object in the `Cameras` folder.
 
 3.  Right-click in the **Hierarchy** window and choose **Create Hierarch Folder**
-     - Nname the folder `Lights`.
+     - Name the folder `Lights`.
      - Set the folder color to **yellow**.
     
 4. In the **Hierarchy** window, drag and drop the **Directional Light** Game object in the `Cameras` folder.
@@ -85,3 +85,4 @@
    - Commit your changes with the message:
      - *feat: Scene Level_01 setup*
 4. **Push** the changes back to the **main** branch.
+
