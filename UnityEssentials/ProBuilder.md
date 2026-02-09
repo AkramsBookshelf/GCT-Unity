@@ -75,7 +75,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #
 
-### Step 2 — Create a Basic Cube
+### Step 3 — Create a Basic Cube
 1.  Click and **hold on the CC Icon** in the main toolbar of the scene view.
 2.  In the pop-up dialog, select **Create Cube**.
 3.  Click and drag in the scene view to create a cube. **Do not worry about exact dimensions yet.**
@@ -89,7 +89,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #
 
-### Step 3 — Set Cube Shape Settings
+### Step 4 — Set Cube Shape Settings
 1.  With the cube in **creation mode**, open the **Shape Settings** window in the scene view.
 2.  Set the following settings:
     -   **Pivot:** Center
@@ -101,9 +101,10 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 > [!TIP]  
 > If you accidentally clicked away or mistyped settings, select the cube in the **Hierarchy** → in the **Inspector**, click **Edit Shape** under the ProBuilder Shape component.
 > ![Edit Probuilder Shape in Inspector](imgs/probuilder/gct-probuilder-03.png)
-> 
 
-### Step 4 — Wall Properties
+#
+
+### Step 5 — Wall Properties
 1.  With the Probuilder cube selected in the **Inspector** window
 2.  Rename the cube to **Wall**
 3.  Move the cube's **position** to X = 0, Y = 0, Z = 0
@@ -114,11 +115,16 @@ This tutorial will guide you through **creating and editing walls** using ProBui
     
 #
 
-### Step 3 — Enter ProBuilder Edit Mode
+### Step 6 — Enter ProBuilder Edit Mode
 1. In the **Scene** window, click and **hold on the object icon** in the toolbar 
    - Select **ProBuilder** from the pop-up.
+
+![Probuilder Edit mode](imgs/probuilder/gct-probuilder-04.png)
+  
 2.  The **ProBuilder Modify Toolbar** appears at the top of the scene window.
 3.  Choose **Face Selection Mode** for this tutorial.
+
+![Edit in Face Mode](imgs/probuilder/gct-probuilder-05.png)
     
 #
 
@@ -127,29 +133,44 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 2.  Hold **Shift** and select the back side of the same long edge.
 3.  Right-click in the scene view → **Extrude Faces**.
 4.  In the Extrude Settings dialog, set the distance: **0.625** and press confirm.
-5.  Repeat the extrusion on both sides → distance **0.625** and press confirm.
-    
-> [!TIP]  
-> Check **X position in Inspector** to verify the overall wall width; it should now be **0.375**.
+
+![Extrude the front faces](imgs/probuilder/gct-probuilder-06.png)
+   
+6.  Repeat the extrusion for both sides → distance **0.625** and press confirm.
+7. Check **X position in Inspector** to verify the overall wall width; it should now be **0.375**.
+   
+![Check Probuilder Object Size in Inspector](imgs/probuilder/gct-probuilder-07.png)
 
 #
 
 ### Step 5 — Edit the Wall Top Faces
 1.  Select the **3 inner top faces** → right-click → **Extrude Faces**.
     -   Distance: **0.0625** → confirm.
+  
+![Extrude the inner top faces](imgs/probuilder/gct-probuilder-08.png)
+
 2.  Select the **innermost top face** → right-click → **Extrude Faces**.
     -   Distance: **3** → confirm.
+  
+![Extrude the main wall](imgs/probuilder/gct-probuilder-09.png)
+  
 3.  With the top face still selected → extrude **0.03125** → confirm.
 4.  Repeat another extrusion → **0.3125** → confirm.
 
 > [!NOTE]  
 > The wall’s **Y position should now be 3.25** in the Inspector.
+> 
 
 #
 
 ### Step 6 — Extrude Front Faces for Detail
 1.  Select the **front faces of the top two sections** on both sides → right-click → extrude → distance: **0.0625** → confirm.
-2.  Select the **front face of the topmost face** on both sides → extrude → distance: **0.625** → confirm.
+
+![Top detail exturtion](imgs/probuilder/gct-probuilder-10.png)
+
+3.  Select the **front face of the topmost face** on both sides → extrude → distance: **0.625** → confirm.
+
+![Wall top cap](imgs/probuilder/gct-probuilder-11.png)
 
 #
 
