@@ -1,4 +1,4 @@
-# ⚒️ Tutorial: Scene Buildings
+# ⚒️ Tutorial: Scene Building
 
 <details>
 <summary><strong><em>Tutorial Details</em></strong></summary>
