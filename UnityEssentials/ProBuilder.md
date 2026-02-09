@@ -1,17 +1,5 @@
-# ⚒️ Tutorial: Using  Probuilder
-
-<details>
-<summary><strong><em>Tutorial Details</em></strong></summary>
-
-|📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
-| :---------------: | :---------------: | :---------------: |
-| Scene Building     | 30 minutes       |   GitHub Desktop, Unity     |
-
-</details>
-
-> [!NOTE]
-> Before starting this tutorial, ensure you have completed **[Scene Building](SCeneBuilding.md)** and that your project is synced with the **SceneBuilding** in GitHub Desktop.
-> 
+# 📜 Unity ProBuilder
+> By: Akram Taghavi-Burris | © 2026
 
 ---
 
@@ -29,36 +17,110 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 ---
 
-### Step 1 — Create a Basic Cube
+
+# ⚒️ Tutorial: Create the Park Wall with ProBuilder
+
+<details>
+<summary><strong><em>Tutorial Details</em></strong></summary>
+
+|📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
+| :---------------: | :---------------: | :---------------: |
+| Scene Building     | 30 minutes       |   GitHub Desktop, Unity     |
+
+</details>
+
+> [!NOTE]
+> Before starting this tutorial, ensure you have completed **[Scene Building](SCeneBuilding.md)** and that your project is synced with the **SceneBuilding** in GitHub Desktop.
+>
+
+> [!WARNING]
+> If you have made any changes to your project from a different pc (i.e., classroom pc) and have pushed them to GitHub, you will need to **Fetch** the updates to your project in **GitHub Desktop** before starting this tutorial.
+> 
+
+
+## Step 1 — Install ProBuilder Using Package Manager
+
+1.  Open the **ParkGame-Unity** project
+2.  In the Unity Editor, open the **Package Manager**: 
+    -   **Window > Package Manager**
+        
+3.  In the top-left dropdown, change the package source to:
+    -   **Unity Registry**
+        
+4.  In the search bar, type:
+    -   `ProBuilder`
+        
+5.  Select **ProBuilder** from the list.
+    
+6.  Click **Install**.
+    
+
+> [!TIP]  
+> If ProBuilder is already installed, the button will say **Remove** instead of Install.
+> 
+
+# 
+## Step 2 — Open the Default Sample Scene (Empty Workspace)
+
+1.  In the **Project** window, open:
+    
+    -   `Assets/Scenes/SampleScene`
+        
+2.  Make sure the scene is mostly empty (just a camera and light are fine).
+    
+
+> [!NOTE]  
+> We will build the ProBuilder wall inside the **SampleScene** so we don’t accidentally modify **Level-01**. This keeps your main level clean and lets you focus on building the wall prefab without distractions from the environment.
+> 
+
+#
+
+### Step 2 — Create a Basic Cube
 1.  Click and **hold on the CC Icon** in the main toolbar of the scene view.
 2.  In the pop-up dialog, select **Create Cube**.
 3.  Click and drag in the scene view to create a cube. **Do not worry about exact dimensions yet.**
+
+![Create Probuilder Cube](imgs/probuilder/gct-probuilder-01.png)
     
 
 > [!NOTE]  
 > You can adjust the size later, so initial placement is just for convenience.
+> 
 
 #
 
-### Step 2 — Set Cube Shape Settings
+### Step 3 — Set Cube Shape Settings
 1.  With the cube in **creation mode**, open the **Shape Settings** window in the scene view.
 2.  Set the following settings:
     -   **Pivot:** Center
     -   **Size:** X = 0.125, Y = 0.125, Z = 1
 3.  Press **Q** to exit creation mode and return to pan mode.
+
+![Create Probuilder Cube](imgs/probuilder/gct-probuilder-02.png)
    
 > [!TIP]  
 > If you accidentally clicked away or mistyped settings, select the cube in the **Hierarchy** → in the **Inspector**, click **Edit Shape** under the ProBuilder Shape component.
+> ![Edit Probuilder Shape in Inspector](imgs/probuilder/gct-probuilder-03.png)
+> 
 
-1.  Rename the cube to **Wall** in the Inspector.
+### Step 4 — Wall Properties
+1.  With the Probuilder cube selected in the **Inspector** window
+2.  Rename the cube to **Wall**
+3.  Move the cube's **position** to X = 0, Y = 0, Z = 0
+
+> [!IMPORTANT]  
+> Keeping the wall at `(0,0,0)` helps avoid pivot and placement issues when converting it into a prefab.
+>
     
 #
 
 ### Step 3 — Enter ProBuilder Edit Mode
-1.  Click and **hold on the object icon** in the toolbar → select **ProBuilder** from the pop-up.
+1. In the **Scene** window, click and **hold on the object icon** in the toolbar 
+   - Select **ProBuilder** from the pop-up.
 2.  The **ProBuilder Modify Toolbar** appears at the top of the scene window.
 3.  Choose **Face Selection Mode** for this tutorial.
     
+#
 
 ### Step 4 — Extrude the Wall Faces
 1.  Select the **long face of the wall**.
