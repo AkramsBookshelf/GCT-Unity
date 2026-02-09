@@ -5,7 +5,7 @@
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Setp | 10 minutes         |   GitHub Desktop, Unity     |
+| Project Setup | 10 minutes         |   GitHub Desktop, Unity     |
 
 </details>
 
@@ -21,7 +21,7 @@
     
 3.  Click the **Current Branch** dropdown → choose **New Branch**.
     
-4.  Name the branch: `SceneBuilding`.
+4.  Name the branch: **SceneBuilding**.
     - Make sure it is based on **main** → click **Create Branch**.
     
 6.  Publish the branch to the remote repository by clicking **Publish Branch**.
