@@ -168,31 +168,67 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 ![Top detail exturtion](imgs/probuilder/gct-probuilder-10.png)
 
-3.  Select the **front face of the topmost face** on both sides → extrude → distance: **0.625** → confirm.
+2.  Select the **front face of the topmost face** on both sides → extrude → distance: **0.625** → confirm.
 
 ![Wall top cap](imgs/probuilder/gct-probuilder-11.png)
+
+3. Exit **ProBuilder Edit Mode**.
 
 #
 
 ### Step 7 — Create Wall Prefab
-1.  Exit **ProBuilder Edit Mode**.
-2.  Drag and drop your **Wall** from the Hierarchy → **Prefabs** folder in the Project window
-3.  Position the prefab at `(0,0,0)` in the scene.
 
-#
+1. Drag and drop your **Wall** from the **Hierarchy** → into the **Prefabs** folder in the **Project** window.
 
-### Step 8 — Create a Multi-Wall Object
-1.  Create a **new empty GameObject** → name it **WallX3** → position `(0,0,0)`.
-2.  Place your wall object inside **WallX3** in the hierarchy.
-3.  Duplicate the wall object inside **WallX3** → add two additional walls for a total of **3 walls**.
-4.  Rename the wall objects: `Wall-01`, `Wall-02`, `Wall-03`.
-5.  Drag and drop the **WallX3** object into the **Prefabs** folder → creates a multi-wall prefab.
+2. In the **Hierarchy**, right-click → **Create Empty**
+   - Name it **WallX3**
+   - Set its position to `(0,0,0)`.
+
+3. Drag the **Wall** object into **WallX3** so it becomes a child.
+
+4. Duplicate the wall **two times** (so you have 3 total walls).
+
+5. Move the duplicated walls so that:
+   - One wall is placed to the **left** of the original wall
+   - One wall is placed to the **right** of the original wall  
+   - The **original Wall stays centered at (0,0,0)**
+
+> [!IMPORTANT]  
+> Do **not** move the original wall. Keeping the center wall at `(0,0,0)` ensures the prefab’s pivot stays centered, which makes placement easier later.
+> 
+
+6. In the **Hierarchy** window, rename the walls:
+   - `Wall-01` (Left)
+   - `Wall-02` (Center)
+   - `Wall-03` (Right)
+
+7. Drag and drop the **WallX3** object into the **Prefabs** folder to create a multi-wall prefab.
+
+> [!NOTE]  
+> You now have two wall prefab options:
+> - **Wall** = a 1-meter wall segment  
+> - **WallX3** = a 3-meter wall segment  
+>
+> You *could* also create variations like **WallX2** or **WallX4**, but when designing prefabs, it’s best to only create the variations you are most likely to use. Too many prefab versions can quickly clutter your project.
+> 
+
 
 #
 
 ### Step 9 — Place Walls in the Park
-1.  Use the **WallX3 prefab** to quickly place walls in your park.
-2.  For small gaps, use the **single Wall prefab** to fill spaces as needed.
+
+1. Exit the **SampleScene** and return to **Level_01**.
+   - No need to save the SampleScene — we only made the prefab, which is saved automatically.
+
+2. In the **Level_01** scene, use your **WallX3 prefab** to create a boundary around the park.
+
+3. For small gaps, use the **single Wall prefab** to fill spaces as needed.
+
+4. Add wall segments to divide the park into at least **two sections**.
+
+5. Leave a **3-meter opening** between the sections.
+   - We will add a gate here in the next tutorial.
+  
 
 #
 
@@ -201,6 +237,8 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 2.  Close Unity.
 3.  Switch to **GitHub Desktop** → stage your changes.
 4.  Commit with the message:
-    -   `feat: created and extruded walls using ProBuilder.`
+    -   `feat: created Wall Prefab.`
 5.  Push your changes to the remote branch: `SceneBuilding`.
+
+6.  ---
 
