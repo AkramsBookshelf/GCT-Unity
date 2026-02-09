@@ -215,20 +215,38 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #
 
-### Step 9 — Place Walls in the Park
+### Step 9 — Place Walls in the Park (Organized Prefab-Friendly)
 
-1. Exit the **SampleScene** and return to **Level_01**.
-   - No need to save the SampleScene — we only made the prefab, which is saved automatically.
+1.  Exit the **SampleScene** and return to **Level\_01**.
+    
+    -   No need to save the SampleScene — we only made the prefab, which is saved automatically.
+        
+2.  In the **Hierarchy**, inside your **Environment** folder:
+    
+    -   Create a new empty GameObject → name it **ParkWall**
+        
+    -   Set its **position** to `(0,0,0)`
+        
+    -   This will serve as the **parent container** for all wall segments and can later be turned into a prefab.
+        
+3.  Place your **WallX3 prefabs** inside **ParkWall**.
+    
+    -   When duplicating single-wall segments, choose a **corner of the park as Wall-01** and number subsequent walls sequentially.
+        
+4.  Use the **WallX3 prefab** to create the main boundaries of the park.
+    
+    -   For small gaps, use the **single Wall prefab** to fill in.
+        
+5.  Add wall segments to divide the park into at least **two sections**.
+    
+6.  Leave a **3-meter opening** between the sections.
+    
+    -   We will add a gate here in the next tutorial.
+        
 
-2. In the **Level_01** scene, use your **WallX3 prefab** to create a boundary around the park.
-
-3. For small gaps, use the **single Wall prefab** to fill spaces as needed.
-
-4. Add wall segments to divide the park into at least **two sections**.
-
-5. Leave a **3-meter opening** between the sections.
-   - We will add a gate here in the next tutorial.
-  
+> [!TIP]  
+> Using an empty **ParkWall** object as a parent keeps your hierarchy organized and allows you to **convert the entire wall layout into a prefab** if needed. Numbering walls helps track placement and makes future edits easier.
+> 
 
 #
 
@@ -240,5 +258,19 @@ This tutorial will guide you through **creating and editing walls** using ProBui
     -   `feat: created Wall Prefab.`
 5.  Push your changes to the remote branch: `SceneBuilding`.
 
-6.  ---
+---
+
+# ⚒️ Tutorial: Create the Park Gate with ProBuilder
+
+<details>
+<summary><strong><em>Tutorial Details</em></strong></summary>
+
+|📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
+| :---------------: | :---------------: | :---------------: |
+| Scene Building     | 30 minutes       |   GitHub Desktop, Unity     |
+
+</details>
+
+
+
 
