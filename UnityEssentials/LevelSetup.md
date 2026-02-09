@@ -31,7 +31,7 @@
 
 1.  Open **Unity Hub**.
     
-2.  Click **Add Project** → navigate to your local repository folder and then to the inner Unity project folder and select it.
+2.  Click **Add Project** → navigate to your local repository folder and select the Unity project folder inside.
     - In this case the repository folder should be **ParkGame** and the Unity project folder **ParkGame-Unity**
     
 4.  Once added, click the project to open it in **Unity Editor**.
@@ -86,6 +86,7 @@
    - Commit your changes with the message:
      - *feat: Scene Level_01 setup*
 4. **Push** the changes back to the **main** branch.
+
 
 
 
