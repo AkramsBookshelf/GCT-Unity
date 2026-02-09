@@ -79,7 +79,25 @@
 3.  In the **Package Manager**, download and import all assets.
     
 4.  Once imported, move the **Playground Low Poly** asset folder into the **3rdParty** folder.
-    
+
+#
+
+> [!CAUTION 
+> Many asset packages are created for Unity’s **Built-in Render Pipeline**. If your project uses the **Universal Render Pipeline (URP)** or **High Definition Render Pipeline (HDRP)**, materials may not display correctly.
+> 
+> Upgrading the materials converts them to the correct shader type for your project’s render pipeline, so textures, lighting, and effects render properly in your scene.
+>
+>  1.  In the **Project** window, click the **Serch by Type** button
+>      - In the drop-down select **Material**
+>      - _This will display only the materials in the project window**
+>  2.  Select **all materials** (_CTRL + CLICK_) that appear in a **pink magenta** color
+>  3.  Go to **Windows > Rendering > Render Pipeline Converter**.
+>  4.  In the dialog that appears, choose **Material Upgrade**.
+>
+> The materials should be correctly displayed. Before moving on, clear the _Material_ filter in the **Project** window search box.
+>
+
+#
 
 ### Step 7 — Save & Commit
 
@@ -92,9 +110,5 @@
 4.  Commit with the message:
     - `init: Environmental Packages Imported.`
 
-1.  Push your changes to the remote branch: `SceneBuilding`.
+5.  Push your changes to the remote branch: `SceneBuilding`.
     
-
-> \[!TIP\]  
-> Your scene is now ready for building the environment. All external assets are organized under **3rdParty**, and the `Environment` folder in the hierarchy is ready for placing prefabs into the scene.
-> 
