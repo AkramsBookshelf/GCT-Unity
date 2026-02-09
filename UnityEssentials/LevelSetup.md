@@ -5,7 +5,7 @@
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Setp | 10 minutes         |   GitHub Desktop, Unity     |
+| Project Setup | 10 minutes         |   GitHub Desktop, Unity     |
 
 </details>
 
@@ -85,4 +85,5 @@
    - Commit your changes with the message:
      - *feat: Scene Level_01 setup*
 4. **Push** the changes back to the **main** branch.
+
 
