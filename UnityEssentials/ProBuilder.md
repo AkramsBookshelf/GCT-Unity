@@ -346,24 +346,43 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 5.  Select the **front face of the topmost face** (both sides) → **extrude 0.625**.
 
 ![Gate Top front face extrusion](imgs/probuilder/gct-probuilder-15.png)
-    
+
+#    
 
 ## Step 4 — Build Intermediate Rails
+1. From the **side of the gate post**, select the faces of the subdivisions made between posts 
+2. Extrude these faces out **0.125**, repeat **12 times**.
 
-1.  From the **side of the gate post**, select the faces of the subdivisions made between posts → extrude out **0.125**, repeat **12 times**.
+![Extrude the Gate Rails](imgs/probuilder/gct-probuilder-16.png)
     
-2.  Total **Z scale** of the gate should now be **1.5**.
-    
+3. Check to make sure the total **Z scale** of the gate is **1.5**.
+
+#
 
 ## Step 5 — Subdivide and Extrude Panels
 
-1.  Select **alternating top faces** of the bottom row → right-click → **Subdivide Faces**, twice → creates 4x4 faces.
+1. Select **alternating top faces** (_shift-click_) of the bottom row 
+2. Right-click and choose **Subdivide Faces**
+2.  With the faces still selected, select **Subdivide Faces** a second time.
+    - This will create 4x4 faces on each face selected.
+  
+![Subdivided Faces](imgs/probuilder/gct-probuilder-17.png)
     
-2.  Deselect the faces. Select the **inner 4 faces** of each subdivided square → right-click → **Merge Faces**, repeat for each square.
+4. Deselect the faces.
+5. Select the **inner 4 faces** of the first alternating faces. 
+6. Right-click → **Merge Faces**, repeat for each square.
+
+![Merge faces](imgs/probuilder/gct-probuilder-18.png)
     
-3.  Select the **inner square face** of each merged section → extrude **2 units**.
-    
-4.  Rotate the gate to the other side and repeat steps **5.1–5.3** for symmetry.
+7.  Select the **inner square face** of each merged section → extrude **2**.
+
+![Extrude inner rails](imgs/probuilder/gct-probuilder-19.png)
+
+8.  Rotate the gate to the bottom side of the bottom row of the gate
+9.  Repeat steps **5.1–5.6** above for symmetry.
+10. Select the **inner square face** of each merged section → extrude down **0.5**.
+
+![Extrude bottom inner rails](imgs/probuilder/gct-probuilder-20.png)
     
 
 ## Step 6 — Add Top Cap and Details
