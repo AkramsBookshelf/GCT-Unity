@@ -117,6 +117,6 @@ In this tutorial, we will be building out our scene; in so doing, we will be imp
 3.  Switch back to **GitHub Desktop** → stage your changes.
     
 4.  Commit with the message:
-    -`feat: initial scene build with environment elements.`
+    - `feat: initial scene build with environment elements.`
 
 5.  Push your changes to the remote branch: `SceneBuilding`.
