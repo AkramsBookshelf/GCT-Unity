@@ -60,13 +60,13 @@
 
 **Step 5 — Organize the Hierarchy**
 
-1.  Right-click in the **Hierarchy** window and choose **Create Hierarch Folder**
+1.  Right-click in the **Hierarchy** window and choose **Create Hierarchy Folder**
      - Name the folder `Cameras`.
      - Set the folder color to **Silver**.
     
 2.  In the **Hierarchy** window, drag and drop the **Main Camera** Game object in the `Cameras` folder.
 
-3.  Right-click in the **Hierarchy** window and choose **Create Hierarch Folder**
+3.  Right-click in the **Hierarchy** window and choose **Create Hierarchy Folder**
      - Name the folder `Lights`.
      - Set the folder color to **yellow**.
     
@@ -86,6 +86,7 @@
    - Commit your changes with the message:
      - *feat: Scene Level_01 setup*
 4. **Push** the changes back to the **main** branch.
+
 
 
 
