@@ -274,6 +274,134 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 > [!NOTE]
 > Before starting this tutorial, ensure you have completed **[Create the Park Wall with ProBuilder](#%EF%B8%8F-tutorial-create-the-park-wall-with-probuilder)**
  and that your project is synced with the SceneBuilding branch in GitHub Desktop.
+>
+
+
+## Step 1 — Open the Default Sample Scene (Empty Workspace)
+
+1.  In the **Project** window, open:
+    
+    -   `Assets/Scenes/SampleScene`
+        
+2.  Make sure the scene is mostly empty (just a camera and light are fine).
+    
+
+> [!NOTE]  
+> Just as with the last tutorial, we will create our Gate inside the **SampleScene** so we don’t accidentally modify **Level-01**. This keeps your main level clean and lets you focus on building the wall prefab without distractions from the environment.
+> 
+
+#
+
+### Step 3 — Create a Gate Base
+1.  Click and **hold on the CC Icon** in the main toolbar of the scene view.
+2.  In the pop-up dialog, select **Create Cube**.
+3.  Click and drag in the scene view to create a cube. **Do not worry about exact dimensions yet.**
+4. With the cube in **creation mode**, open the **Shape Settings** window in the scene view.
+5.  Set the following settings:
+    -   **Pivot:** Center
+    -   **Size:** X = 0.125, Y = 0.125, Z = 0.125
+
+![Gate Base](imgs/probuilder/gct-probuilder-12.png)
+
+6.  Press **Q** to exit creation mode and return to pan mode.
+7.  With the cube selected in the **Inspector** window
+    - Rename the cube to **Gate**
+    -  Move the cube's **position** to X = 0, Y = 0, Z = 0
+
+> [!NOTE]  
+> This cube will serve as the starting post of the gate. Keep it centered at `(0,0,0)` to avoid pivot issues later.
+> 
+
+#
+
+## Step 2 — Build the Gate Post
+
+1.  Select the **top face** of the cube.
+2.  Right-click → **Extrude Faces**, set **distance = 0.625**, confirm.
+3.  With the top face still selected, **extrude** in sequence:
+    -   **0.75** → confirm
+    -   **0.125** → confirm
+    -   **1** → confirm
+    -  **0.125** → confirm
+    -   **1** → confirm
+    -   **0.03125** → confirm
+    -   **0.03125** → confirm
+      
+![Gate Base Extruded](imgs/probuilder/gct-probuilder-13.png)
+    
+
+> [!TIP]  
+> The total **Y position** of the gate post should now be **3.25**.
+> 
+
+#
+
+## Step 3 — Add Front Details
+1.  Select the **front faces** of the bottom gate post (both sides) → **extrude 0.125**.
+2.  Select the **front faces just above** the previous extrusion → **extrude 0.0625**.
+   
+![Gate Bottom front face extrusion](imgs/probuilder/gct-probuilder-14.png)
+    
+4.  Select the **front faces of the top two sections** (both sides) → **extrude 0.0625**.
+5.  Select the **front face of the topmost face** (both sides) → **extrude 0.625**.
+
+![Gate Top front face extrusion](imgs/probuilder/gct-probuilder-15.png)
+    
+
+## Step 4 — Build Intermediate Rails
+
+1.  From the **side of the gate post**, select the faces of the subdivisions made between posts → extrude out **0.125**, repeat **12 times**.
+    
+2.  Total **Z scale** of the gate should now be **1.5**.
+    
+
+## Step 5 — Subdivide and Extrude Panels
+
+1.  Select **alternating top faces** of the bottom row → right-click → **Subdivide Faces**, twice → creates 4x4 faces.
+    
+2.  Deselect the faces. Select the **inner 4 faces** of each subdivided square → right-click → **Merge Faces**, repeat for each square.
+    
+3.  Select the **inner square face** of each merged section → extrude **2 units**.
+    
+4.  Rotate the gate to the other side and repeat steps **5.1–5.3** for symmetry.
+    
+
+## Step 6 — Add Top Cap and Details
+
+1.  Select the **top face** → extrude 0.5 → confirm.
+    
+2.  Select the **last top face of the bottom row** → extrude 2.125 → confirm.
+    
+3.  Extrude again → 0.03125.
+    
+4.  Select **front and back faces** of the topmost section → extrude 0.03125.
+    
+5.  Select the **top face again** → extrude 0.03125.
+    
+6.  With the top face still selected → use the **Scale tool** → uniformly scale inward to create a **cap**.
+    
+
+## Step 7 — Shape the Gate Posts
+
+1.  On the same post, select the **bottom face** → extrude 0.5 → confirm.
+    
+2.  Extrude another 0.25 → uniformly scale inward to create a **blunt point**.
+    
+3.  **Challenge:** Add **spires** to the tops of the gate rails by extruding upward slightly and scaling inward.
+    
+
+> \[!TIP\]  
+> This step adds visual interest and makes the gate look more detailed. Keep proportions consistent with the rest of the gate.
+
+## Step 8 — Convert to Prefab
+
+1.  Exit **ProBuilder Edit Mode**.
+    
+2.  Drag and drop the **Gate** object from the Hierarchy → into your **Prefabs** folder in the **Project** window.
+    
+
+> \[!NOTE\]  
+> Your gate is now reusable. You can place it in your park wherever needed without rebuilding the geometry.
 
 
 
