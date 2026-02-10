@@ -266,6 +266,15 @@ public void ReplaceStates(IState newState)
 
 ```
 
+### Step 11: Create a GameManager Prefab
+1. Return to the Unity editor and open the **Boot** scene
+2. In the **Hierarchy** window, right-click and **Create Empty**
+3. Name the empty object **GameManager**
+4. Add the **GameManager** script to the object 
+5. Place the object inside the **MANAGERS** Hierarchy folder 
+6. Convert the **GameManager** object to a **prefab** (i.e., drag and drop it into the_Assets/Prefabs_ folder in the **Project** window)
+7. Save the scene.
+
 > #### 💾 Save & Commit
 > - Save your script
 > - Commit your changes with the message:
