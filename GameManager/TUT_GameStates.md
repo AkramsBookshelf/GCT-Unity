@@ -135,7 +135,7 @@ public interface IState
 
 > [!NOTE]
 > Before starting this tutorial:
-> - Make sure you completed **[IState Interface](#%EF%B8%8F-tutorial-istate-interface))** tutorial
+> - Make sure you completed **[IState Interface](#%EF%B8%8F-tutorial-istate-interface)** tutorial
 > - Ensure you are on the **GameManager** branch
 
 ### Step 1: Create the BaseGameState Script
@@ -297,7 +297,7 @@ public abstract class BaseGameState : IState
 
 > [!NOTE]
 > Before starting this tutorial:
-> - Make sure you completed **[Abstract BaseGameState Class](#%EF%B8%8F-abstract-basegamestate-class))** tutorial
+> - Make sure you completed **[Abstract BaseGameState Class]([#%EF%B8%8F-abstract-basegamestate-class)](#%EF%B8%8F-tutorial-abstract-basegamestate-class)** tutorial
 > - Ensure you are on the **GameManager** branch
 
 ### Step 1 — Create Your First State: BootState
