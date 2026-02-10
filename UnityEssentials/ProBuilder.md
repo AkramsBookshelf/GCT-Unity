@@ -387,7 +387,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 ### Step 4 — Build Intermediate Rails
 1. From the **side of the gate post**, select the faces of the subdivisions made between posts 
-2. Extrude these faces out **0.125**, repeat **11 times**.
+2. Extrude these faces out **0.125**, repeat **10 times**. 
 
 ![Extrude the Gate Rails](imgs/probuilder/gct-probuilder-16.png)
     
