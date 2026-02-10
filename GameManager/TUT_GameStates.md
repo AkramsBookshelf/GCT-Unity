@@ -318,6 +318,8 @@ Even in small projects, BootState is useful because it keeps your **startup logi
 3. Update the class to **inherit from `BaseGameState`**.
 4. ***Override** the **`Name`** property to give the state a descriptive name.
 5. **Override** the **IState methods** (`Enter()`, `Execute()`, `Exit()`) to define the state’s behavior.
+6. Add logic to **replace** the **BootState** with **MainMenuState** on **`Excute`**
+    - This logic is just for testing and will be updated later.
 
 ```csharp
 using UnityEngine;
@@ -336,7 +338,8 @@ public class BootState : BaseGameState
 
     public override void Execute()
     {
-        // Boot logic will go here later
+        //Switch to MainMenu State 
+        _gm.ReplaceStates(_gm.MainMenuState);
     }
 
 
