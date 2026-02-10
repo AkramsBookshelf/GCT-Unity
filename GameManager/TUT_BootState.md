@@ -325,7 +325,7 @@ public override void Execute()
     -   Confirm the scene has loaded **at least 90%**.
     -   Verify that **`_elapsedTime`** is greater than or equal to **`MIN_DISPLAY_TIME`**.
 3.  **Transition to the MainMenuState when ready**
-    - If check is true (step 2. above)
+    - If check is true (_see previous step_)
        - Call **`ReplaceStates()`**  on the **GameManager**
           - to exit **BootState**, clean up visuals, and activate the **MainMenuState**.
   
