@@ -265,6 +265,14 @@ public void ReplaceStates(IState newState)
 }//end ReplaceStates
 
 ```
+
+> #### 💾 Save & Commit
+> - Save your script
+> - Commit your changes with the message:
+>    - *feat: GameManager created*
+> - **Push** changes to GitHub
+>
+
 ---
 
 # 🎉 New Achievement: Singleton Base Class Created!
