@@ -1,4 +1,4 @@
-🧭 **Adventure: BootState in Camp Craft**  
+# 🧭 **Adventure: BootState in Camp Craft**  
 By: Akram Taghavi-Burris | © 2026
 
 Now that we have created the **GameManager** and the basic state system, it’s time to configure our **BootState** for Camp Craft. The BootState is the **first state that runs when the game starts**, and it sets the stage for the player’s adventure.
@@ -10,10 +10,28 @@ In Camp Craft, when the game launches, we want the following to happen:
 4.  Once the **minimum display time** has elapsed and the scene is mostly loaded, the **game automatically transitions** to the MainMenuState.
 5.  Any **temporary loading visuals** are cleaned up so the scene is ready for the player to explore and craft.
     
-
 > [!TIP]  
 > This scenario gives us a **practical example** of how a BootState works in a real game. It also ensures the player has **feedback while loading**, keeping the startup experience smooth and professional.
+>
+
+ ## Loading Assets in Non-MonoBehaviour States
+One important thing to remember is that **Game States are not MonoBehaviours**.  
+That means they are **not attached to any GameObject**, and they **cannot reference scene objects directly** through the Inspector.
+
+So in Camp Craft, when our BootState needs to display a **loading visual**, we can’t just drag a prefab into a serialized field like we normally would in Unity.
+
+To solve this and be able to **load a prefab through code**, we our loading prefab  will need to live inside Unity’s special:
+**_Assets/Resources/ folder_**
+
+Unity treats the Resources folder differently from normal folders. Anything inside it can be loaded at runtime using a string path, using the **`Resources.Load`** method.
+
+> [!NOTE]
+> In professional projects, many teams avoid **heavy use of Resources** and prefer systems like **Addressables**.
+> However, for simple game architecture and prototyping, Resources is a simple and effective solution.
 > 
+
+---
+
 
 # ⚒️ Enhancing the BootState
 <details>
@@ -105,6 +123,7 @@ private float _elapsedTime = 0f;
 >
 
 #
+
 ### Step 6: Create SpawnLoadingPrefab()
 We need a method that is responsible for creating the **loading visual** that the player sees during the BootState. In Camp Craft, this will be our rotating cube prefab.
 
@@ -185,11 +204,11 @@ private void SpawnLoadingPrefab()
 
 #
 
-### Step 6:  Implement Enter() Logic
-The **`Enter()`** method runs once when the BootState becomes active.
-Modify the method by: 
+### Step 7:  Implement Enter() Logic
+Modify the **`Enter()`** method by: 
 
-1. Spawn the Loading Prefab
+1. Adding a call to the **`SpawnLoadingPrefab()`** method
+   
 ```csharp
 
 public override void Enter()
@@ -200,9 +219,10 @@ public override void Enter()
         SpawnLoadingPrefab();
         
 ```
-2. Load the MainMenu Scene Additively
-Now we want to begin loading the main menu scene in the background, while BootState continues running:
-
+2. Set the operation for **`_loadingOperation`** by:
+    - Loading the Main Menu scene _asynchronously_ in the background
+    - Setting the scene to load _additively_
+      
 ```csharp
 // Load MainMenu scene additively in the background
 _loadingOperation = SceneManager.LoadSceneAsync(MENU_SCENE_NAME, LoadSceneMode.Additive);
@@ -216,8 +236,10 @@ By default, Unity will switch to the scene as soon as it finishes loading.
 However, we want to control that ourselves:
  
 ```csharp
-// Prevents the scene from switching automatically
-_loadingOperation.allowSceneActivation = false;
+    // Prevents the scene from switching automatically
+    _loadingOperation.allowSceneActivation = false;
+
+} //end Enter()
 
 ```
 4. The final **`Enter()`** method should appear as below: 
@@ -242,17 +264,173 @@ _loadingOperation.allowSceneActivation = false;
 
 # 
 
+### Step 8: Implement `Execute()` Logic
+
+The **`Execute()`** method runs **every frame** while the BootState is active. In this method, we will:
+
+1.  **Track elapsed time**
+    -   Increment the `_elapsedTime` variable using the time since the last frame.
+      
+```csharp
+public override void Execute()
+    {
+        _elapsedTime += Time.deltaTime;
+```
+
+2.  **Check if loading is complete and minimum display time has passed**
+    -   Ensure the **`_loadingOperation`** is not null.
+    -   Confirm the scene has loaded **at least 90%**.
+    -   Verify that **`_elapsedTime`** is greater than or equal to **`MIN_DISPLAY_TIME`**.
+3.  **Transition to the MainMenuState when ready**
+    - If check is true (step 2. above)
+       - Call **`ReplaceStates()`**  on the **GameManager**
+          - to exit **BootState**, clean up visuals, and activate the **MainMenuState**.
+  
+```csharp
+
+        // Checks if the scene is not null, and has loaded more than 90%,
+        // and the elapsed time is greater than the Minimum display time
+        // If true, replace the boot state with the main menu state
+        if (_loadingOperation != null && _loadingOperation.progress >= 0.9f && _elapsedTime >= MIN_DISPLAY_TIME)
+        {
+            // This triggers our Exit(), where we clean up and flip the switch
+            _gm.ReplaceStates(_gm.MainMenuState);
+        }
+
+    }//end Execute()
+```
+
+> [!TIP]  
+> This ensures the player sees a loading visual for a minimum duration while the scene loads in the background. The transition only happens when both conditions are satisfied, preventing abrupt scene switches.
+>
+
+4. The final **`Execute()`** method should appear as below:
+
+```csharp
+    public override void Execute()
+    {
+        _elapsedTime += Time.deltaTime;
+        
+         // Checks if the scene is not null, and has loaded more than 90%,
+         // and the elapsed time is greater than the Minimum display time
+         // If true, replace the boot state with the main menu state
+        if (_loadingOperation != null && _loadingOperation.progress >= 0.9f && _elapsedTime >= MIN_DISPLAY_TIME)
+        {
+            // This triggers our Exit(), where we clean up and flip the switch
+            _gm.ReplaceStates(_gm.MainMenuState);
+        }
+        
+    }//end Execute()
+```
 
 
+#
+
+### Step 9: Implement `Exit()` Logic
+
+The **`Exit()`** method runs **once when the BootState is leaving**. It handles cleaning up and finalizing the transition to the next state. Update **`Exit()`** method: 
+
+1.  **Remove loading visuals**
+    -   Check if the `_prefabInstance` exists.
+    -   Destroy the instance so it no longer appears in the scene.
+        
+```csharp
+public override void Exit()
+    {
+        Debug.Log($"Exiting {Name} State");
+
+        // Remove loading visuals
+        if (_prefabInstance != null) GameObject.Destroy(_prefabInstance);
+
+```
+    
+2.  **Activate the loaded scene**
+    -   Check if `_loadingOperation` exists.
+    -   Set `allowSceneActivation = true` to reveal the MainMenu scene that was loaded additively in the background.
+        
+```csharp
+        // Reveal the additive scene
+        if (_loadingOperation != null) _loadingOperation.allowSceneActivation = true;
+
+    }//end Exit()
+```
+
+3. The final **`Exit()`** method should appear as below:
+```csharp
+    public override void Exit()
+    {
+        Debug.Log($"Exiting {Name} State");
+        
+        // Remove loading visuals
+        if (_prefabInstance != null) GameObject.Destroy(_prefabInstance);
+        
+        // Reveal the additive scene
+        if (_loadingOperation != null) _loadingOperation.allowSceneActivation = true;
+
+    }//end Exit()
+
+```
+
+> #### 💾 Save & Commit
+> - Save all your scripts
+> - Commit your changes with the message:
+>    - *feat: Added Bootstate logic*
+> - **Push** changes to GitHub
+>
+
+# 
+
+### Step 10 — 🎮 Playtest Game States
+
+Now that our **BootState** logic is implemented, it’s time to see our **GameManager** system in action.
+
+1.  **Open the BootScene** in Unity.
+2.  Ensure the **GameManager prefab** is in the scene.
+3.  Press **Play** to run the scene.
+4.  Observe the following:
+    -   The **loading cube** appears, giving feedback that the game is starting.
+    -   The **MainMenu scene loads in the background** while BootState is active.
+    -   After the **minimum display time** and scene load, the BootState **transitions automatically** to MainMenuState.
+    -   The **loading cube is destroyed**, and the MainMenu is now active.
+  
+#
+
+### 🐞 BUG FIX - Troubleshooting Checklist 
+Experiencing issues? Try the following:
+
+- **Loading cube does not appear**  
+    - Check that **`LOADING_PREFAB_PATH`** points to the correct prefab.  
+    - Make sure the prefab exists in **Assets/Resources/Prefabs/**.
+
+- **MainMenu scene does not load**  
+    - Ensure the scene is included in **Build Settings → Scenes In Build**.  
+    - Verify that **`MENU_SCENE_NAME`** matches the **exact spelling** of the scene name.
+
+- **Scene activates too early**  
+    - Confirm that **`_loadingOperation.allowSceneActivation = false`** in **`Enter()`**.
+
+- Use the **Console** to check for warnings or errors during the transition.
 
 
+---
 
+# 🎉 New Achievement: BootState Launched
 
+You’ve successfully set up the **BootState** for Camp Craft. This state now handles a simple loading sequence with a visual indicator and prepares the **MainMenu scene** in the background. With this, your game has a **working entry point** and demonstrates how game states manage transitions and initialization logic.
 
+When ready, you can **expand BootState** with more complex startup tasks, or use it as a template for creating other game states, like **PlayingState** or **PausedState**.
 
-
-
-
+## 🛡️ Checkpoint
+Key takeaways from this lesson:
+-   The **BootState** handles the **first actions when the game starts**, giving the player feedback while the game loads.
+-   **`Enter()`** sets up the state: it **spawns loading visuals** and **begins loading the MainMenu scene asynchronously**.
+-   **Loading visuals** can be dynamically spawned from the **Resources folder** to provide immediate feedback.
+-   **Asynchronous scene loading** with **LoadSceneMode.Additive** allows BootState to run while preparing the MainMenu scene.
+-   **`_loadingOperation.allowSceneActivation = false`** gives you control over exactly when the next state becomes active.
+-   **`Execute()`** monitors progress and elapsed time, triggering the transition automatically when conditions are met.
+-   **`Exit()`** cleans up temporary objects and completes the scene activation, keeping your game clean and organized.
+-   **Game states are not MonoBehaviours**; the **GameManager** creates, updates, and switches states.
+-   Following this structure ensures your states are **modular, testable, and easy to extend** for future gameplay features.
 
 
 
