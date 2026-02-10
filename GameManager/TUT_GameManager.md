@@ -265,6 +265,7 @@ public void ReplaceStates(IState newState)
 }//end ReplaceStates
 
 ```
+#
 
 ### Step 11: Create a GameManager Prefab
 1. Return to the Unity editor and open the **Boot** scene
