@@ -31,21 +31,28 @@ This approach keeps code **organized, reusable, and scalable**, allowing easy ad
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Managment | 5 minutes         |   Unity, IDE  |
+| Game Architecture | 5 minutes         |   Unity, IDE  |
 
 </details>
 
+
 > [!NOTE]
-> Before starting this tutorial, you may want to review the **[Interface Lesson](../DesignPatterns/Interface.md)**
-> 
+> Before starting this tutorial:
+> - Review the **[Interface Lesson](../DesignPatterns/Interface.md)**
+> - Make sure you completed **[GameManager](TUT_GameManager.md)** tutorial
+> - Ensure you are on the **GameManager** branch
+
+> [!NOTE]
+> Before starting this tutorial, you may want to 
+>
 
 ### Step 1: Create the IState Interface
-After opening your Unity project, go to the **Project** window and create a new script using your **custom script templates**:
-
-1.   Right-click in your Scripts folder and choose your custom script
-    -    (e.g., **Create → CSG Templates → MonoBehaviour → MonoBehaviour Basic Script**)
-2.   Name the script: **IState**
-3.  Double-click on the **IState** class in the Unity **Project** window to Open in your IDE.
+1. Open your project in the Unity Editor
+2. In the **Project** window, right-click on the **Scripts** folder
+3. Create a new sub-folder named **Interfaces**
+4. Create a **new script** file using your **script template**
+    - Name it: **IState**
+5. Open it in your IDE
 
 > [!WARNING]
 > While we are starting with a **Monobehavior** script template, our IState is an interface, a special class type that does not inherit from any classes.
@@ -60,15 +67,8 @@ public interface IState
 ```
 
 ### Step 3: Define the Interface requirements
-1. Remove all template methods in the class
-2. Add a public **Name** property
-```csharp 
-    // read-only property
-    string Name { get; }
-
-```
-   
-4. Add the following methods to ensure that **every state follows a consistent lifecycle** : 
+1. Remove all template methods in the class  
+2. Add the following methods to ensure that **every state follows a consistent lifecycle** : 
     -   **Enter()** = setup
     -   **Execute()** = run
     -   **Exit()** = cleanup
@@ -97,6 +97,27 @@ public interface IState
 > - No need to _push_ changes just yet
 >
 
+# 🎉 New Achievement: IState Interface
+We now have a **versatile interface** for managing states in our game. Though the **IState interface** is not limited to game states,  it’s a **flexible contract** for any system that needs the E**nter → Execute → Exit** behavior. For example, it could be used for **AI behaviors**, **animations**, or **temporary systems**.
+
+```csharp
+
+public interface IState
+{
+
+    // called when the state becomes active
+    void Enter();       
+    
+    // called when the state is popped or replaced
+    void Exit();     
+    
+    // called every frame (or periodically)
+    void Execute();       
+    
+}//end IState
+
+```
+
 
 #
 ---
@@ -112,6 +133,109 @@ public interface IState
 
 </details>
 
+> [!NOTE]
+> Before starting this tutorial:
+> - Make sure you completed **[IState Interface](#%EF%B8%8F-tutorial-istate-interface))** tutorial
+> - Ensure you are on the **GameManager** branch
+
+### Step 1: Create the BaseGameState Script
+
+1.  In your **Project** window, navigate to the **GameManager** folder (or create a new **States** folder if you prefer organization).
+2.  Create a **new C# script** using your template.
+    -   Name it: **BaseGameState**
+3.  Open it in your IDE.
+
+#
+### Step 2: Implement the IState Interface
+1. Modify the class declaration to be an **abstract** class
+2. The class must implement **IState**
+
+```csharp
+public abstract class BaseGameState : IState
+{
+
+} //end BaseGameState
+
+```
+> [!IMPORTANT]  
+> **Why isn’t this a MonoBehaviour?**  
+> `MonoBehaviour` scripts are designed to live on GameObjects and run automatically using Unity’s lifecycle (`Start()`, `Update()`, etc.).
+> 
+> Game states are **not attached to GameObjects**. They are created and executed by the **GameManager**, so they only need to implement **IState**.
+> 
+
+> [!NOTE]  
+> **Abstract classes cannot be instantiated directly**. They exist to provide a **common base** for other classes to inherit from. Using an abstract class allows us to **define default behavior** for our game states, while still requiring derived states to implement or override the logic they need.
+
+#
+
+### Step 3: Add GameManager Reference
+Each state often needs access to the **GameManager** to push or pop other states.
+
+1.  Add a **protected** **`_gm`** field
+
+```csharp
+// Reference to Game Manager
+protected GameManager _gm;
+
+```
+
+> \[!NOTE\]  
+> Making `_gm` **protected** allows child states to use the GameManager directly, but keeps it **hidden from other classes**.
+
+2. Initialize the **`_gm`** field in the constructor:
+
+```csharp
+protected BaseGameState()
+{
+    _gm = GameManager.Instance;
+}
+
+```
+
+>[!NOTE]
+> A **constructor** is a special method that runs **when a class instance is created**. In our **`BaseGameState`**, the constructor is used to **get a reference to the GameManager** immediately upon creation. Since this class is not a MonoBehaviour, Unity lifecycle methods like **`Awake()`** and **`Start()`** don’t apply here.
+
+#
+
+### Step 4: Add a Name Property
+
+Adding a **Name property** helps for **debugging** or **logging state transitions**:
+
+```csharp
+
+public virtual string Name { get; protected set; } = "Base Game State";
+
+```
+
+> [!TIP]  
+> Derived states can **override** this **virtual** property to return a descriptive name, like `"MainMenu"` or `"Playing"`.
+>
+
+#
+
+### Step 5: Implement IState Methods
+The **IState interface** requires three methods:
+-   **Enter()** – called when the state becomes active
+-   **Execute()** – called every frame while the state is active
+-   **Exit()** – called when the state is removed
+    
+1.  Add default (empty) implementations:
+
+```csharp
+public virtual void Enter() {}
+
+public virtual void Execute() {}
+
+public virtual void Exit() {}
+
+```
+
+> [!NOTE]  
+> Leaving these methods virtual allows **child states to override only what they need**, keeping code clean and maintainable.
+>
+
+# 
 
 
 
@@ -173,11 +297,7 @@ public class BootState : IState
 }
 
 ```
-> [!IMPORTANT]
-> #### Why isn’t this a MonoBehaviour?
-> `MonoBehaviour` scripts are designed to live on GameObjects and run automatically using Unity’s lifecycle (`Start()`, `Update()`, etc.).
->
-> Game states are not attached to GameObjects. They are created and executed by the **GameManager**, so they only need to implement `IState`.
+
 
 #
 
