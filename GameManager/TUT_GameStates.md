@@ -129,7 +129,7 @@ public interface IState
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Managment | 5 minutes         |   Unity, IDE  |
+| State Management | 5 minutes         |   Unity, IDE  |
 
 </details>
 
@@ -180,8 +180,9 @@ protected GameManager _gm;
 
 ```
 
-> \[!NOTE\]  
+> [!NOTE]  
 > Making `_gm` **protected** allows child states to use the GameManager directly, but keeps it **hidden from other classes**.
+> 
 
 2. Initialize the **`_gm`** field in the constructor:
 
@@ -195,22 +196,24 @@ protected BaseGameState()
 
 >[!NOTE]
 > A **constructor** is a special method that runs **when a class instance is created**. In our **`BaseGameState`**, the constructor is used to **get a reference to the GameManager** immediately upon creation. Since this class is not a MonoBehaviour, Unity lifecycle methods like **`Awake()`** and **`Start()`** don’t apply here.
+>
 
 #
 
 ### Step 4: Add a Name Property
+We need a way to check which state is active, and we can do this using a **Name** property. This allows the state’s name to be used for **debugging, logging, or display**. While other classes might need to **read the name**, only the state itself (or its children) should be able to **set it**.
 
-Adding a **Name property** helps for **debugging** or **logging state transitions**:
+1. **Add the Name property** to track or identify the state.
+2. Make the property **public** so other classes can **read** the state’s name. 
+3. Make the property **virtual** so derived states can **override or customize** the name.
+4. Use a **protected set** so only the state itself (or its children) can **modify** the name, making it effectively **read-only** for other classes.
 
 ```csharp
 
+// Default name, public read-only for other classes, writable by derived states
 public virtual string Name { get; protected set; } = "Base Game State";
 
 ```
-
-> [!TIP]  
-> Derived states can **override** this **virtual** property to return a descriptive name, like `"MainMenu"` or `"Playing"`.
->
 
 #
 
@@ -235,8 +238,48 @@ public virtual void Exit() {}
 > Leaving these methods virtual allows **child states to override only what they need**, keeping code clean and maintainable.
 >
 
-# 
+> #### 💾 Save & Commit
+> - Save your script
+> - Commit your changes with the message:
+>    - *feat: IState Interface*
+> - No need to _push_ changes just yet
+>
 
+---
+# 🎉 New Achievement: BaseGameState Class
+
+We now have a **foundation class** for creating concrete game states. The **BaseGameState** provides:
+
+-   A **reference to the GameManager** for controlling state transitions
+-   A **Name property** that is **readable by all** but **writable only by the state itself or its children**
+-   Default implementations of **Enter()**, **Execute()**, and **Exit()**
+
+This makes it easy to create new states like **MainMenu**, **Playing**, or **Paused** without rewriting common logic.
+
+```csharp
+public abstract class BaseGameState : IState
+{
+    // Reference to Game Manager
+    protected GameManager _gm;
+
+    protected BaseGameState()
+    {
+        _gm = GameManager.Instance;
+    }
+
+    // Name of the state (readable publicly, writable by derived states)
+    public virtual string Name { get; protected set; } = "Base Game State";
+
+    // Called when the state starts
+    public virtual void Enter() {}
+
+    // Called every frame
+    public virtual void Execute() {}
+
+    // Called when the state ends
+    public virtual void Exit() {}
+} //end BaseGameState
+```
 
 
 ---
@@ -248,62 +291,74 @@ public virtual void Exit() {}
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Managment | 5 minutes         |   Unity, IDE  |
+| State Management | 5 minutes         |   Unity, IDE  |
 
 </details>
 
-### Step 2 — Create Your First State: BootState
+> [!NOTE]
+> Before starting this tutorial:
+> - Make sure you completed **[Abstract BaseGameState Class](#%EF%B8%8F-abstract-basegamestate-class))** tutorial
+> - Ensure you are on the **GameManager** branch
+
+### Step 1 — Create Your First State: BootState
 
 The **BootState** is the _initial_ state of the game.
 
 Think of it as the game’s **single point of entry** — the first thing that runs when your game starts.
 
-In a real game, the BootState is often responsible for tasks like:
+Typical tasks handled in BootState:
 -   Loading the Main Menu scene
--   Loading save data
--   Loading global settings
+-   Loading save data or global settings
 -   Loading assets/resources
 -   Showing a loading screen
 -   Initializing core systems
-    
-Even in small projects, BootState is useful because it keeps your startup logic **separate** from your menu logic.
 
-1. Return to the Unity Editor; right-click in your Scripts folder and choose your custom script
-2. Name the script: **BootState**
-3. Double-click on the **BootState** class in the Unity **Project** window
-4. In your IDE, replace the start code with the following
+Even in small projects, BootState is useful because it keeps your **startup logic separate** from your menu logic.
+
+1.  In the **States** folder (_i.e., GameManager/States_) create a **new C# script** using your template.
+    -   Name it: **BootState**
+2.  Open it in your IDE.
+3. Update the class to **inherit from `BaseGameState`**.
+4. ***Override** the **`Name`** property to give the state a descriptive name.
+5. **Override** the **IState methods** (`Enter()`, `Execute()`, `Exit()`) to define the state’s behavior.
 
 ```csharp
 using UnityEngine;
 
-public class BootState : IState
+public class BootState : BaseGameState
 {
-    public string Name => "Boot";
+    
+    public override string Name { get; protected set; } = "Boot";
 
-    public void Enter()
+
+    public override void Enter()
     {
         Debug.Log($"Entering {Name} State");
     }
 
-    public void Execute()
+
+    public override void Execute()
     {
         // Boot logic will go here later
     }
 
-    public void Exit()
+
+    public override void Exit()
     {
         Debug.Log($"Exiting {Name} State");
     }
-}
+
+} //end BootState
+
 
 ```
-
+> [!TIP]
+> By inheriting from **BaseGameState**, BootState automatically **implements `IState`** and gets default **`Enter()`**, **`Execute()`**, and **`Exit()`** methods. You can override them as needed without having to re-implement the interface from scratch. Each state also automatically gets access to **`_gm`** (GameManager) and the default **`Name`** property.
 
 #
 
 ### Step 3 — Create the MainMenu State
-1. Repeat **Step 2** above to create a **MainMenuState**
-2. The resulting code should match the following: 
+1. Repeat **Step 1** above to create a **MainMenuState** class
 
 ```csharp
 using UnityEngine;
