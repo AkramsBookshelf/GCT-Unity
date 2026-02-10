@@ -396,11 +396,12 @@ When ready, you can **add new states** or **fill in the behavior** for each stat
 
 Key takeaways from this lesson:
 
--   **IState interface** defines a standard lifecycle (`Enter()`, `Execute()`, `Exit()`) for all game states.
--   **BootState** is the initial point of entry for the game and sets up startup logic.
--   **MainMenuState** is a skeleton for the game’s main menu; future logic will be added to handle menu interactions.
--   **States are not MonoBehaviours**; they are controlled and executed by the GameManager (coming in the next lesson).
--   **Creating new states** follows the same pattern: implement `IState` and define the three lifecycle methods.
+-   **IState interface** defines a standard lifecycle (`Enter()`, `Execute()`, `Exit()`) for all types of states.
+-   **BaseGameState** provides default implementations of **IState**, plus _quick_ access to the **GameManager**.
+-   **BootState** is the game’s entry point; future logic will handle initialization tasks.
+-   **MainMenuState** is a skeleton for the game menu; logic can be added later.
+-   **States are not MonoBehaviours** — they are controlled by the GameManager.
+-   Creating new states now involves **inheriting from BaseGameState** and will automatically implement the **IState** lifecycle.
 -   This structure keeps your code **modular, organized, and easy to expand** as your game grows.
 
 
