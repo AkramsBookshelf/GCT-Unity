@@ -1,7 +1,7 @@
 # 🎮 GameManager Class
 > By: Akram Taghavi-Burris | © 2026
 
-Now that we have a reusable **[Singleton Base Class](../DesignPatterns/SingletonBaseClass.md)**, we can begin work on the **GameManager**.
+Now that we have a reusable **[Singleton Base Class](TUT_SingletonBase.md)**, we can begin work on the **GameManager**.
 
 The GameManager is the **central hub of the game** — it controls the overall **flow and rules of the game**. In our system, it will manage the **game states** and determine what happens at each moment. Essentially, it decides:
 -   **Which state is currently active**
@@ -35,7 +35,7 @@ For now, we are focused on building the **foundation of the system**:
 
 > [!NOTE]
 > Before starting this tutorial:
-> - make sure you completed **[Singleton Base Class](../DesignPatterns/SingletonBaseClass.md)**  
+> - Make sure you completed **[Singleton Base Class](TUT_SingletonBase.md)** tutorial  
 > - Ensure you are on the **GameManager** branch
 
 ---
