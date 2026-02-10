@@ -137,7 +137,7 @@ private const float MIN_DISPLAY_TIME = 2.0f;
 // Name of the MainMenu scene to load
 private const string MENU_SCENE_NAME = "MainMenu";
 ```
-> [!IMPORTANT\]  
+> [!IMPORTANT]  
 > Because our **game states are not MonoBehaviours**, we **cannot use serialized fields** to set the scene name in the Inspector.  
 > This means the BootState must **explicitly know the name of the scene it will load**, which is why we define **`MENU_SCENE_NAME`** as a **constant**.  
 > Once established, this value **should not be changed**, and it should be **documented** in your game design documents.
@@ -460,6 +460,108 @@ Experiencing issues? Try the following:
 # 🎉 New Achievement: BootState Launched
 
 You’ve successfully set up the **BootState** for Camp Craft. This state now handles a simple loading sequence with a visual indicator and prepares the **MainMenu scene** in the background. With this, your game has a **working entry point** and demonstrates how game states manage transitions and initialization logic.
+
+```csharp
+using UnityEngine;
+using UnityEngine.SceneManagement; // Required for SceneManager
+
+public class BootState : BaseGameState
+{
+    public override string Name => "Boot";
+        
+    // Reference to the loading prefab GAME OBJECT
+    private GameObject _loadingPrefab;
+    
+    //Reference to the loading prefab INSTANCE in the scene
+    private GameObject _prefabInstance;
+    
+    private const string LOADING_PREFAB_PATH = "Prefabs/LoadingCube";
+    private const float MIN_DISPLAY_TIME = 2.0f;
+    
+    // Main Menu scene to load
+    private const string MENU_SCENE_NAME = "MainMenu";
+    
+    // Reference to the scene loading operation
+    private AsyncOperation _loadingOperation;
+    
+    // Time that has elapsed since the Boot State started
+    private float _elapsedTime = 0f; 
+    
+
+    public override void Enter()
+    {
+        Debug.Log($"Entering {Name} State");
+        
+        // Setup loading prefab
+        SpawnLoadingPrefab();
+        
+        
+        // Load MainMenu scene additively in the background
+        _loadingOperation = SceneManager.LoadSceneAsync(MENU_SCENE_NAME, LoadSceneMode.Additive);
+        
+        // Prevents the scene from switching automatically
+        _loadingOperation.allowSceneActivation = false;
+
+    } //end Enter()
+
+    public override void Execute()
+    {
+        _elapsedTime += Time.deltaTime;
+
+        // Spin cube...
+        
+         // Checks if the scene is not null, and has loaded more than 90%, 
+         // and the elapsed time is greater than the Minimum display time
+         // If true, replace the boot state with the main menu state
+        if (_loadingOperation != null && _loadingOperation.progress >= 0.9f && _elapsedTime >= MIN_DISPLAY_TIME)
+        {
+            // This triggers our Exit(), where we clean up and flip the switch
+            _gm.ReplaceStates(_gm.MainMenuState);
+        }
+        
+    }//end Execute()
+    
+
+    public override void Exit()
+    {
+        Debug.Log($"Exiting {Name} State");
+        
+        // Remove loading visuals
+        if (_prefabInstance != null) GameObject.Destroy(_prefabInstance);
+        
+        // Reveal the additive scene
+        if (_loadingOperation != null) _loadingOperation.allowSceneActivation = true;
+
+    }//end Exit()
+
+
+    private void SpawnLoadingPrefab()
+    {
+        // Locate the loading prefab GAME OBJECT
+        _loadingPrefab = Resources.Load<GameObject>(LOADING_PREFAB_PATH);
+    
+        // If prefab GAME OBJECT located
+        if (_loadingPrefab != null)
+        {
+            // Instantiate an INSTANCE of the prefab into the scene
+            _prefabInstance = GameObject.Instantiate(_loadingPrefab);
+        }
+        else
+        {
+            Debug.LogWarning("LoadingCube prefab missing. Spawning a placeholder cube instead.");
+            
+            // Create an INSTANCE of a primitive cube so the player isn't staring at a blank screen
+            _prefabInstance = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            _prefabInstance.transform.position = Vector3.zero;
+            
+        }//end if(prefab != null)
+        
+    }//end SpawnLoadingPrefab()
+ 
+ 
+}//end BootState
+
+```
 
 When ready, you can **expand BootState** with more complex startup tasks, or use it as a template for creating other game states, like **PlayingState** or **PausedState**.
 
