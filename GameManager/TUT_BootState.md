@@ -260,13 +260,3 @@ _loadingOperation.allowSceneActivation = false;
 
 
 
-### Step 3 — Fallback Visuals
-It's not uncommon for art assets to not be fully completed or implemented in a project at the same time that the developer may need to test certain aspects of the game. If the loading prefab from the previous step hadn't been created or not placed in the Resources folder we will run into issues, that are techincally not realted to our actual game manager behaviors in general. 
-
-To avoid these unfor seen events we can create some simple visuals via code. 
-
-
-`_prefabInstance = GameObject.CreatePrimitive(PrimitiveType.Cube); _prefabInstance.transform.position = Vector3.zero;`
-
-> \[!TIP\]  
-> This ensures the player isn’t staring at a blank screen while the game loads, even if the prefab is missing. Always **plan for fallback visuals** during early state testing.
