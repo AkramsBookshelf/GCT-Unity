@@ -29,7 +29,7 @@ For now, we are focused on building the **foundation of the system**:
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Game Architecture | 30 minutes        | Unity, IDE |
+| Game Development | 30 minutes        | Unity, IDE |
 
 </details>
 
