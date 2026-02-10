@@ -33,9 +33,10 @@ This gives us a solution that is:
 > 
 
 ### Step 1: Create a Singleton Base Script
-1. With your project open in the Unity Editor, right-click in your **Scripts** folder 
-2. Create a new sub-folder named **Core**, inside this folder...
-3. Create a **new script** file using your **script template**
+1. Open your project in the Unity Editor
+2. In the **Project** window, right-click on the **Scripts** folder
+3. Create a new sub-folder named **Core**
+4. Create a **new script** file using your **script template**
     - Name it: **Singleton**
 5. Open it in your IDE
 
