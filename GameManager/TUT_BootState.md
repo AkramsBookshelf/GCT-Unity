@@ -98,7 +98,10 @@ using UnityEngine.SceneManagement;  // Required for SceneManager
 ```
 #
 
-### Step 5: Add Prefab and Scene References
+### Step 5: Declare Fields and Define Constants
+
+1. Declare the fields for referencing the loading prefab
+
 ```csharp
 // Reference to the loading prefab GAME OBJECT
 private GameObject _loadingPrefab;
@@ -106,18 +109,56 @@ private GameObject _loadingPrefab;
 // Reference to the instantiated prefab in the scene
 private GameObject _prefabInstance;
 
+```
+
+2. Set the path to the prefab
+```csharp
+
 // Path to the prefab in the Resources folder
 private const string LOADING_PREFAB_PATH = "Prefabs/LoadingCube";
+```
+>[!Note]
+>The **Resources folder** allows us to load assets dynamically at runtime using `Resources.Load<GameObject>()`.  
+> Our loading prefab lives here so the BootState can instantiate it **without being attached to a GameObject in the scene**.  
+> The **`LOADING_PREFAB_PATH`** must match the **exact subfolder and file name** of the prefab inside the **Resources folder**.  
+> For example, if the prefab is located at **_Assets/Resources/Prefabs/LoadingCube.prefab_**, the path is **_Prefabs/LoadingCube_**.
+>
 
+3. Set the minimum time for the loading prefab/animation to display
+
+```csharp
 // Minimum time the loading screen should display
 private const float MIN_DISPLAY_TIME = 2.0f;
+```
 
+4. Set the name of the **main menu scene**
+   
+```csharp
 // Name of the MainMenu scene to load
 private const string MENU_SCENE_NAME = "MainMenu";
+```
+> [!IMPORTANT\]  
+> Because our **game states are not MonoBehaviours**, we **cannot use serialized fields** to set the scene name in the Inspector.  
+> This means the BootState must **explicitly know the name of the scene it will load**, which is why we define **`MENU_SCENE_NAME`** as a **constant**.  
+> Once established, this value **should not be changed**, and it should be **documented** in your game design documents.
+> 
 
+5. Create a field to keep track of the scene progress.
+   
+```csharp
 // Reference to the scene loading operation
 private AsyncOperation _loadingOperation;
+```
+>[!NOTE]
+> The `_loadingOperation` field **does not hold the scene itself**, but instead **tracks the progress of the scene loading process**. When you load a scene asynchronously with `SceneManager.LoadSceneAsync()`, Unity returns an **`AsyncOperation` object**. This object allows you to:
+> -   **Check how far the scene has loaded** via the `progress` property (0 to 0.9 before activation).
+> -   **Control when the scene becomes active** using `allowSceneActivation`.
+> -   Optionally, listen for completion using `completed` callbacks.
+>   
 
+6. Create a field to keep track of the time passed while in BootState
+   
+```csharp
 // Time elapsed since entering the BootState
 private float _elapsedTime = 0f;
 ```
@@ -203,8 +244,6 @@ private void SpawnLoadingPrefab()
 } //end SpawnLoadingPrefab()
 
 ```
-
-
 
 #
 
