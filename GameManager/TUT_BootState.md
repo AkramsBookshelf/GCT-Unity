@@ -108,8 +108,78 @@ private float _elapsedTime = 0f;
 ### Step 6: Create SpawnLoadingPrefab()
 We need a method that is responsible for creating the **loading visual** that the player sees during the BootState. In Camp Craft, this will be our rotating cube prefab.
 
+1. Create a method named **`SpawnLoadingPrefab()`**
+```csharp
+private void SpawnLoadingPrefab()
+{
+    
+} //end SpwanLoadingPrefab()
+
+```
+
+2. Load the Prefab From the Resources Folder
+
+```csharp
+// Locate the loading prefab GAME OBJECT
+_loadingPrefab = Resources.Load<GameObject>(LOADING_PREFAB_PATH);
+
+```
+
+3. Check If the Prefab Was Found
+   - If it is not null, then instate the prefab
+```csharp
+
+/// If prefab GAME OBJECT located 
+if (_loadingPrefab != null)
+{
+    // Instantiate an INSTANCE of the prefab into the scene
+    _prefabInstance = GameObject.Instantiate(_loadingPrefab);
+
+}
+
+```
+
+4. Create a placeholder if the prefab can not be found
+```csharp
+else
+        {
+            Debug.LogWarning("LoadingCube prefab missing. Spawning a placeholder cube instead.");
+            
+            // Create an INSTANCE of a primitive cube so the player isn't staring at a blank screen
+            _prefabInstance = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            _prefabInstance.transform.position = Vector3.zero;
+            
+        }//end if(prefab != null)
 
 
+```
+
+5. The final **SpawnLoadingPrefab()** should appear as below:
+
+```csharp
+private void SpawnLoadingPrefab()
+{
+    // Locate the loading prefab GAME OBJECT
+    _loadingPrefab = Resources.Load<GameObject>(LOADING_PREFAB_PATH);
+
+    // If prefab GAME OBJECT located
+    if (_loadingPrefab != null)
+    {
+        // Instantiate an INSTANCE of the prefab into the scene
+        _prefabInstance = GameObject.Instantiate(_loadingPrefab);
+    }
+    else
+    {
+        Debug.LogWarning("LoadingCube prefab missing. Spawning a placeholder cube instead.");
+
+        // Create an INSTANCE of a primitive cube so the player isn't staring at a blank screen
+        _prefabInstance = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        _prefabInstance.transform.position = Vector3.zero;
+    } //end if(prefab != null)
+
+} //end SpawnLoadingPrefab()
+
+```
 
 
 
