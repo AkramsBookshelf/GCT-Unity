@@ -309,7 +309,9 @@ However, we want to control that ourselves:
 
 ### Step 8: Implement `Execute()` Logic
 
-The **`Execute()`** method runs **every frame** while the BootState is active. In this method, we will:
+The **`Execute()`** method runs **every frame** while the BootState is active. 
+
+1. Remove any previous debugging/test logic in the **` Execute()`** method.
 
 1.  **Track elapsed time**
     -   Increment the `_elapsedTime` variable using the time since the last frame.
