@@ -54,7 +54,7 @@ MainMenuState = new MainMenuState();
 
 #
 
-### Step 3 — Start With the BootState
+### Step 3:  Start With the BootState
 
 Now that the states are initialized, we want the game to **begin in a known state**, usually the **BootState**.
 
@@ -74,7 +74,7 @@ Now that the states are initialized, we want the game to **begin in a known stat
 
 #
 
-### Step 4 — Validate the Active State
+### Step 4:  Validate the Active State
 
 To help debug which state is active, we can **track the top of the state stack in the Inspector**. Since this is for **editor-only debugging**, wrap it in `#if UNITY_EDITOR`.
 
@@ -123,6 +123,41 @@ public void PushState(IState newState)
 > - **Push** changes to GitHub
 >
 
+#
+
+### Step 5:  🎮 Playtest Game States
+Now that the **GameManager** and basic states are implemented, let’s make sure everything is **connected and running correctly**.
+1.  **Open the BootScene** in Unity.
+2.  Make sure the **GameManager prefab** is in the scene.
+3.  Press **Play** to run the scene.
+4.  Observe the following:
+    -   The **BootState is active first**, confirmed by the console showing the `Enter()` debug log.
+    -   The **GameManager inspector** displays the **Active Top State** as **BootState**.
+    -   Next the **BootState exits** (`Exit()` debug log), and the **MainMenuState enters** (`Enter()` debug log).
+    -   The **MainMenuState** is now the **Active Top State** in the inspector.      
+    -   No errors or warnings appear in the **Console** during the state transitions.
+        
+> [!TIP]  
+> The console logs and inspector validation give immediate feedback that your state system is working correctly, even though no visual changes are present yet.
+> 
+# 
+
+### 🐞 BUG FIX - Troubleshooting Checklist
+Something not working as expected? Check the following:
+-   **Console logs don’t show state transitions**
+    -   Verify the **BootState** and **MainMenuState** classes inherit from **BaseGameState**.
+    -   Ensure the **GameManager prefab** is present in the scene.
+    -   Check that the **PushState()** or **ReplaceStates()** methods are being called.
+        
+-   **CurrentState is null**
+    -   Make sure the **state stack** in GameManager is initialized (**`new Stack<IState>()`**).
+    -   Ensure that **BootState** state is **pushed** to the stack in **Start()**.
+        
+-   **States do not execute**
+    -   Confirm that **Update()** in GameManager calls **`CurrentState?.Execute()`**.
+    -   Check that your classes properly **override the Execute() method**.
+      
+-   Use the **Console** to inspect debug messages and errors for clues.
 ---
 
 
