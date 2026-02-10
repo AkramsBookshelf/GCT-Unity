@@ -80,9 +80,13 @@ To visualize the BootState, we’ll use a **simple rotating cube** as our _loadi
 
 ### Step 3: Modifying the BootState
 
-Now that our **BootScene** is set up with the **GameManager** and the **loading prefab**, we can modify the **BootState** class itself. Currently, the state is just scfolding, but now we can define the tasks for the bootstate, including spawning the loading visual, loading the MainMenu scene in the background, and controlling when the game transitions to the next state.
+Now that our **BootScene** is set up with the **GameManager** and the **loading prefab**, we can modify the **BootState** class itself. 
+
+Currently, the state is just scfolding, but now we can define the tasks for the bootstate, including spawning the loading visual, loading the MainMenu scene in the background, and controlling when the game transitions to the next state.
 
 1. Open **BootState.cs** in your IDE.
+
+#
 
 ### Step 4: Using SceneManagement
 Since the **BootState** will load the **Main Menu** scene before switching states, we need to include the namespace to **`UnityEngine.SceneManagement`** to use the Unity **SceneManager** methods. 
