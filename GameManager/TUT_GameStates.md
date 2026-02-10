@@ -42,9 +42,6 @@ This approach keeps code **organized, reusable, and scalable**, allowing easy ad
 > - Make sure you completed **[GameManager](TUT_GameManager.md)** tutorial
 > - Ensure you are on the **GameManager** branch
 
-> [!NOTE]
-> Before starting this tutorial, you may want to 
->
 
 ### Step 1: Create the IState Interface
 1. Open your project in the Unity Editor
