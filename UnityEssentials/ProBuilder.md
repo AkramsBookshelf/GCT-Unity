@@ -353,7 +353,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 ### Step 2 — Build the Gate Post
 
 1.  Select the **top face** of the cube.
-2.  Right-click → **Extrude Faces**, set **distance = 0.625**, confirm.
+2.  Right-click → **Extrude Faces**, set **distance = 0.0625**, confirm.
 3.  With the top face still selected, **extrude** in sequence:
     -   **0.75** → confirm
     -   **0.125** → confirm
