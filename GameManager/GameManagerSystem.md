@@ -23,6 +23,6 @@ This chapter progresses through the development of a **modular and flexible Game
 -   **[Creating a Singleton Base Class](TUT_SingletonBase.md)** – Provide global access while maintaining safety and modularity.
 -   **[Creating the GameManager](TUT_GameManager.md)** – Establish the core system to coordinate states and transitions.
 -   **[Defining Game States](TUT_GameStates.md)** – Establish a clear lifecycle contract using an interface and provide shared functionality through a base class
--   **Initalizing States** – Update the GameManager to create each game state.
+-   **[Initalizing States](TUT_InitializeGameStates.md)** – Update the GameManager to create each game state.
 -   **[Enhancing the Boot State](TUT_BootState.md)** – Configure the Boot state for a specific initialization scenario.
 -   **Game Design Challenge: Implement Additional States** – Extend the system to demonstrate flexibility and reinforce understanding of the architecture.
