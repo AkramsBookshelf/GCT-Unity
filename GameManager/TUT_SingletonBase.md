@@ -24,7 +24,7 @@ This gives us a solution that is:
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Project Managment | 15 minutes        |   Unity, IDE  |
+| Game Architecture | 15 minutes        |   Unity, IDE  |
 
 </details>
 
@@ -33,9 +33,11 @@ This gives us a solution that is:
 > 
 
 ### Step 1: Create a Singleton Base Script
-1. Return to the Unity Editor; right-click in your **Scripts** folder and choose your custom script
-3. Name it: **Singleton**
-4. Open it in your IDE
+1. Return to the Unity Editor; right-click in your **Scripts** folder 
+2. Create a new sub-folder named **Core**
+3. Create a **new script** file using your **script template**
+    - Name it: **Singleton**
+5. Open it in your IDE
 
 # 
 
