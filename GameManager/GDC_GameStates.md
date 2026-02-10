@@ -43,15 +43,13 @@ Now that we have the **BootState** and the basic **GameManager** system working,
 ### Step 3: PausedState Setup
 1.  Create a new **PausedState** class.
 2.  In `Enter()`, **freeze the game** using **`Time.timeScale = 0f;`**
-3.  In `Exit()`, **resume the game**:
+3.  In `Exit()`, **resume the game** using **`Time.timeScale = 1f;`**
    
 
 ### Step 4: GameOverState Setup
 
 1.  Create a **GameOverState** class.
-    
 2.  In `Enter()`, load a simple **GameOver scene** additively (optional: create a Canvas with a “Game Over” text).
-    
 3.  You don’t need complex logic; just demonstrate a state transition.  
 
 > \[!TIP\]  
