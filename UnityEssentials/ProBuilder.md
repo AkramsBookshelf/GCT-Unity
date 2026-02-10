@@ -450,7 +450,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 ## 🎯CHALLENGE: Add Gate Finial (Step 7)
 
-Using the methods above, add decorative finials to the gate rails
+Using the methods above, add decorative finials to the gate rails.
 This adds visual interest and makes the gate look more detailed. 
 Keep proportions consistent with the rest of the gate.
 
