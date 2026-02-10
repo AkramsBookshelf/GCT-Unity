@@ -103,14 +103,14 @@ Now that we have the **BootState** and the basic **GameManager** system working,
 Now that your core states are working, it’s time to **level up your game state skills**. 
 
 -   **🛡️ Knight Rank (Required)**
-  -   All core states function correctly: Boot, MainMenu, Playing, Paused, GameOver.
-  -   Transitions occur as expected
-  -   **GameManager stack** reflects the active state.
+      -   All core states function correctly: Boot, MainMenu, Playing, Paused, GameOver.
+      -   Transitions occur as expected
+      -   **GameManager stack** reflects the active state.
     
 -   **✨ Hero Rank (Optional / Extra Credit)**: Add **visual polish** to make the state transitions more engaging:
-    -   **MainMenu → PlayingState:** Add a fade-out or animation for the menu.
-    -   **Playing → GameOverState:** Add a flash, fade-in, or other effect when transitioning.
-    -   **PausedState overlay:** Dim or gray out the current scene to indicate the game is paused.
+        -   **MainMenu → PlayingState:** Add a fade-out or animation for the menu.
+        -   **Playing → GameOverState:** Add a flash, fade-in, or other effect when transitioning.
+        -   **PausedState overlay:** Dim or gray out the current scene to indicate the game is paused.
 
 > [!CAUTION]
 >  Extra credit is only earned **after the core functionality works**. Focus on getting your states fully functional before adding flair!
