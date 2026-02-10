@@ -82,17 +82,17 @@
 
 #
 
-> [!CAUTION 
+> [!CAUTION]
 > Many asset packages are created for Unity’s **Built-in Render Pipeline**. If your project uses the **Universal Render Pipeline (URP)** or **High Definition Render Pipeline (HDRP)**, materials may not display correctly.
 > 
 > Upgrading the materials converts them to the correct shader type for your project’s render pipeline, so textures, lighting, and effects render properly in your scene.
 >
 >  1.  In the **Project** window, click the **Serch by Type** button
 >      - In the drop-down select **Material**
->      - _This will display only the materials in the project window**
+>      - This will display only the **material assets** in the **Project** window
 >  2.  Select **all materials** (_CTRL + CLICK_) that appear in a **pink magenta** color
 >  3.  Go to **Windows > Rendering > Render Pipeline Converter**.
->  4.  In the dialog that appears, choose **Material Upgrade**.
+>  4.  A new dialog will appear, choose **Material Upgrade**.
 >
 > The materials should be correctly displayed. Before moving on, clear the _Material_ filter in the **Project** window search box.
 >
