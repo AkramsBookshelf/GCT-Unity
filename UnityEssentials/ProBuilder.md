@@ -1,22 +1,56 @@
 # 📜 Unity ProBuilder
 > By: Akram Taghavi-Burris | © 2026
 
----
+In most game projects, **3D models are created outside of Unity**, using programs like Blender, Maya, or 3ds Max. These tools give artists full control to create detailed assets, but they can take time to complete.
+
+During the early stages of **level design**, you often need to **prototype game objects and environments quickly**, even before the final models are ready. Unity’s **primitive shapes** (cubes, spheres, planes, etc.) are useful for this purpose, allowing you to block out a level or test gameplay ideas.
+
+However, primitives have limitations; primarily, they **cannot easily create custom forms** like walls with varying thicknesses, gates with openings, or modular architecture needed for level layouts.
+    
+This is where **ProBuilder** comes in.
+
+## What is ProBuilder?
+
+**ProBuilder** is a 3D modeling and level-design tool built directly into Unity. Unlike standard primitive shapes, ProBuilder allows you to **directly edit the geometry of objects**, adjusting **vertices (points), edges (lines), and faces (surfaces)**. This gives you the flexibility to **create complex, modular objects** without leaving Unity or waiting for final models.
+
+> [!TIP]  
+> Think of it like starting with a cube but being able to **push, pull, and reshape it** to fit exactly what your level needs — giving you **more control than primitives**, while keeping your prototyping workflow fast.
+
+ProBuilder is designed to be **fast, flexible, and beginner-friendly**, making it ideal for:
+-   **Level prototyping** – Quickly mock up walls, floors, gates, and modular structures.
+-   **Precision modeling** – Work with exact dimensions, pivots, and modular layouts.
+-   **Hierarchy-friendly design** – Organize objects into reusable prefabs while keeping the scene tidy.
+-   **Subdivision and extrusion tools** – Easily add detail and shape geometry directly in the Editor.
+
+### Experimental Boolean Operations
+While **ProBuilder** is a step up from the primatives, it doesn't fully compare to a 3D modeling tool, especially in default mode. 
+However, ProBuilder offers **experimental Boolean operations**, which allow you to create more complex shapes by **combining, subtracting, or intersecting objects**
+-   **Union:** Merge two objects into a single mesh.
+-   **Subtract:** Remove one object’s shape from another.
+-   **Intersect:** Create a new object from the overlapping volume of two objects.
+
+> [!NOTE]
+> After installing the **ProBuilder** package, you can enable **Boolean operations** in Unity by going to:
+> **Edit > Preferences > ProBuilder > Experimental Features Enabled**.
+> 
+> Once enabled, the tool can be accessed at: **Tools → ProBuilder → Experimental → Boolean (CSG) Tool**.
+> CSG stands for **Constructive Solid Geometry**, and it lets you **combine, subtract, or intersect objects** to create new shapes.
+>
+> While this can be very powerful, Boolean operations often create **messy geometry** that can make scaling, pivots, and prefab creation more difficult.
+>
+> For this tutorial, we will **stick to ProBuilder’s standard tools**.
+> 
+
+# 
 
 ## Best Practices for ProBuilder Wall Creation
-
 This tutorial will guide you through **creating and editing walls** using ProBuilder while maintaining best practices:
-
 -   **Use Precise Dimensions** – Set pivot points and sizes for consistency.
-    
 -   **Work in Edit Mode Carefully** – Ensure the correct faces are selected before extrusion.
-    
 -   **Hierarchy Organization** – Parent multiple objects to keep the scene tidy.
-    
 -   **Prefab Usage** – Convert complex or reusable objects into prefabs to speed up scene building.
 
 ---
-
 
 # ⚒️ Tutorial: Create the Park Wall with ProBuilder
 
@@ -215,11 +249,13 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #
 
-### Step 9 — Place Walls in the Park (Organized Prefab-Friendly)
+### Step 9 — Place Walls in the Park 
+>[!CAUTION]
+> Make sure that you have created the **Wall prefabs** and that they appear in the **Prefabs** folder in the **Project** window, before continuing.
+>
 
 1.  Exit the **SampleScene** and return to **Level\_01**.
-    
-    -   No need to save the SampleScene — we only made the prefab, which is saved automatically.
+    -   No need to save the SampleScene — we already made the **prefab**, which is saved automatically.
         
 2.  In the **Hierarchy**, inside your **Environment** folder:
     
@@ -277,7 +313,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 >
 
 
-## Step 1 — Open the Default Sample Scene (Empty Workspace)
+### Step 1 — Open the Default Sample Scene (Empty Workspace)
 
 1.  In the **Project** window, open:
     
@@ -314,7 +350,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #
 
-## Step 2 — Build the Gate Post
+### Step 2 — Build the Gate Post
 
 1.  Select the **top face** of the cube.
 2.  Right-click → **Extrude Faces**, set **distance = 0.625**, confirm.
@@ -336,7 +372,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #
 
-## Step 3 — Add Front Details
+### Step 3 — Add Front Details
 1.  Select the **front faces** of the bottom gate post (both sides) → **extrude 0.125**.
 2.  Select the **front faces just above** the previous extrusion → **extrude 0.0625**.
    
@@ -349,7 +385,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #    
 
-## Step 4 — Build Intermediate Rails
+### Step 4 — Build Intermediate Rails
 1. From the **side of the gate post**, select the faces of the subdivisions made between posts 
 2. Extrude these faces out **0.125**, repeat **12 times**.
 
@@ -359,7 +395,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 #
 
-## Step 5 — Subdivide and Extrude Panels
+### Step 5 — Subdivide and Extrude Panels
 
 1. Select **alternating top faces** (_shift-click_) of the bottom row 
 2. Right-click and choose **Subdivide Faces**
@@ -380,47 +416,109 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 8.  Rotate the gate to the bottom side of the bottom row of the gate
 9.  Repeat steps **5.1–5.6** above for symmetry.
-10. Select the **inner square face** of each merged section → extrude down **0.5**.
+10. Select the **inner square face** of each merged section → **extrude** down **0.5**.
 
 ![Extrude bottom inner rails](imgs/probuilder/gct-probuilder-20.png)
     
 
-## Step 6 — Add Top Cap and Details
+### Step 6 — Add End Rail
+1. Select the **last top face of the bottom row** → **extrude 2.125** → confirm.
 
-1.  Select the **top face** → extrude 0.5 → confirm.
+![Extrude the end rail](imgs/probuilder/gct-probuilder-21.png)
     
-2.  Select the **last top face of the bottom row** → extrude 2.125 → confirm.
-    
-3.  Extrude again → 0.03125.
-    
-4.  Select **front and back faces** of the topmost section → extrude 0.03125.
-    
-5.  Select the **top face again** → extrude 0.03125.
-    
+2.  Extrude top face  → **0.03125** → confirm.
+3.  Extrude one more time → **0.03125** → confirm.
+4.  Select **front and back faces** of the topmost section → **extrude 0.03125** → confirm.
+5.  Select the **top face again** → **extrude 0.03125** → confirm.
 6.  With the top face still selected → use the **Scale tool** → uniformly scale inward to create a **cap**.
-    
 
-## Step 7 — Shape the Gate Posts
+![End rail cap](imgs/probuilder/gct-probuilder-23.png)
 
-1.  On the same post, select the **bottom face** → extrude 0.5 → confirm.
-    
-2.  Extrude another 0.25 → uniformly scale inward to create a **blunt point**.
-    
-3.  **Challenge:** Add **spires** to the tops of the gate rails by extruding upward slightly and scaling inward.
-    
+7. Rotate the gate to the bottom side of the bottom row of the gate
+8. Select the end rail face  → **extrude 0.5** → confirm.
 
-> \[!TIP\]  
-> This step adds visual interest and makes the gate look more detailed. Keep proportions consistent with the rest of the gate.
+![End rail bottom](imgs/probuilder/gct-probuilder-24.png)
 
-## Step 8 — Convert to Prefab
+9. Extrude another **0.25** → confirm.
+10. With the top face still selected → use the **Scale tool** → uniformly scale inward to create a blunt point.
+
+![End rail bottom cap](imgs/probuilder/gct-probuilder-25.png)
+
+
+
+#    
+
+## 🎯CHALLENGE: Add Gate Finial (Step 7)
+
+Using the methods above, add decorative finials to the gate rails
+This adds visual interest and makes the gate look more detailed. 
+Keep proportions consistent with the rest of the gate.
+
+![Gate Finial](imgs/probuilder/gct-probuilder-26.png)
+
+>[!NOTE]
+>A **finial** is a decorative pointed ornament placed at the top of a gate rail or similar structure.
+>
+
+#
+
+## Step 8 — Create the Full Park Gate Prefab
 
 1.  Exit **ProBuilder Edit Mode**.
     
-2.  Drag and drop the **Gate** object from the Hierarchy → into your **Prefabs** folder in the **Project** window.
+2.  Drag and drop your **Gate** object from the Hierarchy → into the **Prefabs** folder in the **Project** window.
     
+    -   This creates a reusable **single gate piece** (one side of the park gate).
+        
 
 > \[!NOTE\]  
-> Your gate is now reusable. You can place it in your park wherever needed without rebuilding the geometry.
+> The object we've created is essentially **one side of a two-door park gate opening**. Later, we will combine two of these pieces to make the full gate.
+
+1.  In the **Hierarchy**, right-click → **Create Empty**:
+    -   Name it **ParkGate**
+    -   Set its **position** to `(0,0,0)`
+    -   This will serve as the **parent container** for the full gate assembly.
+        
+2.  Drag the single **Gate** into **ParkGate** so it becomes a child.
+    -   Set its transform to **X = 0, Y = 0, Z = -1.4375**
+    -   Rename it **Gate-Left** in the Hierarchy.
+        
+3.  Duplicate **Gate-Left** → this will be the right side of the gate:
+    -   Set the **Y rotation** to **180°** to mirror the opening
+    -   Set its transform to **X = 0, Y = 0, Z = 1.4375**
+    -   Rename it **Gate-Right**
+        
+4.  Select the **ParkGate** object in the Hierarchy → drag it into the **Prefabs** folder in the Project window.
+    -   This creates a **full two-piece ParkGate prefab** that is **3 meters wide** and is ready to place in the park.
+        
+> [!TIP]  
+> Keeping **Gate-Left** and **Gate-Right** as children of **ParkGate** ensures the pivot of the prefab is centered, making placement easier in your scene. You can still edit the individual pieces if you want to adjust details later.
+> 
+
+#
+
+ ### Step 9 — Place the Gate in the Park
+ >[!CAUTION]
+> Make sure that you have created the **Gate prefab** and that they appear in the **Prefabs** folder in the **Project** window, before continuing.
+>
+
+1.  Exit the **SampleScene** and return to **Level\_01**.
+    -   No need to save the SampleScene — we only made the prefab, which is saved automatically.
+        
+2.  In the **Hierarchy** window, expand the **ParkWall** game object
+3.  Place your **ParkGate** prefab in the **3-meter opening**, we left in our wall segments.
+
+#
+
+### Step 10 — Save & Commit
+1.  Save your scene: **File > Save** or **Ctrl + S**.
+2.  Close Unity.
+3.  Switch to **GitHub Desktop** → stage your changes.
+4.  Commit with the message:
+    -   `feat: created Gate Prefab.`
+5.  Push your changes to the remote branch: `SceneBuilding`.
+
+---
 
 
 
