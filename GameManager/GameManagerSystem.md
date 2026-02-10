@@ -21,8 +21,7 @@ Framing the GameManager as a system emphasizes that it is not merely a single ob
 This chapter progresses through the development of a **modular and flexible GameManager System** in the following steps:
 -   **[Designing Game States](DesigningGameStates.md)** – Establish a clear structure for states to ensure the system is modular and adaptable.
 -   **[Creating a Singleton Base Class](TUT_SingletonBase.md)** – Provide global access while maintaining safety and modularity.
--   **Implementing the GameManager** – Establish the core system to coordinate states and transitions.
+-   **[Creating the GameManager](TUT_GameManager.md)** – Establish the core system to coordinate states and transitions.
 -   **[Defining Game States](TUT_GameStates.md)** – Establish a clear lifecycle contract using an interface and provide shared functionality through a base class
 -   **[Enhancing the Boot State](TUT_BootState.md)** – Configure the Boot state for a specific initialization scenario.
--   **Implementing State Transitions** – Set up the GameManager to handle entering, exiting, and stacking of states.
 -   **Game Design Challenge: Implement Additional States** – Extend the system to demonstrate flexibility and reinforce understanding of the architecture.
