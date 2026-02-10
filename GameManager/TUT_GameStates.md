@@ -238,7 +238,7 @@ public virtual void Exit() {}
 > #### 💾 Save & Commit
 > - Save your script
 > - Commit your changes with the message:
->    - *feat: IState Interface*
+>    - *feat: BaseGameState created*
 > - No need to _push_ changes just yet
 >
 
@@ -380,6 +380,12 @@ public class MainMenuState : IState
     }
 }
 ```
+> #### 💾 Save & Commit
+> - Save all your scripts
+> - Commit your changes with the message:
+>    - *feat: Default Game States Created*
+> - **Push** changes to GitHub
+>
 
 ---
 
