@@ -3,7 +3,6 @@
 
 Now that we have the **BootState** and the basic **GameManager** system working, it’s time to expand our game states and start creating the **player experience**. In this challenge, you’ll implement the next core states: **MainMenuState, PlayingState, PausedState, and GameOverState**.
 
-You’ll also begin connecting scenes, UI, and basic input to your GameManager’s state system.
 
 # 
 
