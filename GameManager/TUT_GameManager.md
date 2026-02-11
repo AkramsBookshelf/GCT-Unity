@@ -380,7 +380,7 @@ public class GameManager : Singleton<GameManager>
 
 
 ```
-## 🛡️ Checkpoint
+## 🚩 Checkpoint
 
 Key takeaways from this lesson:
 
