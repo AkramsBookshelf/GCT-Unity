@@ -8,6 +8,15 @@ Materials are one of the core building blocks for giving objects their visual ap
 
 ## Material Properties
 
+A material isn’t just a “color” you apply to an object — it also includes settings that control **how the surface behaves when Unity renders it**. These properties determine things like how reflective the surface is, whether it can be transparent, which sides of the mesh are visible, and how it interacts with lighting and shadows.
+
+For this tutorial, we will be using the **Universal Render Pipeline (URP)** and the **Lit Shader**, which is the default shader used for most realistic materials. Because of that, your material will include the following core properties:
+
+--- 
+
+### Surface Options
+![Surface Options](/imgs/gct-matProperties-01.png)
+
 - Workflow Mode
   -   **Metallic Workflow:** Uses a metallic value to simulate metal vs non-metal surfaces. Best for realistic metals like gold, iron, or aluminum.
   -   **Specular Workflow:** Uses a specular map to define the reflectivity and color of the reflection. Gives more control for non-metal surfaces like plastics or painted surfaces.
@@ -26,7 +35,9 @@ Materials are one of the core building blocks for giving objects their visual ap
     
 - **Shadows**
   -   **Receive Shadows:** Determines whether the object shows shadows cast on it from other objects.
-  -   **Tip:** Turning off shadow reception can improve performance for background objects or distant scenery.
+  -   Turning off shadow reception can improve performance for background objects or distant scenery.
+ 
+    
     
 
 ### Surface Inputs
