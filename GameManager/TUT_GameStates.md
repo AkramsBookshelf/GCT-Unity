@@ -398,7 +398,7 @@ You’ve successfully created the **IState interface**, along with **BootState**
 
 When ready, you can **add new states** or **fill in the behavior** for each state, following the same pattern we’ve established.
 
-## 🛡️ Checkpoint
+## 🚩 Checkpoint
 
 Key takeaways from this lesson:
 
