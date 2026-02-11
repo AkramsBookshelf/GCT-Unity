@@ -1,0 +1,7 @@
+*.unitypackage   binary
+*.unity         binary
+*.prefab        binary
+*.mat           binary
+*.png           binary
+*.jpg           binary
+*.fbx           binary
