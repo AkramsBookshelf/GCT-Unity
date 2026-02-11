@@ -64,7 +64,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 </details>
 
 > [!NOTE]
-> Before starting this tutorial, ensure you have completed **[Scene Building](SCeneBuilding.md)** and that your project is synced with the **SceneBuilding** in GitHub Desktop.
+> Before starting this tutorial, ensure you have completed **[Scene Building](SceneBuilding.md)** and that your project is synced with the **SceneBuilding** in GitHub Desktop.
 >
 
 > [!WARNING]
