@@ -25,4 +25,4 @@ This chapter progresses through the development of a **modular and flexible Game
 -   **[Defining Game States](TUT_GameStates.md)** – Establish a clear lifecycle contract using an interface and provide shared functionality through a base class
 -   **[Initalizing States](TUT_InitializeGameStates.md)** – Update the GameManager to create each game state.
 -   **[Enhancing the Boot State](TUT_BootState.md)** – Configure the Boot state for a specific initialization scenario.
--   **Game Design Challenge: Implement Additional States** – Extend the system to demonstrate flexibility and reinforce understanding of the architecture.
+-   **[Game Design Challenge: Expand Your Game States](GDC_GameStates.md)** – Extend the system to demonstrate flexibility and reinforce understanding of the architecture.
