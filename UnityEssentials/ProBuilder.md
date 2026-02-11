@@ -403,24 +403,25 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 1. Select **alternating top faces** (_shift-click_) of the bottom row 
 2. Right-click and choose **Subdivide Faces**
-2.  With the faces still selected, select **Subdivide Faces** a second time.
+3.  With the faces still selected, select **Subdivide Faces** a second time.
     - This will create 4x4 faces on each face selected.
   
 ![Subdivided Faces](imgs/probuilder/gct-probuilder-17.png)
     
 4. Deselect the faces.
 5. Select the **inner 4 faces** of the first alternating faces. 
-6. Right-click → **Merge Faces**, repeat for each square.
+6. Right-click → **Merge Faces** , **deslect** the faces
+7. Repeat steps **5.5-5.6** for each of the subdivided segments.
 
 ![Merge faces](imgs/probuilder/gct-probuilder-18.png)
     
-7.  Select the **inner square face** of each merged section → extrude **2**.
+8.  Select the **inner square face** of each merged section → extrude **2**.
 
 ![Extrude inner rails](imgs/probuilder/gct-probuilder-19.png)
 
-8.  Rotate the gate to the bottom side of the bottom row of the gate
-9.  Repeat steps **5.1–5.6** above for symmetry.
-10. Select the **inner square face** of each merged section → **extrude** down **0.5**.
+9.  Rotate the gate to the bottom side of the bottom row of the gate
+10. Repeat steps **5.1–5.7** above for symmetry.
+11. Select the **inner square face** of each merged section → **extrude** down **0.5**.
 
 ![Extrude bottom inner rails](imgs/probuilder/gct-probuilder-20.png)
     
