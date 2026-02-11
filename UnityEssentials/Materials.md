@@ -280,27 +280,36 @@ These settings are divided into tabs based on the build platform. The **Default*
 </details>
 
 > [!NOTE]
-> Before starting this tutorial, ensure you have completed **[ProBuilder](ProBuilder.md)** tutorial and that your project is synced with the **SceneBuilding** in GitHub Desktop.
+> Before starting this tutorial:
+> - Ensure you have completed **[ProBuilder](ProBuilder.md)** tutorial
+> - Your project is synced with the **SceneBuilding** in GitHub Desktop
+> - You have imported the required resource files (see Harvey)
 >
 
 > [!WARNING]
 > If you have made any changes to your project from a different pc (i.e., classroom pc) and have pushed them to GitHub, you will need to **Fetch** the updates to your project in **GitHub Desktop** before starting this tutorial.
-> 
+>
 
+> [!IMPORTANT]
+>Make sure you have imported any required packages for this tutorial before beginning.
+> In the **Project** window, right-click and choose **Import Package > Custom Package**, then select the downloaded package from Harvey.
 
-## Step 1 — Install ProBuilder Using Package Manager
+## Step 1 — Gate Material
 
 1.  Open the **ParkGame-Unity** project
-2.  In the Unity Editor, open the **Package Manager**: 
-    -   **Window > Package Manager**
-        
-3.  In the top-left dropdown, change the package source to:
-    -   **Unity Registry**
-        
-4.  In the search bar, type:
-    -   `ProBuilder`
-        
-5.  Select **ProBuilder** from the list.
-    
-6.  Click **Install**.
+2.  In the **Project** window, open:
+    - `Assets/Scenes/Level_01`
+
+3.  In **Project** window in the **Assets** folder create a new folder:
+    - Name the folder: **Materials**
+
+4. Inside the **Materials** folder, right-click and select **Create > Material**
+5. Name the new material **`M_BlackMetal`**
+6. Set the **Base Map (Albedo)** color to a dark grey. 
+
+![Dark Grey](imgs/materials/gct-materials-01.png)
+
+7.  Set the **Metallic Map** and **Smoothness** as shown:
+
+![Black Metal material : metallic and smoothness](imgs/materials/gct-materials-02.png)
     
