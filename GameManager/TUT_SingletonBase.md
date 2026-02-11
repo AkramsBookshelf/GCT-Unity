@@ -265,7 +265,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 ```
 
 
-## 🛡️ Checkpoint
+## 🚩 Checkpoint
 
 Key takeaways from this lesson:
 
