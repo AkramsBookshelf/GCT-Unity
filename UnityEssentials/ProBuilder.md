@@ -193,7 +193,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 ![Extrude the main wall](imgs/probuilder/gct-probuilder-09.png)
   
 3.  With the top face still selected → extrude **0.03125** → confirm.
-4.  Repeat another extrusion → **0.3125** → confirm.
+4.  Repeat another extrusion → **0.03125** → confirm.
 
 > [!NOTE]  
 > The wall’s **Y position should now be 3.25** in the Inspector.
