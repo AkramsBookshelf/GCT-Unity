@@ -225,7 +225,7 @@ In the grand scheme of things, there are many ways to design game states and gam
 
 ---
 
-## 🛡️ Checkpoint
+## 🚩 Checkpoint
 
 Having explored the different **states** of the game world, here are some key points to **keep in mind**:
 
