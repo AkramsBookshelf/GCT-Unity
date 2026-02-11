@@ -1,4 +1,4 @@
-# 🏹 Challenge Assignment: Expand Your Game States
+# 🏹 Game Design Challenge: Expand Your Game States
 > By: Akram Taghavi-Burris | © 2026
 
 Now that we have the **BootState** and the basic **GameManager** system working, it’s time to expand our game states and start creating the **player experience**. In this challenge, you’ll implement the next core states: **MainMenuState, PlayingState, PausedState, and GameOverState**.
