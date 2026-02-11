@@ -169,6 +169,10 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 4.  In the Extrude Settings dialog, set the distance: **0.625** and press confirm.
 
 ![Extrude the front faces](imgs/probuilder/gct-probuilder-06.png)
+
+> [!IMPORTANT]
+> After modifying a shape beyond its original dimensions, the base properties can no longer be edited in the Inspector.
+> 
    
 6.  Repeat the extrusion for both sides → distance **0.625** and press confirm.
 7. Check **X position in Inspector** to verify the overall wall width; it should now be **0.375**.
