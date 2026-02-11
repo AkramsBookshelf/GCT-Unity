@@ -567,7 +567,7 @@ public class BootState : BaseGameState
 
 When ready, you can **expand BootState** with more complex startup tasks, or use it as a template for creating other game states, like **PlayingState** or **PausedState**.
 
-## 🛡️ Checkpoint
+## 🚩 Checkpoint
 Key takeaways from this lesson:
 -   The **BootState** handles the **first actions when the game starts**, giving the player feedback while the game loads.
 -   **`Enter()`** sets up the state: it **spawns loading visuals** and **begins loading the MainMenu scene asynchronously**.
