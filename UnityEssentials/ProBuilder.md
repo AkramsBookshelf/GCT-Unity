@@ -166,7 +166,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 1.  Select the **long face of the wall**.
 2.  Hold **Shift** and select the back side of the same long edge.
 3.  Right-click in the scene view → **Extrude Faces**.
-4.  In the Extrude Settings dialog, set the distance: **0.625** and press confirm.
+4.  In the Extrude Settings dialog, set the distance: **0.0625** and press confirm.
 
 ![Extrude the front faces](imgs/probuilder/gct-probuilder-06.png)
 
@@ -174,7 +174,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 > After modifying a shape beyond its original dimensions, the base properties can no longer be edited in the Inspector.
 > 
    
-6.  Repeat the extrusion for both sides → distance **0.625** and press confirm.
+6.  Repeat the extrusion for both sides → distance **0.0625** and press confirm.
 7. Check **X position in Inspector** to verify the overall wall width; it should now be **0.375**.
    
 ![Check Probuilder Object Size in Inspector](imgs/probuilder/gct-probuilder-07.png)
@@ -206,7 +206,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 
 ![Top detail exturtion](imgs/probuilder/gct-probuilder-10.png)
 
-2.  Select the **front face of the topmost face** on both sides → extrude → distance: **0.625** → confirm.
+2.  Select the **front face of the topmost face** on both sides → extrude → distance: **0.0625** → confirm.
 
 ![Wall top cap](imgs/probuilder/gct-probuilder-11.png)
 
@@ -383,7 +383,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 ![Gate Bottom front face extrusion](imgs/probuilder/gct-probuilder-14.png)
     
 4.  Select the **front faces of the top two sections** (both sides) → **extrude 0.0625**.
-5.  Select the **front face of the topmost face** (both sides) → **extrude 0.625**.
+5.  Select the **front face of the topmost face** (both sides) → **extrude 0.0625**.
 
 ![Gate Top front face extrusion](imgs/probuilder/gct-probuilder-15.png)
 
