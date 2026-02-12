@@ -484,6 +484,6 @@ By making these adjustments **after applying the material**, we can immediately 
 2.  Close Unity.
 3.  Switch to **GitHub Desktop** → stage your changes.
 4.  Commit with the message:
-    -   `feat: created Gate Prefab.`
+    -   `feat: created wall & gate materials.`
 5.  Push your changes to the remote branch: `SceneBuilding`.
 
