@@ -3,8 +3,7 @@
 
 The Unity UI Toolkit is a powerful system for creating flexible, scalable UI interfaces. While much of your UI can be built statically with UXML and USS, dynamic updates through C# code (or Visual Scripting) are essential for interactive elements and game systems that require real-time changes.
 
-
-#
+---
 
 ## Static vs. Dynamic Content
 
@@ -73,6 +72,7 @@ At the core of the UI Toolkit is the **VisualElement** class, which acts as a 
 -   **Containers** — Group and organize child elements.
 
 Since all UI elements share this common base, they inherit core properties like size, position, and style, making it easier to manipulate elements consistently.
+#
 
 ### Querying Elements
 
