@@ -294,7 +294,10 @@ These settings are divided into tabs based on the build platform. The **Default*
 >Make sure you have imported any required packages for this tutorial before beginning.
 > In the **Project** window, right-click and choose **Import Package > Custom Package**, then select the downloaded package from Harvey.
 
-## Step 1 — Gate Material
+## Gate Material 
+The first material we will create is for our **gate prefab**. Our goal is to make a material that gives the illusion of **black metal**. To achieve this, we’ll use the standard **URP Lit Shader**, set the **Albedo** to a dark grey color, and adjust the **Metallic** and **Smoothness** values to create the appearance of a shiny, reflective surface.
+
+### Step 1 — Gate Material
 
 1.  Open the **ParkGame-Unity** project
 2.  In the **Project** window, open:
@@ -304,12 +307,183 @@ These settings are divided into tabs based on the build platform. The **Default*
     - Name the folder: **Materials**
 
 4. Inside the **Materials** folder, right-click and select **Create > Material**
-5. Name the new material **`M_BlackMetal`**
-6. Set the **Base Map (Albedo)** color to a dark grey. 
+   - Name the new material **`M_BlackMetal`**
+5. With the **`M_BlackMetal`** material selectd in the **Project** window access it's properties in the **Inspector** window.
+6. Ensure that material'**Shader** is set to **Universal Render Pipline/Lit** 
+7. Set the **Base Map (Albedo)** color to a dark grey. 
 
 ![Dark Grey](imgs/materials/gct-materials-01.png)
 
 7.  Set the **Metallic Map** and **Smoothness** as shown:
 
 ![Black Metal material : metallic and smoothness](imgs/materials/gct-materials-02.png)
+
+### Step 2- Applying the Gate Material
+1. Inside the **Project** window locate the **`Asset / Prefabs`** folder
+2. Double-click on the **Gate** prefab
+   - This will open the preab in isolation
+3. From the **Project** window drag and drop the **M_BlackMetal** material on to the Gate object
+4. Exit the prefab mode to save the changes
+
+![Add material and exit prefab editing](imgs/materials/gct-materials-03.png)
+
+5. Return to the park scene (**`Level_0`**)
+6. Verify that all instances of the gate now use the **`M_BlackMetal`** material.
+
+> [!NOTE]
+> The **power of prefabs** is that **all instances** in the scene **automatically update** when the original (parent) prefab is modified.
+>
+
+# 
+## Wall Material — Cement (Base & Cap)
+Next, we will create a material for our **wall prefab**. This wall will use **two different materials**:
+-   **Cement** — for the base and top caps
+-   **Brick** — for the main wall
     
+
+We’ll start by creating the **cement material**. This material will use a **texture for the Base Map** and a **Normal Map** to give the surface subtle bumps and details.
+
+> [!NOTE]
+> By default, Unity applies a material to an entire object. However, because our wall is a **ProBuilder mesh**, we can assign materials to specific **faces**, giving us the flexibility to use multiple materials on a single object.
+>
+
+### Step 1 — Prepare the Textures
+
+1.  In the **Project** window, navigate to the **Textures** folder.
+2.  Locate the following textures:
+    -   **`T_Cement`** (albedo / color map)
+    -   **`T_Cement_N`** (normal map)
+3.  Select **`T_Cement`**,  in the **Inspector** window
+    -   Default import settings should be left as is.
+4.  Select **`T_Cement_N`**, in the **Inspector** window
+     -   Set **Texture Type** to **Normal Map**
+
+> [!TIP]  
+> Normal maps must be set to **Normal Map** type, or Unity will not interpret the surface details correctly.
+> 
+
+### Step 2 — Create the Cement Material
+1.  Inside the **Materials** folder, right-click and select **Create > Material**.
+2.  Name the new material **`M_Cement`**.
+3.  With **`M_Cement`** selected, confirm the **Shader** is **Universal Render Pipeline / Lit**.
+4.  Set up the material inputs:
+    -   **Base Map (Albedo):** Assign **`T_Cement`**
+        - Ensure the **Albedo** color is set to white to preserve the texture’s color.
+        - _Changing the color will add a tint to the texture_
+    -   **Normal Map:** Assign **`T_Cement_N`**
+    -   **Metallic:** 0 (cement is non-metallic)
+    -   **Smoothness:** 0 (to give a rough concrete look)
+
+![Cement material settings](imgs/materials/gct-materials-04.png)        
+
+### Step 3 — Apply Cement Material to Wall Caps
+Because the wall uses **multiple materials**, we need to apply the cement material **only to the base and top faces** using **ProBuilder Edit Mode**.
+1.  In the **Hierarchy**, select the **Wall** prefab 
+2. With the object select enter **ProBuilder Edit Mode**:
+   
+![Edit ProBuilder Shape](imgs/probuilder/gct-probuilder-04.png)    
+        
+3.  Switch to **Face Selection Mode**.
+4.  To select the base and top caps:
+    -   Transition into a **Front View** of the wall.
+    -   Make sure **Window Select Mode** is active.
+    -   Click and drag a selection box around the faces you want to assign the cement material.
+        -   **Important:** Drag the window **left to right** to select only the faces fully inside the box.
+     
+![Select faces in ProBuilder](imgs/materials/gct-materials-05.png)    
+            
+4.  With the faces selected, drag and drop the **M_BlackMetal** material (from the **Project** window) onto the Wall faces. 
+    
+> [!WARNING\]  
+> Materials are applied only to the faces you select.  
+> Faces not selected will keep their current material (or receive the brick material later).
+> 
+> **Rotate around your wall** to **check** that all base and top cap faces have the cement material.
+> If any faces are missing it, simply select them and drag the material onto them.
+> 
+> Accidentally applied the cement material to the main wall? Don’t worry, you can fix it by assigning the brick material to those faces in the next step.
+>
+
+### Step 4 — Save and Verify
+1.  Exit **Prefab Mode** to save the changes.
+2.  Return to the park scene (**`Level_01`**) and verify that the base and top caps of the walls display the **cement material** correctly.
+
+# 
+
+## Wall Material — Brick (Main Wall)
+Next, we’ll create the material for the **main wall** using a **brick texture**. This material will use a **Base Map** and a **Normal Map**, similar to the cement material, but with additional adjustments for tiling and normal strength to match the wall’s scale.
+
+> [!NOTE]  
+> Since the wall is a **ProBuilder mesh**, we will assign this material only to the **main wall faces**, leaving the base and caps with the cement material.
+> 
+
+### Step 1 — Prepare the Textures
+1.  In the **Project** window, navigate to the **Textures** folder.
+2.  Locate the following textures:
+    -   **`T_Brick`** (albedo / color map)
+    -   **`T_Brick_N`** (normal map)
+        
+3.  Select **`T_Brick`**, in the **Inspector** window
+    -   Default import settings should be left as is.
+  
+4.  Select **`T_Brick_N`**, in the **Inspector** window
+    -   Set **Texture Type** to **Normal Map**
+
+### Step 2 — Create the Brick Material
+1.  Inside the **Materials** folder, right-click and select **Create > Material**.
+2.  Name the new material **`M_Brick`**.
+3.  With **`M_Brick`** selected, confirm the **Shader** is **Universal Render Pipeline / Lit**.
+4.  Set up the material inputs:
+    -   **Base Map (Albedo):** Assign **`T_Brick`**
+        -   Ensure the **Albedo** color is set to white to preserve the texture’s color.
+    -   **Normal Map:** Assign **`T_Brick_N`** 
+    -   **Metallic:** 0 (bricks are non-metallic)
+    -   **Smoothness:** 0 (to keep the brick rough)
+
+### Step 3 — Apply Brick Material to Wall Faces
+1.  In the **Hierarchy**, select the **Wall** prefab.
+2.  Enter **ProBuilder Edit Mode**.
+3.  Switch to **Face Selection Mode**
+4.  Select the main wall faces (excluding base and top caps):
+    -   Transition to a **Front View** of the wall.
+    -   Ensure **Window Select Mode** is active.
+    -   Click and drag a selection box around the faces.
+        -   **Important:** Drag **left to right** to select only faces fully inside the selection.
+5.  With the faces selected, drag and drop the **`M_Brick`** material from the **Project** window onto the selected faces.
+
+### Step 4 — Adjust Tiling, Normal Strength, and Offset
+Now that the **brick material** is applied to the wall, take a moment to look at how it appears:
+-   The bricks look **tightly packed**. This is because the texture’s scale is currently 1:1 on the wall, so each brick is smaller than we might want.
+-   The **normal map** is at full strength (1), which can make the surface bumps feel exaggerated compared to the wall’s size.
+-   The **bottom row of bricks** starts with a **half brick**, which looks unnatural for the base of the wall.
+    
+These observations show that we will need to adjust the **normal map strength**, **tiling**, and **offset** to improve the appearance of the wall.
+
+ 1. With **`M_Brick`** selected, in the **Inspector** window, set the following:
+    -   **Normal Map Strength:** 0.5
+         -   Reduces the intensity of surface bumps so the texture better matches the wall’s scale.
+         
+    -   **Tiling:** X = 0.5, Y = 0.5
+        -   Scales the bricks to be slightly larger on the wall, spacing them more naturally.  
+        
+    -   **Offset:** Y = 0.25
+       -   Moves the texture vertically so the bottom row of bricks starts with a whole brick.
+        
+By making these adjustments **after applying the material**, we can immediately see how changes affect the wall’s appearance. This helps us match the texture’s scale, realism, and placement without editing the texture file itself.
+
+### Step 5 — Save and Verify
+1.  Exit **Prefab Mode** to save the changes.
+2.  Return to the park scene (**`Level_01`**) and verify that:
+    -   The **base and top caps** show the **cement material**.
+    -   The **main wall faces** display the **brick material** with proper tiling, normal strength, and offset.
+
+# 
+
+### Step 10 — Save & Commit
+1.  Save your scene: **File > Save** or **Ctrl + S**.
+2.  Close Unity.
+3.  Switch to **GitHub Desktop** → stage your changes.
+4.  Commit with the message:
+    -   `feat: created Gate Prefab.`
+5.  Push your changes to the remote branch: `SceneBuilding`.
+
