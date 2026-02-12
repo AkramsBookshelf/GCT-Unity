@@ -6,7 +6,7 @@
 
 ## **UI Builder**
 
-**UI Builder** is Unity’s dedicated visual editor for creating and managing UI Toolkit interfaces. This allows game designers the ability to create their UI without knowing anything about css or Unity's own uss (Unity Style Sheet). Elements can be placed in the viewport and rules are defined in the Inspector.
+**UI Builder** is Unity’s dedicated visual editor for creating and managing UI Toolkit interfaces. This allows game designers the ability to create their UI without knowing anything about CSS or Unity's own USS (Unity Style Sheet). Elements can be placed in the viewport and rules are defined in the Inspector.
 
 #
 
@@ -17,7 +17,7 @@ UI Builder consists of several panels that help you construct and manage your UI
 2.  **Hierarchy Panel**: Displays the structure of your UI, showing parent-child relationships between elements (like a scene hierarchy for UI).
 3.  **Library Panel**: Contains a collection of UI elements that you can drag into your UI, including standard controls, containers, and templates.
 4.  **Canvas (Viewport)**: The main working area where you visually arrange and edit UI elements.
-5.  **Code Previews**: Displays the associated UI Document (UXML) and the StyleSheets (USS) that is generated when building the UI.
+5.  **Code Previews**: Displays the associated UI Document (UXML) and the StyleSheets (USS) that are generated when building the UI.
 6.  **Inspector Panel**: Allows you to modify properties of selected UI elements, including layout, styling, and behavior.
     
 > [!IMPORTANT]
@@ -67,7 +67,10 @@ There are 3 methods for styling UI elements:
 **Example:**
 
 ```css 
-#MainMenu {   background-color: #333;    padding: 10px;}
+#MainMenu {
+    background-color: #333;
+    padding: 10px;
+}
 ```
 
 > [!NOTE]
@@ -86,7 +89,10 @@ There are 3 methods for styling UI elements:
 
 **Example:**
 ```css
-.container {    border: 2px solid #aaa;    margin: 5px;}
+.container {
+    border: 2px solid #aaa;
+    margin: 5px;
+}
 ```
 
 ### **Order of Precedence (Inheritance)**
