@@ -115,7 +115,7 @@ For example:
 > 
 
 ## Creating Textures 
-Textures can be created in a number of ways. They can be:
+Textures can be created in several ways. They can be:
 -   **Photographs** of real-world surfaces (wood, stone, metal, etc.)
 -   **Digitally painted** in software like Photoshop or Krita
 -   **Procedurally generated** using tools like Substance Designer or Blender
@@ -221,7 +221,7 @@ These settings determine how Unity processes and compresses the texture.
 > If a metallic map looks “wrong,” the first thing to check is whether sRGB is incorrectly enabled.
 > 
 #
--   **Alpha is Transparency** property, determines how Unity uses the alpha channel of a texture.
+-   **Alpha is the Transparency** property, which determines how Unity uses the alpha channel of a texture.
     -   Many textures include an **alpha channel**, which stores transparency information for the image.
     -   The most common option is **Input Texture Alpha**, which tells Unity to use the alpha channel embedded in the texture itself.
     -   A texture having alpha does not automatically make the material transparent.
@@ -275,13 +275,13 @@ These settings are divided into tabs based on the build platform. The **Default*
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Scene Building     | 15 minutes       |   GitHub Desktop, Unity, Texture.unitpackage     |
+| Scene Building     | 15 minutes       |   GitHub Desktop, Unity, Texture.unitypackage     |
 
 </details>
 
 > [!NOTE]
 > Before starting this tutorial:
-> - Ensure you have completed **[ProBuilder](ProBuilder.md)** tutorial
+> - Ensure you have completed the **[ProBuilder](ProBuilder.md)** tutorial
 > - Your project is synced with the **SceneBuilding** in GitHub Desktop
 > - You have imported the required resource files (see Harvey)
 >
@@ -308,8 +308,8 @@ The first material we will create is for our **gate prefab**. Our goal is to mak
 
 4. Inside the **Materials** folder, right-click and select **Create > Material**
    - Name the new material **`M_BlackMetal`**
-5. With the **`M_BlackMetal`** material selectd in the **Project** window access it's properties in the **Inspector** window.
-6. Ensure that material'**Shader** is set to **Universal Render Pipline/Lit** 
+5. With the **`M_BlackMetal`** material selected in the **Project** window access its properties in the **Inspector** window.
+6. Ensure that material's **Shader** is set to **Universal Render Pipline/Lit** 
 7. Set the **Base Map (Albedo)** color to a dark grey. 
 
 ![Dark Grey](imgs/materials/gct-materials-01.png)
@@ -327,7 +327,7 @@ The first material we will create is for our **gate prefab**. Our goal is to mak
 
 ![Add material and exit prefab editing](imgs/materials/gct-materials-03.png)
 
-5. Return to the park scene (**`Level_0`**)
+5. Return to the park scene (**`Level_1`**)
 6. Verify that all instances of the gate now use the **`M_BlackMetal`** material.
 
 > [!NOTE]
@@ -351,7 +351,7 @@ We’ll start by creating the **cement material**. This material will use a **te
 
 1.  In the **Project** window, navigate to the **Textures** folder.
 2.  Locate the following textures:
-    -   **`T_Cement`** (albedo / color map)
+    -   **`T_Cement`** (albedo/color map)
     -   **`T_Cement_N`** (normal map)
 3.  Select **`T_Cement`**,  in the **Inspector** window
     -   Default import settings should be left as is.
@@ -379,7 +379,7 @@ We’ll start by creating the **cement material**. This material will use a **te
 ### Step 3 — Apply Cement Material to Wall Caps
 Because the wall uses **multiple materials**, we need to apply the cement material **only to the base and top faces** using **ProBuilder Edit Mode**.
 1.  In the **Hierarchy**, select the **Wall** prefab 
-2. With the object select enter **ProBuilder Edit Mode**:
+2. With the object select enter **ProBuilder Edit Mode** (_see image below_)
    
 ![Edit ProBuilder Shape](imgs/probuilder/gct-probuilder-04.png)    
         
@@ -420,7 +420,7 @@ Next, we’ll create the material for the **main wall** using a **brick texture*
 ### Step 1 — Prepare the Textures
 1.  In the **Project** window, navigate to the **Textures** folder.
 2.  Locate the following textures:
-    -   **`T_Brick`** (albedo / color map)
+    -   **`T_Brick`** (albedo/color map)
     -   **`T_Brick_N`** (normal map)
         
 3.  Select **`T_Brick`**, in the **Inspector** window
