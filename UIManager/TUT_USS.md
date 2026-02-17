@@ -74,49 +74,55 @@ GLOBAL DEFAULT STYLES
 
     color: #ffd166;
 
-    -unity-text-outline-color: #000000;
-    -unity-text-outline-width: 2;
+    -unity-text-outline-color: #000000;  /* stroke color */
+    -unity-text-outline-width: 2;        /* thickness in px */
 }
+
 
 /* Button container: vertical layout */
 .button-container {
     flex-direction: column;
-    width: 60%;
-    max-width: 360px;
-    min-width: 220px;
+    width: 60%;          /* responsive */
+    max-width: 360px;    /* prevents being huge on wide screens */
+    min-width: 220px;    /* prevents being tiny */
 
-    height: 40%;
-    min-height: 200px;
+    height: 40%;        /* gives it space to distribute */
+    min-height: 200px;  /* prevents it from collapsing */
 
-    justify-content: space-evenly;
-    gap: 12px;
+    justify-content:space-evenly; /* Evenly space out the buttons */
 }
+
 
 /* Buttons styling */
 .button-container Button {
-    width: 100%;
-    height: 50;
+    width: 100%;       /* fills the container */
+    height: 50px;      /* Set a standard height */
     
-    font-size: 16px;
+    font-size: 16px; 
+
     background-color: #fff;
     color: #000;
 
     border-radius: 8px;
+
     border-top-width: 2px;
     border-right-width: 10px;
     border-bottom-width: 10px;
     border-left-width: 2px;
-    border-color: #000;
-    border-style: solid;
 
-    unity-text-align: middle-center;
+    border-color: #000;
+
+    -unity-text-align: middle-center;
 }
+
 
 .button-container Button:hover {
     background-color: #ffd166;
+
     border-right-width: 6px;
     border-bottom-width: 6px;
 }
+
 
 ```
 > [!WARNING]
