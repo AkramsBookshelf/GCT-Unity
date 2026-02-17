@@ -1,4 +1,4 @@
-# ⚒️ Tutorial: Styling Your UI: USS & Themes
+# ⚒️ Tutorial: Styling UI With USS
 > By: Akram Taghavi-Burris | © 2026
 
 <details>
