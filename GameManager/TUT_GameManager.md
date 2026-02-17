@@ -336,9 +336,6 @@ public class GameManager : Singleton<GameManager>
         // Enter the new state
         newState.Enter();
 
-        // Only runs when a state is added
-        ValidateStateChange();
-
     }//end PushState
 
     /// <summary>
