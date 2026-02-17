@@ -1,4 +1,4 @@
-# 🎮 GameManager Class
+# 📜 GameManager Class
 > By: Akram Taghavi-Burris | © 2026
 
 Now that we have a reusable **[Singleton Base Class](TUT_SingletonBase.md)**, we can begin work on the **GameManager**.
