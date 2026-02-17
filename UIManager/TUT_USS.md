@@ -76,7 +76,7 @@ GLOBAL DEFAULT STYLES
     color: #ffd166;
 
     -unity-text-outline-color: #000000;  /* stroke color */
-    -unity-text-outline-width: 2;        /* thickness in px */
+    -unity-text-outline-width: 2px;        /* thickness in px */
 }
 
 
