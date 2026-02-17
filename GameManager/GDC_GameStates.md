@@ -1,17 +1,18 @@
 # 🏹 Game Design Challenge: Expand Your Game States
 > By: Akram Taghavi-Burris | © 2026
 
-Now that we have the **BootState** and the basic **GameManager** system working, it’s time to expand our game states and start creating the **player experience**. In this challenge, you’ll implement the next core states: **MainMenuState, PlayingState, PausedState, and GameOverState**.
+Now that we have the **baseline for our GameManager**, including the singleton setup, state stack, and BootState, we need to implement the rest of the behaviors that define the **main game loop**. The purpose of this phase is **not to implement final gameplay, UI, or polish**, but to establish a **fully functional state management system** that can handle transitions, stacking rules, and temporary testing interactions.
 
 
 # 
 
 ## 🎯 Assignment Goals
-1.  Create additional **game states** inheriting from **BaseGameState**.
-2.  Implement **basic logic for entering, executing, and exiting** each state.
-3.  Add **simple scene and UI transitions** to visualize state changes.
-4.  Use the **GameManager stack system** to handle state transitions.
-5.  Optionally, add **fun effects** (fade, overlays) to make transitions feel more dynamic.
+1. Expand the GameManager system to support all core states: MainMenuState, PlayingState, PausedState, and GameOverState.
+2. Create additional **game states** inheriting from **BaseGameState**.
+3. Implement **basic logic for entering, executing, and exiting** each state.
+4. Use the **GameManager stack system** to handle state transitions (e.g., push, pop, and replace operations) 
+5. Provide a foundation for **testing state transitions with temporary objects** (e.g., simple scenes, triggers, and UI interactions).
+6. Optionally, add **fun effects** (fade, overlays) to make transitions feel more dynamic.
 
 #
 
@@ -55,6 +56,7 @@ Now that we have the **BootState** and the basic **GameManager** system working,
 > \[!TIP\]  
 > This scene could be minimal—a black background with “Game Over” text is fine for now.
 > 
+
 
 #
 
