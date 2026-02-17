@@ -195,3 +195,10 @@ Chocolate Brown: rgba(255, 209, 102, 1)
 }
 
 ```
+
+> [!TIP]
+> When building a themed UI like Camp Craft, keeping your brand identity consistent is key. While listing your colors and fonts in comments is a great starting point for quick reference, USS Variables (Custom Properties) are the "pro" way to manage styles.
+> By using variables like `--color-primary`, you can update your entire game's color palette in one place without hunting through hundreds of lines of code. For more on implementing USS Variables in Unity 6, check out the [Unity Manual on Custom Properties](https://docs.unity3d.com/2021.2/Documentation/Manual/UIE-USS-CustomProperties.html).
+>
+
+---
