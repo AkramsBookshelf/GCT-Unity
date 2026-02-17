@@ -1,7 +1,7 @@
 # 🏹 Game Design Challenge: Expand Your Game States
 > By: Akram Taghavi-Burris | © 2026
 
-Now that we have the **baseline for our GameManager**, including the singleton setup, state stack, and BootState, we need to implement the rest of the behaviors that define the **main game loop**. The purpose of this phase is **not to implement final gameplay, UI, or polish**, but to establish a **fully functional state management system** that can handle transitions, stacking rules, and temporary testing interactions.
+Now that we have the **BootState** and the basic **GameManager** system working, it’s time to expand our game states and start creating the **player experience**. In this challenge, you’ll implement the next core states: **MainMenuState, PlayingState, PausedState, and GameOverState**.
 
 
 # 
