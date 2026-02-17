@@ -108,6 +108,8 @@ This is a simple and reusable layout that can serve as a **starting template** f
 ### Step 2: UI Document Canvas Setup
 1. With the UI Document Selected in the UI Builder Hierarchy, set the **Canvas Size** to **Match the Game View**
 
+![Set the UI Canvas to Match the Game View](imgs/gct-uiDoc-01.png)
+
 > [!NOTE]
 > For the **Match the Game View** to render at the appropriate resolution, the **Game View** window must have the correct **Aspect Ratio** set.
 >
@@ -121,6 +123,10 @@ All UI elements exist inside a **Visual Element**, which can be thought of as th
 
 1. From the **Library** panel in the **UI Builder** find the **Visual Element**
    - Drag and drop the element into the **Hierarchy**
+
+
+![The Visual Element acts as a container](imgs/gct-uiDoc-02.png)
+
   
 # 
 
@@ -131,6 +137,8 @@ The game title will be displayed as text for this example. The visual element fo
    - Drag and drop the element into the **Hierarchy** nested in the **Visual Element**
 2. With the **Label** selected in the **Inspector** window
    - Set the **Attributes → Text** property to **Game Title**
+
+![Add the game title as a text label](imgs/gct-uiDoc-03.png)
   
 # 
 
@@ -142,7 +150,7 @@ Since we want to ensure the buttons are aligned with each other, we can group th
 
 2. Inside the **Visual Element** which acts as our _button container_ **add 3 buttons**
 
-We want to be able to uniquely distinguish the buttons from eachother. We can do this by assigning an **ID**. 
+We will assign a unique identifier (**ID**) to the buttons to ensure there is only one instance of that button in a given document. 
 
 3. With the first (top) button selected in the **Hierarchy** in the **Inspector** window
    - Set the ID to **playButton**
@@ -152,7 +160,7 @@ We want to be able to uniquely distinguish the buttons from eachother. We can do
    - Set the ID to **optionsButton** and text value to **Options**
    - Set the ID to **quitButton** and the text value to **Quit**
   
-
+![Set the buttons ID and Text property](imgs/gct-uiDoc-04.png)
 
 
 
