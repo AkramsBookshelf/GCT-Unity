@@ -43,6 +43,15 @@ While **USS is inspired by CSS**, it is **not identical**. Key points to note:
      
 Global styles act as a **baseline** for all UI documents. They define default layouts, fonts, colors, and spacing for general use.
 
+> [!NOTE\]  
+> All visual elements’ size (e.g., width, height, flex) is relative to the **parent element**. That means if you set a child element to `height: 100%`, it will only stretch as tall as its parent—not the full screen.
+> While we set the UI Document’s Panel Settings to **Match the Game View**, that only ensures the _panel itself_ matches the game window size. It does **not** automatically force your UI hierarchy to stretch to fill that panel.
+> To resolve this, the UI Document has an invisible `:root` container, which you can think of as the UI Toolkit equivalent of the `<html>` tag in a webpage. To ensure the UI Document is the full width and **height** of the Game View, we need to stretch this root element:
+> `:root { flex-grow: 1; } /* Forces the root container to fill the panel */`
+> Once the root fills the screen, all child elements using `height: 100%` or `flex-grow: 1` will stretch correctly in relation to the screen, not just their immediate parent container.
+>
+
+
 Here’s an example `GlobalStyles.uss` file:
 
 ```css
@@ -50,22 +59,29 @@ Here’s an example `GlobalStyles.uss` file:
 GLOBAL DEFAULT STYLES
 *****************************/
 
+/* Unity's invisible parent container*/
+:root {
+    
+    flex-grow: 1; /* Forces this invisible parent to stretch the full width/height of the Game View. */
+}
+
 /* Root container fills screen and centers content */
 .root-container {
-    width: 100%;
-    height: 100%;
+    flex-grow: 1; /* Stretches to fill parent */
 
-    flex-grow: 1;
+    /* Layout: Vertical stack, centered both ways */
     flex-direction: column;
     justify-content: center;
     align-items: center;
     
-    -unity-font-definition: url("project:/Assets/UI/Fonts/Roboto/Roboto-Regurlar-SDF.asset");
+    /* Base Font Styles */
+    -unity-font-definition: url("project:/Assets/UI/Fonts/Roboto/Roboto-Regular-SDF.asset");
     font-size: 14px; 
     -unity-font-style: bold;
     
     background-color: #fff;
 }
+
 
 .game-title {
     margin-bottom: 4%;
@@ -79,7 +95,6 @@ GLOBAL DEFAULT STYLES
     -unity-text-outline-width: 2px;        /* thickness in px */
 }
 
-
 /* Button container: vertical layout */
 .button-container {
     flex-direction: column;
@@ -91,13 +106,13 @@ GLOBAL DEFAULT STYLES
     min-height: 200px;  /* prevents it from collapsing */
 
     justify-content:space-evenly; /* Evenly space out the buttons */
-}
 
+}
 
 /* Buttons styling */
 .button-container Button {
-    width: 100%;       /* fills the container */
-    height: 50px;      /* Set a standard height */
+    width: 100%;         /* fills the container */
+    min-height: 50px;   /* Set the minium height of all buttons */
     
     font-size: 16px; 
 
@@ -115,7 +130,6 @@ GLOBAL DEFAULT STYLES
 
     -unity-text-align: middle-center;
 }
-
 
 .button-container Button:hover {
     background-color: #ffd166;
