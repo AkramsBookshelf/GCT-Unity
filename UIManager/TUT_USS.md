@@ -55,7 +55,7 @@ GLOBAL DEFAULT STYLES
     width: 100%;
     height: 100%;
 
-    flex-grow: 1
+    flex-grow: 1;
     flex-direction: column;
     justify-content: center;
     align-items: center;
