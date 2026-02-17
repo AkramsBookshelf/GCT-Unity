@@ -48,7 +48,7 @@ Global styles act as a **baseline** for all UI documents. They define default la
 > 
 > While we set the UI Document’s Panel Settings to **Match the Game View**, that only ensures the _panel itself_ matches the game window size. It does **not** automatically force your UI hierarchy to stretch to fill that panel.
 > 
-> To resolve this, the UI Document has an invisible `:root` container, which you can think of as the UI Toolkit equivalent of the `<html>` tag in a webpage. To ensure the UI Document is the full width and **height** of the Game View, we need to stretch this root element:
+> To resolve this, the UI Document has an invisible `:root` container, which you can think of as the UI Toolkit equivalent of the `<html>` tag in a webpage. To ensure the UI Document is the full **width and height** of the Game View, we need to stretch this root element:
 > 
 > `:root { flex-grow: 1; } /* Forces the root container to fill the panel */`
 > 
