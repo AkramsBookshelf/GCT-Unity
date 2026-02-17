@@ -90,10 +90,10 @@ To help debug which state is active, we can **track the top of the state stack i
 
 ```csharp
 #if UNITY_EDITOR
-private void ValidateStateChange()
-{
-    _activeTopState = CurrentState?.GetType().Name ?? "Empty";
-}
+    private void ValidateStateChange()
+    {
+        _activeTopState = CurrentState?.GetType().Name ?? "Empty";
+    }
 #endif
 
 ```
@@ -101,15 +101,15 @@ private void ValidateStateChange()
 3. Call **`ValidateStateChange()`** inside **`PushState()`**:
 
 ```csharp
-public void PushState(IState newState)
-{
-    _stateStack.Push(newState);
-    newState.Enter();
+    public void PushState(IState newState)
+    {
+        _stateStack.Push(newState);
+        newState.Enter();
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     ValidateStateChange();
-    #endif
-}
+#endif
+    }    
 ```
 
 > [!TIP]
@@ -230,8 +230,10 @@ public class GameManager : Singleton<GameManager>
         //Enter the new state
         newState.Enter();
         
+#if UNITY_EDITOR 
         // Only runs when a state is added
         ValidateStateChange();
+#endif
         
     }//end PushState
 
@@ -276,12 +278,12 @@ public class GameManager : Singleton<GameManager>
     }
 
  
-    #if UNITY_EDITOR 
+#if UNITY_EDITOR 
     private void ValidateStateChange()
     {
         _activeTopState = CurrentState?.GetType().Name ?? "Empty";
     }
-    #endif
+#endif
     
  
 }//end GameManager
