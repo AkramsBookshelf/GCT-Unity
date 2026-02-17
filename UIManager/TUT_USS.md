@@ -59,7 +59,7 @@ GLOBAL DEFAULT STYLES
     justify-content: center;
     align-items: center;
     
-    -unity-font-definition: url("project:/Assets/UI/Fonts/Roboto SDF.asset");
+    -unity-font-definition: url("project:/Assets/UI/Fonts/Roboto/Roboto-Regurlar-SDF.asset");
     font-size: 14px; 
     -unity-font-style: bold;
     
@@ -69,7 +69,7 @@ GLOBAL DEFAULT STYLES
 .game-title {
     margin-bottom: 4%;
 
-    -unity-font-definition: url("project:/Assets/UI/Fonts/Bangers-Regular SDF.asset");
+    -unity-font-definition: url("project:/Assets/UI/Fonts/Bangers-Regular-SDF.asset");
     font-size: 100px;
 
     color: #ffd166;
@@ -173,13 +173,13 @@ Chocolate Brown: rgba(255, 209, 102, 1)
     width: 30%;
     height: 100%;
     margin-left: 10%;
-    -unity-font-definition: url("project://database/Assets/UI/Fonts/Lato-Regular%20SDF.asset?fileID=11400000&guid=7b8e0e5c3bc804c47b14496d2d907420&type=2#Lato-Regular SDF");
+    -unity-font-definition: url("project:/Assets/UI/Fonts/Lato/Lato-Regular-SDF.asset");
     background-color: rgba(250, 245, 230, 0.5);
 }
 
 .campcraft-theme .game-title {
     font-size: 50px;
-    -unity-font-definition: url("project://database/Assets/UI/Fonts/Courgette-Regular%20SDF.asset?fileID=11400000&guid=a5df8aeda32ff544c906bb7b421486e7&type=2#Courgette-Regular SDF");
+    -unity-font-definition: url("project:/Assets/UI/Fonts/Fonts/Courgette-Regular-SDF.asset");
     color: rgb(255, 209, 102);
     -unity-text-outline-color: rgb(92, 58, 33);
 }
