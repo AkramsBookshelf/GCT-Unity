@@ -59,7 +59,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
         
 #
 
-## Step 3 — Add Properties for Rotation
+### Step 3 — Add Properties for Rotation
 1.  In the Animation window, click **Add Property**.
 2.  Select **Gate-Left → Transform → Rotation**
 3.  Repeat for **Gate-Right → Transform → Rotation**
@@ -70,7 +70,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
     
 # 
 
-## Step 4 — Record the Open Animation
+### Step 4 — Record the Open Animation
 1.  Press the **Record button** in the Animation window.
 2.  Move the **playhead** to frame **10**.
 3.  Select **Gate-Left** → in the **Inspector**, set **Y rotation = -90**.
@@ -83,7 +83,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 
 # 
 
-## Step 5 — Create the Close Animation
+### Step 5 — Create the Close Animation
 1.  In the **Project window**, duplicate **ANM_GateOpen** → rename it **ANM_GateClose**.
 2.  In the Animation window:
     -   Draw a selection box around the **first frames** and drag them to frame **15**.
@@ -96,7 +96,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 
 # 
 
-## Step 6 — Add an Animator Component
+### Step 6 — Add an Animator Component
 1.  Select **Gate_Interactable** in the **Hierarchy**.
 2.  In the **Inspector**, click **Add Component → Animator**.
 
@@ -113,7 +113,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 # 
 
 
-## Step 8 — Create Animator States
+### Step 8 — Create Animator States
 1.  Right-click in the Animator → **Create State → Empty** → rename: **Closed**
 2.  Right-click **Entry** → **Make Transition → Closed**
     -   This sets the gate to start in the closed state.
@@ -123,7 +123,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
         
 #
 
-## Step 9 — Create Animator Parameters
+### Step 9 — Create Animator Parameters
 1.  In the Animator window, go to the **Parameters tab**.
 2.  Click **+ → Bool** → name: `ShouldOpen`
 3.  Click **+ → Bool** → name: `IsLocked`
@@ -135,103 +135,79 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 
 # 
 
-## Step 10 — Add Opening and Open States
+### Step 10 — Add Opening and Open States
 1.  Right-click → **Create State → Empty** → rename: **Opening**
 2.  Right-click → **Create State → Empty** → rename: **Open**
 3.  Right-click **Closed → Make Transition → Opening**
 4.  Select **Opening**, in Inspector:
-    
     -   Motion = `ANM_GateOpen`
-        
     -   Speed = 1
         
 5.  Select the **transition arrow (Closed → Opening)**:
-    
     -   Uncheck **Has Exit Time**
-        
     -   Add conditions:
-        
         -   `IsLocked = False`
-            
         -   `ShouldOpen = True`
             
 6.  Right-click **Opening → Make Transition → Open**
-    
 7.  Select **Open**, in Inspector:
-    
     -   Motion = `ANM_GateClose`
-        
     -   Speed = 1
         
 8.  Select **transition arrow (Opening → Open)**:
-    
     -   Uncheck **Has Exit Time**
-        
-    -   Condition: `ShouldOpen = False`
+    -   Condition: `ShouldOpen = False.`
         
 9.  Right-click **Open → Make Transition → Closed**
-    
 10.  Select the transition arrow → **Check Exit Time** = True
-    
     -   Set Exit Time = 1 → ensures the animation finishes before returning to Closed
-        
 
-> \[!TIP\]  
+> [!TIP]  
 > Setting exit time ensures animations complete fully before transitioning to another state.
 
-## Step 11 — Test the Gate Animation
-
+#
+### Step 11 — Test the Gate Animation
 1.  Press **Play** in Unity.
-    
-2.  In the **Scene view**, locate **Gate\_Interactable**.
-    
+2.  In the **Scene view**, locate **Gate_Interactable**.
 3.  In the Animator window:
-    
     -   Set **IsLocked = False** → gate opens automatically.
-        
     -   Set **ShouldOpen = False** → gate closes automatically.
-        
 4.  Exit Play mode.
-    
-
-> \[!NOTE\]  
+   
+> [!NOTE]  
 > This verifies that the **Animator state machine and conditions work correctly**.
+> Later, we trigger these animations in the game through visual scripting.
+>
 
-## Step 12 — Create a Prefab Variant
+#
 
-1.  Drag **Gate\_Interactable** from Hierarchy → into **Prefabs folder**.
-    
+### Step 12 — Create a Prefab Variant
+1.  Drag **Gate_Interactable** from Hierarchy → into **Prefabs folder**.
 2.  When prompted:
-    
     -   Select **Create Prefab Variant**
-        
-3.  Rename the variant back to **Gate\_Interactable**
+3.  Rename the variant back to **Gate_Interactable**
     
+> [!TIP]  
+> A **prefab variant** inherits the original prefab’s properties but allows **scene-specific adjustments**.
+> This is why we create a variant: we can reuse it while keeping unique animations or parameters for each instance.
+> 
 
-> \[!TIP\]  
-> A **prefab variant** inherits the original prefab’s properties but allows **scene-specific adjustments**. This is why we create a variant: we can reuse it while keeping unique animations or parameters for each instance.
+#
 
-## Step 13 — Add Additional Gates
-
-1.  Drag another **Gate\_Interactable** prefab into the scene.
-    
+### Step 13 — Add Additional Gates
+1.  Drag another **Gate_Interactable** prefab into the scene.
 2.  Place it as the **second gate** to interact with in your park.
     
-
-> \[!TIP\]  
+> [!TIP]  
 > Using prefabs and variants allows you to **reuse the same gate logic and animation** without duplicating setup work.
+> 
 
-## Step 14 — Save & Commit
-
+#
+### Step 14 — Save & Commit
 1.  Save the scene: **File > Save** or **Ctrl + S**
-    
 2.  Close Unity.
-    
 3.  In **GitHub Desktop**: stage your changes
-    
 4.  Commit with message:
-    
-    -   `feat: added Gate Animator and open/close animations`
-        
-5.  Push changes to the **SceneBuilding** branch
+    -   `feat: added Gate Animator and open/close animations.`
+5.  Push changes to the **Animation** branch
 
