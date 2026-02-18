@@ -24,7 +24,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Animation     | 30 minutes       |   GitHub Desktop, Unity , Gate Prefab   |
+| Animation     | 30 minutes       |   GitHub Desktop, Unity, Gate Prefab   |
 </details>
 
 > [!NOTE]
@@ -72,7 +72,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 
 ### Step 4 — Record the Open Animation
 1.  Press the **Record button** in the Animation window.
-2.  Move the **playhead** to frame **10**.
+2.  Move the **playhead** to the **10** second marker.
 3.  Select **Gate-Left** → in the **Inspector**, set **Y rotation = -90**.
 4.  Select **Gate-Right** → in the **Inspector**, set **Y rotation = 270**.
 5.  Turn **off** the Record button.
@@ -96,9 +96,19 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 
 # 
 
-### Step 6 — Add an Animator Component
+### Step 6 — Animator Component
+When you create an animation clip on a game object, Unity will automatically add an **Animator component** on the object.
+The **Animator** component controls how animation clips are played. 
+We created our ANM_GateOpen animation by having the Gate_Interactable selected wehen we created the clip, so this animation is already associated with the game object in the Animator. 
+However, because the ANM_GateClose was simply duplicated, it is not associated with the game object. 
 1.  Select **Gate_Interactable** in the **Hierarchy**.
-2.  In the **Inspector**, click **Add Component → Animator**.
+2.  In the **Inspector**, ensure that it has the the **Animator** component assinged.
+3.  With the **Gate_Interactable** still selected in the **Hierarchy**, in the **Animation** window, click the clip drop-down
+    - It will only show the **ANM_GateOpen** clip. The ANM_GateClose was not linked to it.
+4. From the **Project** window, drag the **ANM_GateClose** clip on to the **Gate_Interactable** in the **Hierarchy**.
+5. Return to the **Animation** window, click the clip drop-down
+   - You should now see both the **ANM_GateOpen** and **ANM_GateClose** in the clip drop down.
+   - Switching between these clips will allow you to see a preview in the scene view. 
 
 # 
 
