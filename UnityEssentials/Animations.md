@@ -96,40 +96,65 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 
 # 
 
-### Step 6 — Animator Component
-When you create an animation clip on a game object, Unity will automatically add an **Animator component** on the object.
-The **Animator** component controls how animation clips are played. 
-We created our ANM_GateOpen animation by having the Gate_Interactable selected wehen we created the clip, so this animation is already associated with the game object in the Animator. 
-However, because the ANM_GateClose was simply duplicated, it is not associated with the game object. 
+### Step 6 — Associating Animation Clips with the Animator
+When we created **ANM_GateOpen**, Unity automatically linked it to the gate.
+
+But since **ANM_GateClose** was duplicated, we need to manually link it.
+
 1.  Select **Gate_Interactable** in the **Hierarchy**.
-2.  In the **Inspector**, ensure that it has the the **Animator** component assinged.
-3.  With the **Gate_Interactable** still selected in the **Hierarchy**, in the **Animation** window, click the clip drop-down
-    - It will only show the **ANM_GateOpen** clip. The ANM_GateClose was not linked to it.
-4. From the **Project** window, drag the **ANM_GateClose** clip on to the **Gate_Interactable** in the **Hierarchy**.
-5. Return to the **Animation** window, click the clip drop-down
-   - You should now see both the **ANM_GateOpen** and **ANM_GateClose** in the clip drop down.
-   - Switching between these clips will allow you to see a preview in the scene view. 
+2.  In the **Inspector**, confirm the object has an **Animator** component.
+3.  In the **Animation** window, click the clip drop-down.
+    -   You should only see **ANM_GateOpen**
+        
+4.  In the **Project** window, drag **ANM_GateClose** onto **Gate_Interactable** in the **Hierarchy**.
+5.  Return to the **Animation** window and open the clip drop-down again.
+    -   You should now see both
+        -   **ANM_GateOpen**
+        -   **ANM_GateClose**
+            
 
-# 
-
-## Step 7 — Open the Animator Window
-1.  Go to **Window > Animation > Animator**.
-2.  The **Animator window** will open.
-    
 > [!TIP]  
-> The Animator defines **states** for the object (Closed, Opening, Open) and controls **transitions** between them based on conditions.
+> If a clip exists in the Project window but does not appear in the Animation window, it usually means it has not been added to the GameObject yet.
 >
 
+
 # 
 
+### Step 7 - Adjusting Animation Loops
+By default, all animation clips are set to loop. In many instances, we will want to turn off the loop property by: 
+1. Select the **ANM_GateOpen** in the **Project** window
+2. In the **Inspector** window uncheck **Loop Time**
+3. Repeat the steps for **ANM_GateClose**
 
-### Step 8 — Create Animator States
-1.  Right-click in the Animator → **Create State → Empty** → rename: **Closed**
-2.  Right-click **Entry** → **Make Transition → Closed**
-    -   This sets the gate to start in the closed state.
+# 
+
+### Step 8 — Create Closed State
+The **Animator** controller allows us to control when animations play using **states**. 
+
+**States** help us organize behavior. Instead of the player trying to walk, run, and idle all at once, the game chooses one mode and follows its rules.
+
+1. Go to **Window > Animation > Animator**.
+2.  The **Animator window** will open.
+3. Select **Gate_Interactable** from the **Hierarchy**.
+4. In the **Animator** window, draw a window around all states and press delete.
+   - The Entry, Exit, and Any State should be the only states left
+6.  In the **Animator** window right-click in an open area and choose **Create State → Empty** → rename: **Closed**
+7.  Right-click on the **Entry** state and choose **Make Transition**
+    -  Drag the transition arrow to the **Closed** state.
 3.  With **Closed** selected, in the Inspector:
     -   Set **Motion** = `ANM_GateOpen`
-    -   Set **Speed = 0** → keeps the animation from playing automatically
+    -   Set **Speed = 0**  (keeps the animation from playing automatically)
+
+>[!WARNING]
+> The **Closed** state uses **ANM_GateOpen** on purpose.
+>
+>Even though the name sounds wrong, the **first frame** of `ANM_GateOpen` shows the gate **fully closed**.
+>
+>Since the **Closed** state has its **Speed set to 0**, Unity will hold the animation on frame 1 and keep the gate closed.
+>
+>If we used `ANM_GateClose` instead, frame 1 would show the gate **already open**, which is not what we want for the Closed state.
+>
+
         
 #
 
@@ -139,41 +164,47 @@ However, because the ANM_GateClose was simply duplicated, it is not associated w
 3.  Click **+ → Bool** → name: `IsLocked`
 4.  Set both default values to **True**
 
-> [!TIP]  
-> Boolean parameters should be phrased as questions (true/false) to make transitions easy to understand.
->
+> [!NOTE]  
+> **Animator Parameters** are values that control when animations switch states.
+> 
+> Booleans are a simple type of parameter that checks for a **true/false** condition. These parameters should be phrased as questions (true/false) to make transitions easy to understand (e.g., 'IsLocked').
+> 
 
 # 
 
 ### Step 10 — Add Opening and Open States
-1.  Right-click → **Create State → Empty** → rename: **Opening**
-2.  Right-click → **Create State → Empty** → rename: **Open**
-3.  Right-click **Closed → Make Transition → Opening**
-4.  Select **Opening**, in Inspector:
-    -   Motion = `ANM_GateOpen`
-    -   Speed = 1
+1. In a blank area of the **Animator** window, create two more states (i.e., right-click **Create State → Empty**)
+    - Name one **Opening**
+    - Name the second one **Opened**
+3.  Right-click **Closed** and choose  **Make Transition**
+    - Drag the transition arrow to **Opening**
+5.  Select **Opening** state and in the **Inspector**:
+    -   Set **Motion** = `ANM_GateOpen`
+    -   Set **Speed = 1**  (will auto-play the animation)
+  
+
         
-5.  Select the **transition arrow (Closed → Opening)**:
-    -   Uncheck **Has Exit Time**
-    -   Add conditions:
+6.  Select the **transition arrow (Closed → Opening)**, in the **Inspector** window
+    - Uncheck **Has Exit Time** 
+    - In the **Conditions** Panel, press the **`+`** to add the following coniditions:
         -   `IsLocked = False`
         -   `ShouldOpen = True`
             
-6.  Right-click **Opening → Make Transition → Open**
-7.  Select **Open**, in Inspector:
-    -   Motion = `ANM_GateClose`
-    -   Speed = 1
+8.  Right-click **Opening** state and choose **Make Transition**
+    - Drag the transition arrow to **Opened**
+9.  Select **Opened** state and in the **Inspector**:
+    -  Set **Motion** = `ANM_GateClose`
+    -  Set **Speed = 1**  (will auto-play the animation)
         
-8.  Select **transition arrow (Opening → Open)**:
+10.  Select **transition arrow (Opening → Open)**:
     -   Uncheck **Has Exit Time**
     -   Condition: `ShouldOpen = False.`
         
-9.  Right-click **Open → Make Transition → Closed**
-10.  Select the transition arrow → **Check Exit Time** = True
-    -   Set Exit Time = 1 → ensures the animation finishes before returning to Closed
-
-> [!TIP]  
-> Setting exit time ensures animations complete fully before transitioning to another state.
+11.  Right-click **Opened** state and choose **Make Transition**
+     - Drag the transition arrow to **Closed**
+13.    Select the **transition arrow (Opened → Closed)**, in the **Inspector** window
+       - **Check Exit Time** = True
+       -   Set **Exit Time** = 1 (ensures the animation finishes before returning to Closed)
 
 #
 ### Step 11 — Test the Gate Animation
@@ -192,7 +223,7 @@ However, because the ANM_GateClose was simply duplicated, it is not associated w
 #
 
 ### Step 12 — Create a Prefab Variant
-1.  Drag **Gate_Interactable** from Hierarchy → into **Prefabs folder**.
+1.  Drag **Gate_Interactable** from Hierarchy into the **Project** window **Prefabs folder**.
 2.  When prompted:
     -   Select **Create Prefab Variant**
 3.  Rename the variant back to **Gate_Interactable**
@@ -213,6 +244,7 @@ However, because the ANM_GateClose was simply duplicated, it is not associated w
 > 
 
 #
+
 ### Step 14 — Save & Commit
 1.  Save the scene: **File > Save** or **Ctrl + S**
 2.  Close Unity.
