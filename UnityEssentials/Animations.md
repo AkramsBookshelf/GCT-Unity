@@ -25,6 +25,7 @@ In this tutorial, we will animate a **park gate** that separates two areas. We�
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
 | Animation     | 30 minutes       |   GitHub Desktop, Unity , Gate Prefab   |
+</details>
 
 > [!NOTE]
 > Before starting this tutorial, ensure you have :
