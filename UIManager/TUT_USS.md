@@ -221,3 +221,43 @@ Chocolate Brown: rgba(255, 209, 102, 1)
 >
 
 ---
+# 🎉 New Achievement: Global & Theme USS Styles Applied!
+
+You now have **fully structured USS styles** applied to your UI Toolkit project. This includes:
+
+-   **Global baseline styles** (`GlobalStyles.uss`) that define default layouts, fonts, colors, and spacing.
+    
+-   **Theme-specific overrides** (`CampCraft.uss`) to customize colors, fonts, and hover effects for your game’s branding.
+    
+-   **Class-based styling hooks** (`root-container`, `game-title`, `button-container`) that make your UI modular, reusable, and easy to update.
+    
+
+Your UI elements now respond consistently to styling rules, and the **root container stretches properly** to fill the screen, ensuring all child elements scale correctly.
+
+## 🚩 Checkpoint
+
+Key takeaways from this lesson:
+1.  **USS vs CSS**
+    -   USS is inspired by CSS but includes **Unity-specific properties** like `-unity-font-definition` and `-unity-text-outline-color`.
+    -   Not all CSS rules work in USS; check Unity documentation for supported properties.
+        
+2.  **Global Styles**
+    -   Serve as a **baseline** for all UI Documents.
+    -   Control default layout, fonts, colors, and spacing.
+    -   The `:root` selector ensures the **UI Document fills the Game View**.
+        
+3.  **Theme-Specific Styles**
+    -   Allow branding customization without touching global styles.
+    -   Keep fonts, colors, and hover effects consistent with your game’s theme.
+        
+4.  **Class-Based Styling**
+    -   Classes like `root-container`, `game-title`, and `button-container` let you **reuse styling rules across multiple menus**.
+    -   Centralized styling reduces maintenance and improves readability.
+        
+5.  **USS Variables (Optional)**
+    -   Using variables like `--color-primary` makes it easier to **update color palettes** and maintain consistent design.
+        
+6.  **Practical Benefits**
+    -   Clean separation of **structure (UXML)** and **style (USS)**.
+    -   Easy to maintain, update, and extend themes.
+    -   Ready for integration with **C# behavior scripts** for interactive UI elements.
