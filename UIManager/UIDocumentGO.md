@@ -85,18 +85,14 @@ If you are building normal menus/HUD, you can ignore this.
 # 
 
 ### **Sort Order**
-The **Sort Order** controls layering when you have **multiple UI Documents active**.
+The Sort Order property on the Panel Settings asset determines the rendering priority between different Panels. In other words, if you have two UI Documents using different Panel Settings, the Sort Order on those assets determines which entire "group" is drawn on top.
 
--   Higher Sort Order = draws on top
--   Lower Sort Order = draws behind
-    
-Example:
--   HUD → 0
--   Pause Menu → 10
--   Popup Dialog → 50
+However, the UI Document component itself also has a Sort Order. This determines the draw order when multiple UI Documents share the same Panel Settings asset.
 
-Sort Order is one of the most important settings once you have more than one UI Document.
-
+### Rules of Sorting:
+-   Higher Sort Order: Draws on top (visible to the player).
+-   Lower Sort Order: Draws behind.
+-   Input Priority: The UI drawn on top visually is also the one that catches mouse clicks and touch events first.
 
 ### **Scale Mode and Parameters**
 **Scale Mode** controls how UI scales when the screen size changes; basically, the UI Toolkit equivalent of the **Canvas Scaler** from uGUI. 
