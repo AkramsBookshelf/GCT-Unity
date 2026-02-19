@@ -36,9 +36,10 @@ While **USS is inspired by CSS**, it is **not identical**. Key points to note:
 
 # 
 
-## Step 1 — Global Styles
+### Step 1 — Global Styles
 1. Open your Unity project in your **IDE**
-2. In the **Assets / UI** folder, create a new file:
+2. In the **Assets/UI** folder create a new folder named **StyleSheets**
+3. In the **Assets/UI/StyleSheets** folder, create  a new file:
    - **GlobalSystles.uss**
      
 Global styles act as a **baseline** for all UI documents. They define default layouts, fonts, colors, and spacing for general use.
@@ -150,7 +151,7 @@ GLOBAL DEFAULT STYLES
 
 # 
 
-## Step 2 — Assign the USS to Your UI Document
+### Step 2 — Assign the USS to Your UI Document
 
 1.  Open your **MainMenu** UI Document in **UI Builder**.
     
@@ -160,11 +161,11 @@ Your UI Document now uses the **global baseline styles**, giving your menu a cle
 
 # 
 
-## Step 3 — Theme-Specific Styles
+### Step 3 — Theme-Specific Styles
 While the Global Style sheet sets the baseline, if we want to create theme specfic overrides, we can do this in a separate stylesheet. 
 
 1. With your Unity project opened in your **IDE**
-2. In the **Assets / UI** folder, create a new file:
+2. In the **Assets/UI/StyleSheets** folder, create a new file:
    - **CampCraft.uss**
   
 Create the following _Camp Craft_ specific styles: 
@@ -219,6 +220,36 @@ Chocolate Brown: rgba(255, 209, 102, 1)
 > When building a themed UI like Camp Craft, keeping your brand identity consistent is key. While listing your colors and fonts in comments is a great starting point for quick reference, USS Variables (Custom Properties) are the "pro" way to manage styles.
 > By using variables like `--color-primary`, you can update your entire game's color palette in one place without hunting through hundreds of lines of code. For more on implementing USS Variables in Unity 6, check out the [Unity Manual on Custom Properties](https://docs.unity3d.com/2021.2/Documentation/Manual/UIE-USS-CustomProperties.html).
 >
+
+#
+### Step 4 — Assign a Secondary USS 
+
+1.  Open your **MainMenu** UI Document in **UI Builder**.
+2.  In the **Inspector → StyleSheets**, click **Add StyleSheet** and select `CampCraft.uss`.
+
+> [!NOTE]
+> Your UI Document is now linked to both the `GlobalStyles.uss` and `CampCraft.uss` styles. However, at the moment, the _Camp Craft_ styles are not being applied.
+>
+
+# 
+
+### Step 5 - Applying Classes to Elements 
+Classes can be applied either through the UI Builder or in the UXML code. 
+
+**Add Classes via UI Builder** 
+1. In the **UI Builder**, expand the `CampCraft.uss` in the **StyleSheet** panel, and find the `campcraft-theme` class
+2. Drag and drop the `campcraft-theme` onto the _root_ **VisualElement**
+3. In the **Inspector**, you will now notice that the **VisualElement** lists both the `root-container` and `campcraft-theme` uner the **Style Class List** panel.
+
+**Add Classes via UXML** 
+1. Open the **MainMenu.uxml** in your IDE.
+2. Update the first **VisualElement** tag to include the `campcarft-theme` class, as shown below:
+```xml
+ <ui:VisualElement class="button-container">
+```
+3. Save your changes. 
+
+
 
 ---
 # 🎉 New Achievement: Global & Theme USS Styles Applied!
