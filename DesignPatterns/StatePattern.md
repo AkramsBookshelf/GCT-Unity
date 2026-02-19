@@ -107,7 +107,7 @@ public interface IState
 ```
 
 ---
-## 🛡️ Checkpoint: Choosing the Right Approach
+## 🚩 Checkpoint: Choosing the Right Approach
 
 -   **FSM** → Simple, predictable behavior, small set of states
     
@@ -115,3 +115,4 @@ public interface IState
     
 
 Think of it like this: **FSM is a switchboard**, **State Pattern is a team of specialists**. Both get the job done, but the **scale and complexity** of your system determine which is best.
+
