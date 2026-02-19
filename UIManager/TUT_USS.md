@@ -245,7 +245,7 @@ Classes can be applied either through the UI Builder or in the UXML code.
 1. Open the **MainMenu.uxml** in your IDE.
 2. Update the first **VisualElement** tag to include the `campcarft-theme` class, as shown below:
 ```xml
- <ui:VisualElement class="button-container">
+ <ui:VisualElement class="root-container campcraft-theme">
 ```
 3. Save your changes. 
 
