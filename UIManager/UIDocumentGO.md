@@ -89,10 +89,12 @@ The Sort Order property on the Panel Settings asset determines the rendering pri
 
 However, the UI Document component itself also has a Sort Order. This determines the draw order when multiple UI Documents share the same Panel Settings asset.
 
-### Rules of Sorting:
+**Rules of Sorting:**
 -   Higher Sort Order: Draws on top (visible to the player).
 -   Lower Sort Order: Draws behind.
 -   Input Priority: The UI drawn on top visually is also the one that catches mouse clicks and touch events first.
+
+#
 
 ### **Scale Mode and Parameters**
 **Scale Mode** controls how UI scales when the screen size changes; basically, the UI Toolkit equivalent of the **Canvas Scaler** from uGUI. 
