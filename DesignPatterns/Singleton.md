@@ -187,7 +187,7 @@ By implementing a Singleton, you create a system that guarantees a single instan
 
 ---
 
-## 🛡️ **Checkpoint**  
+## 🚩 **Checkpoint**  
 Having explored Singletons, here are some things to keep in mind:
 
 -   **Systems vs. entities:** Singletons are ideal for global, coordinating systems—not individual gameplay entities like the Player.
