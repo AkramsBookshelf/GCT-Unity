@@ -199,7 +199,7 @@ Now, a **breakable crate** can implement `IDamageable` only, without being force
 
 ---
 
-## 🛡️ **Checkpoint**
+## 🚩 **Checkpoint**
 
 After exploring interfaces, here’s what to remember:
 
@@ -209,6 +209,7 @@ After exploring interfaces, here’s what to remember:
 -   **Decoupling:** Objects manage their own behavior, keeping code modular and testable.
 
 Using interfaces effectively allows your game architecture to grow without turning your player code into a tangled mess of type checks.
+
 
 
 
