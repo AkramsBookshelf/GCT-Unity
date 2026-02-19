@@ -169,8 +169,8 @@ Having explored the UI Document GameObject and Panel Settings, here are the key 
 -   **Dynamic Atlas & Filters:**  
     UI Toolkit packs multiple small textures into a single atlas for performance. Filters let you exclude certain textures that could cause rendering issues or precision loss. Defaults are fine for most projects.
     
--   **Best practice:**  
-    For student projects and small games, it’s usually simpler to:
-    1.  Use a **default Panel Settings asset**.
-    2.  Use the **Default Runtime Theme**
-    3.  Define **styles via USS per UIDocument** rather than relying heavily on Theme TSS.
+#### Best practice:
+For student projects and small games, it’s usually simpler to:
+1.  Use a **default Panel Settings asset**.
+2.  Use the **Default Runtime Theme**
+3.  Define **styles via USS per UIDocument** rather than relying heavily on Theme TSS.
