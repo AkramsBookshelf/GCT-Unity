@@ -1,12 +1,12 @@
 
-# ⚒️ Tutorial: Animate the Gate
+# ⚒️ Tutorial: Unity's Character Controller
 
 <details>
 <summary><strong><em>Tutorial Details</em></strong></summary>
 
 |📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
 | :---------------: | :---------------: | :---------------: |
-| Animation     | 30 minutes       |   GitHub Desktop, Unity, Gate Prefab   |
+| Project Setup    | 30 minutes       |   GitHub Desktop, Unity   |
 </details>
 
 > [!NOTE]
