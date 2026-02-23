@@ -54,3 +54,172 @@ Unity allows you to configure audio differently for PC, Mobile, WebGL, etc. Thes
 > 
 
 --- 
+# ⚒️ Tutorial: Adding Audio
+
+<details>
+<summary><strong><em>Tutorial Details</em></strong></summary>
+
+|📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
+| :---------------: | :---------------: | :---------------: |
+| Audio    | 30 minutes       |   GitHub Desktop, Unity, Media Asset Package |
+</details>
+
+> [!NOTE]
+> Before starting this tutorial, ensure you have :
+>  - Completed **[Animation Tutorial](Animation.md)**
+>  - That you are on the **Audio** branch in GitHub Desktop.
+>
+
+### Step 1 — Prepare the Gate GameObject
+1.  Open the **ParkGame-Unity** project
+2.  Open the **Level_01** scene.
+3.  In the **Hierarchy** window, right-click and choose **Create Hierarchy Folder** 
+    - Name the folder **Audio**
+4. Right-click on **Audio** folder in the **Hierarchy** window, and choose  **Create Empty**.
+    - Name the new GameObject to **BackgroundAudio**        
+5. With **BackgroundAudio** selected, ensure its **Transform Position** is set to **0, 0, 0**
+
+# 
+
+### Step 2 — Add the Ambient Sound Effect
+1.  Select **BackgroundAudio** in the **Hierarchy**.
+2.  In the **Inspector**, click:
+    -   **Add Component > Audio Source**
+3.  In the **Project** window, navigate to the  **Media / SoundFX** folder
+4.  Locate the **SX_ParkPlaying_AMB** clip
+5.  Drag the clip onto the **Audio Generator** field in the Audio Source component.
+
+> [!NOTE]
+> In the **Scene View**, you will notice a small **speaker gizmo** on GameObjects that contain Audio Sources.
+>
+
+
+#
+
+### Step 3 — Configure the Ambient Audio Settings
+1. With **BackgroundAudio** still selected set the following **Audio Source** settings:
+    - **Play On Awake** → Checked
+    - **Loop** → Checked
+    - **Spatial Blend** set fully to **2D**
+    
+> [!NOTE]  
+> Setting Spatial Blend to **2D** ensures the audio plays at the same volume everywhere in the scene, creating an omnipresent background ambiance.
+
+2. Press **Play** and adjust the **Volume** slider as needed.
+
+> [!IMPORTANT]
+> You can adjust the volume while in Play Mode, but any changes made during Play Mode are not saved when you exit.
+> Be sure to note the adjusted value, then reapply it manually after exiting Play Mode to make the change permanent.
+> 
+
+#
+
+### Step 4 — Create a Prefab
+1. Drag **BackgroundAudio** from the **Hierarchy** into the **Prefabs** folder in the **Project** window.
+2.  Save the scene.
+
+> [!TIP]  
+> Turning audio objects into prefabs allows reuse across multiple scenes.
+>
+
+# 
+
+### Step 5 — Add the Radio to the Scene
+1.  In the **Project** window **Assets/Prefabs** folder,
+   - Locate the **Radio**
+2. Drag the **Radio** prefab into the scene.
+3. Place it in a far corner of **Area One**, opposite the gate.
+4. Save the scene.
+
+#
+
+### Step 6 — Add 3D Music to the Radio
+1.  Select **Radio** in the **Hierarchy**.
+2.  In the **Inspector**, click:
+    -   **Add Component > Audio Source**
+3.  In the **Project** window, navigate to the  **Media / Music** folder
+4.  Locate the **MX_IsThisReallyHappening_TrackTribe** clip
+5.  Drag the clip onto the **Audio Generator** field in the Audio Source component.
+    
+#
+
+### Step 7 — Configure the Radio Audio Settings
+1. With **Radio** still selected set the following **Audio Source** settings:
+    - **Play On Awake** → Checked
+    - **Loop** → Checked
+    - **Spatial Blend** set fully to **3D**
+    - **Volume Rolloff** set to **Logarithmic**
+    -   Under **3D Settings**:
+        -  Set **Min Distance** = 1
+        -  Set **Max Distance** = 500
+        
+> [!NOTE]  
+> 3D Spatial Blend allows the sound to get louder as the player approaches and quieter as they move away.
+>
+
+#
+### Step 8 — Test the 3D Audio
+1.  Press **Play**.
+2.  You should initially hear only the ambient park sound.
+3.  Move your character toward the radio.
+4.  The music should:
+    -   Gradually increase in volume as you get closer.
+    -   Fade out as you walk away.
+5. Exit **Play** mode and save the scene.
+
+#
+
+### Step 9 — Add a Radio Filter Effect
+We will add an audio filter to simulate the music playing through a real radio speaker.
+1.  Select **Radio** in the **Hierarchy**.
+2.  In the **Inspector**, click:
+    -   **Add Component > Audio Low Pass Filter**
+3. Congigure the **Audio Low Pass Filter** settings:
+    -   **Cutoff Frequency** = **3000** 
+    -   **Lowpass Resonance Q** = **2**
+  
+4. Press **Play** to hear the difference.
+
+> [!NOTE]  
+> The lower the Cutoff Frequency, the more “tinny” and muffled the sound becomes.
+> 
+> The Resonance Q controls how sharp the cutoff feels.
+>
+
+> [!TIP]
+> Audio effects can be layered for richer sound design.
+> 
+> You may optionally add:
+> -   **Audio High Pass Filter** → to remove bass and simulate tiny speakers
+> -   **Audio Distortion Filter** → to add subtle analog grit
+> -   
+> All of these can be combined with the Low Pass Filter.
+
+> Remember that **small adjustments** go a long way. Subtle effects feel realistic, heavy effects feel artificial.
+> 
+
+#
+
+### Step 10 — Create a Prefab Variant
+Since our **Radio** prefab now contains audio, we will want to create a prefab variant. 
+1.  Drag the modified **Radio** from the **Hierarchy** into the **Prefabs** folder.  
+2.  When prompted, choose:
+    -   **Create Prefab Variant**
+        
+3.  Rename the variant to:
+    -   **Radio_Audio_3D_Retro**
+> [!TIP]  
+> Prefab Variants inherit the original prefab’s structure but allow unique components like audio sources or filters.  
+> This lets you reuse the same Radio model while customizing its behavior.
+>
+
+#
+
+### Step 12 — Save Your Work
+1.  Save the scene: **File → Save** or **Ctrl + S**
+2.  Close Unity.
+3.  In **GitHub Desktop**:
+    -   Stage your changes
+    -   Commit with message:
+        -   `feat: added ambient audio and 3D radio sound.`
+4.  Push to the appropriate branch.
