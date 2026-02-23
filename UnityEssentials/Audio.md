@@ -166,8 +166,6 @@ To access the Audio Source settings, select any **GameObject** that contains an 
         - Any attached filters
 --- 
 
-
---- 
 # ⚒️ Tutorial: Adding Audio
 
 <details>
