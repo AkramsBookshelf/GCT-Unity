@@ -33,7 +33,7 @@
 1.  In the **Project** window, locate the imported **Starter Assets** folder.
 2.  Drag the entire **Starter Assets** folder into your existing **3rdParty** folder.
 
-> \[!NOTE\]  
+> [!NOTE]  
 > Keeping third-party assets inside a **3rdParty** folder helps maintain a clean and professional project structure.
 >
 
@@ -62,7 +62,7 @@
 ### Step 4 — Prepare Level_01 Scene
 1. Open your Level_01 scene.
 
->> [!WARNING]
+> [!WARNING]
 > If you are prompted to save changes to the **Playground** sample scene before switching branches, choose **No**.
 > 
 > The Playground scene is part of the imported **Starter Assets** package and should remain unchanged.
