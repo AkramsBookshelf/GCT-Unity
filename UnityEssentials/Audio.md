@@ -25,7 +25,7 @@ Before adding sound to your project, it’s important to understand which audio 
     -   Good balance between quality and file size
     -   Often recommended for longer background music or ambient loops to reduce file size.
         
--   **.AIFF** :  Uncompressed format similar to WAV.
+-   **.AIFF**:  Uncompressed format similar to WAV.
     -   High quality
     -   Larger file size
     -   More common on macOS systems  
@@ -107,7 +107,7 @@ The **Audio Source** component controls how an audio clip behaves in your scene.
 ### Audio Source Settings
 To access the Audio Source settings, select any **GameObject** that contains an **Audio Source** component in the **Hierarchy** window. The properties will appear in the **Inspector**, where you can adjust playback and spatial settings.
 
-![Audio Source Settings](imgs/audio/gct-audio-soruceSettings.png)
+![Audio Source Settings](imgs/audio/gct-audio-sourceSettings.png)
 
 - **Audio Generator** is the object that generates the audio. This can be: 
     -   An **Audio Clip**
