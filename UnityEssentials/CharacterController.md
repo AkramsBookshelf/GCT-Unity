@@ -125,7 +125,7 @@ The Starter Assets require Unity’s **New Input System**.
 4.  Unity will prompt you to reload the editor; allow it to restart if required.
     
 > [!TIP]
-> Setting the **Active Input Handling** to _Both_ will ensure that both the **New Input System** and the old **Input Manager** systems.
+> Setting the **Active Input Handling** to _Both_ will ensure that both the **New Input System** and the old **Input Manager** systems are active.
 >
 
 #
