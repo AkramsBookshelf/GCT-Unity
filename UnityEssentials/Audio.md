@@ -1,3 +1,39 @@
+# 📜 Unity Audio
+> By: Akram Taghavi-Burris | © 2026
+
+Sound plays a critical role in creating immersive and believable game environments. While visuals establish the world, audio brings it to life, adding atmosphere, depth, emotion, and player feedback. From subtle ambient background noise to directional sound effects that respond to player movement, audio enhances realism and strengthens player engagement.
+
+Unity provides a flexible audio system that allows you to implement different types of sound depending on your project’s needs.
+
+## Supported Audio File Types in Unity
+Before adding sound to your project, it’s important to understand which audio file formats Unity supports. Unity can import several common audio file types, allowing flexibility depending on your project needs.
+
+### Commonly Used Formats
+
+-   **.WAV** : Uncompressed audio format.
+    -   High quality
+    -   Larger file size
+    -   Ideal for short, high-impact sound effects (like clicks, footsteps, or impacts).
+        
+-   **.MP3** :  Compressed audio format.
+    -   Smaller file size
+    -   Slight quality loss due to compression
+    -   Good for longer background music or ambient loops to reduce file size.
+        
+-   **.OGG (Ogg Vorbis)** :  Compressed format commonly used in games.
+    -   Better compression than MP3        
+    -   Good balance between quality and file size
+    -   Often recommended for longer background music or ambient loops to reduce file size.
+        
+-   **.AIFF** :  Uncompressed format similar to WAV.
+    -   High quality
+    -   Larger file size
+    -   More common on macOS systems  
+
+Unity also allows you to adjust compression and import settings inside the **Inspector**, giving you additional control over performance and audio quality.
+
+---
+
 ## Audio Import Settings
 
 When you import an audio file into Unity, the **Audio Clip Import Settings** determine how that sound is stored in memory, compressed, and played at runtime.
@@ -8,12 +44,13 @@ These settings directly affect:
 -   **Load times**
 -   **Audio quality**
     
-
 Choosing the correct settings depends on **how the sound will be used** in your game.
 
 ### Inspector Properties (General Settings)
 
 When you select an audio file in the Project window, Unity displays its import settings in the Inspector.
+
+![Audio Import Settings](imgs/audio/gct-audio-importSettings.png)
 
 - **Force To Mono**: converts a multi-channel (stereo) audio clip into a single-channel (mono) clip before packaging.
   -   Reduces file size.
@@ -50,8 +87,85 @@ Unity allows you to configure audio differently for PC, Mobile, WebGL, etc. Thes
   -  _Override Sample Rate_ - Manually lowers the sample rate to reduce file size (may reduce quality).
  
 > [!TIP]
-> In most cases, **Optimize Sample Rate** is selected, unless quality loss is aparent. 
-> 
+> In most cases, **Optimize Sample Rate** is selected, unless quality loss is aparent.
+>
+
+> [!IMPORTANT]
+> Once you have imported your audio and set its import setting you will want to apply these settings before leaving the inspector
+>
+
+---
+## Audio Listener and Audio Source Component Overview
+In order for audio to play in a Unity project, two components are required:
+-   A single **Audio Listener** component on a GameObject in the scene
+-   A GameObject with an **Audio Source** component
+    
+By default, the **Main Camera** includes an **Audio Listener** component. While the Audio Listener does not have to be attached to the Main Camera, there should only ever be **one Audio Listener** active in a scene at a time. Having multiple Audio Listeners can cause audio conflicts and unexpected behavior.
+
+The **Audio Source** component controls how an audio clip behaves in your scene. It allows you to assign an audio file to a GameObject and configure how that sound plays, including volume, looping, spatial behavior, and environmental effects.
+
+### Audio Source Settings
+To access the Audio Source settings, select any **GameObject** that contains an **Audio Source** component in the **Hierarchy** window. The properties will appear in the **Inspector**, where you can adjust playback and spatial settings.
+
+![Audio Source Settings](imgs/audio/gct-audio-soruceSettings.png)
+
+- **Audio Generator** is the object that generates the audio. This can be: 
+    -   An **Audio Clip**
+    -   An **Audio Random Container**
+    -   Can be left undefined if the audio is generated dynamically
+    
+- **Output** determines where the audio is routed.  
+   - Leaving this value empty will default to sound playback through the **Audio Listener**
+   - For advanced control, this can be set to a specific track on an **Audio Mixer**
+
+- **Mute** Silences the audio without stopping playback.
+- **Bypass Options** allow for toggling certain audio processing on or off.
+    -    **Bypass Effects** – Ignores filters on the Audio Source
+    -   **Bypass Listener Effects** – Ignores effects applied to the Audio Listener
+    -   **Bypass Reverb Zones** – Ignores environmental reverb areas
+    
+- **Play On Awake** plays the audio automatically when the scene starts.  
+    - If disabled, audio must be triggered through scripting using `Play()`.
+
+- **Loop** Repeats the audio clip continuously after it finishes playing.
+- **Priority** Controls which audio plays first if too many sounds are active.
+    -   **0** = Highest priority
+    -   **256** = Lowest priority      
+
+- **Volume** controls how loud the audio is when the listener is 1 meter away.
+- **Pitch** adjusts playback speed and tone.
+    -   **1** = Normal speed
+    -   Higher values = Faster & higher pitch
+    -   Lower values = Slower & deeper pitch
+- **Stereo Pan**
+    - Controls left/right positioning for 2D sounds.
+
+- **Spatial Blend** determines whether the sound behaves as:
+    -   **2D** sound plays at the same level from any distance
+    -   **3D** sound volume is determined by how far away the audio (game object) is.   
+    
+- ** Reverb Zone Mix** controls how much of the sound is affected by reverb zones in the environment.
+  
+- **3D Sound Settings** these properties affect how audio behaves in 3D space and are influenced by the **Spatial Blend** setting.
+    - **Doppler Level** controls how strongly the Doppler effect is applied.
+        - Set to **0** to disable it.
+    - **Spread** adjusts how widely a 3D stereo or multi-channel sound is distributed in speaker space.
+    - **Min Distance**: the minimum distance, the sound plays at full volume.
+        - Increasing this value makes the sound feel louder in the environment.
+    - **Max Distance**: the farthest distance the sound can be heard (depending on rolloff mode).
+    - **Volume Rolloff** determines how sound fades over distance.
+        -   **Logarithmic Rolloff** more realistic. Sound drops quickly at first, then gradually fades.
+        -   **Linear Rolloff** sound decreases evenly over distance.
+        -   **Custom Rolloff** allows you to manually define how sound fades using a curve.
+    
+    -  **Distance-Based Audio Curves** are editable curves that control how certain properties change based on distance from the Audio Listener, such as:
+        - **Volume**
+        - **Spatial Blend**
+        - **Spread**
+        - **Reverb Zone Mix**
+        - Any attached filters
+--- 
+
 
 --- 
 # ⚒️ Tutorial: Adding Audio
