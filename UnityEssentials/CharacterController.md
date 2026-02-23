@@ -104,4 +104,36 @@
 >
 
 #
+### Step 7 — Organize the Hierarchy
+1. In the **Hierarchy** window drag and drop the **MainCamera** and **PlayerFollowCamera** in the **Cameras** hierarchy folder.
+            into the **Cameras** object.
+            
+2.  In the **Hierarchy** window right-click and choose **Create Hierarch Folder** and name it **Actors**.
+3. Drag and drop the **PlayerArmature** prefab in the **Hierarchy** window into the **Actors** folder.
+4. Save the scene.
 
+
+# 
+
+### Step 8 — Enable the New Input System
+
+The Starter Assets require Unity’s **New Input System**.
+
+1.  Go to **Edit > Project Settings > Player**.
+2.  Under **Other Settings**, locate **Active Input Handling**.
+3.  Set it to: Both
+4.  Unity will prompt you to reload the editor; allow it to restart if required.
+    
+> [!TIP]
+> Setting the **Active Input Handling** to “Both” will ensure that both the **New Input System** and the old **Input Manager** systems.
+>
+
+#
+### Step 9 — Save & Commit
+1.  Save the scene: **File > Save** or **Ctrl + S**
+2.  Press **Play** and test the character controller
+3.  Exit **Play** mode and close Unity.
+5.  In **GitHub Desktop**: stage your changes
+6.  Commit with message:
+    -   `feat: added character controller.`
+7.  Push changes to the **Audio** branch
