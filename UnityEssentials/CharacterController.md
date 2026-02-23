@@ -121,7 +121,7 @@ The Starter Assets require Unity’s **New Input System**.
 
 1.  Go to **Edit > Project Settings > Player**.
 2.  Under **Other Settings**, locate **Active Input Handling**.
-3.  Set it to: Both
+3.  Set it to: **Both**
 4.  Unity will prompt you to reload the editor; allow it to restart if required.
     
 > [!TIP]
