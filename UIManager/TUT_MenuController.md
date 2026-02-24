@@ -126,36 +126,40 @@ private Button _quitButton;
 # 
 
 ### Step 5: Query the Buttons in Awake
-When the **UI Document** GameObject initializes, we search the UI hierarchy and assign the buttons. To search, we need to reference the `rootVisualElement`. This provides us with the top-level container of the UI. Using `Q<Button>("name")`, we search the hierarchy for (in this case) buttons that match a specific name in the UXML document. The name must match exactly, or the result will be null. 
+When the object initializes, we search the UI hierarchy and assign the buttons.
 
 ```csharp
-private void Awake()
-{
-    VisualElement root = UIDocument.rootVisualElement;
-    _playButton = root.Q<Button>("playButton");
-    _optionsButton = root.Q<Button>("optionsButton");
-    _quitButton = root.Q<Button>("quitButton");
+    private void Awake()
+    {
+        VisualElement root = UIDocument.rootVisualElement;
 
-}//end Awake()
+        _playButton = root.Q<Button>("playButton");
+        _optionsButton = root.Q<Button>("optionsButton");
+        _quitButton = root.Q<Button>("quitButton");
+        
+    }//end Awake()
 ```
 
 # 
 
-### Step 6: Subscribing to Clicks
-The New Input System uses an Observer Pattern, in which any action sends a notification to listeners who subscribe. In the case of UI button,s the input system will send out a `clicked` notification, which we can subscribe to. When the action happens, our `MainMenuController` will run the method that is triggered by that action. 
+### Step 6: Subscribing to Button Click Events
 
 1. Register the Button Events
 
 ```csharp
 
-    private void OnEnable()
+private void OnEnable()
     {
-        if (_playButton != null) _playButton.clicked += OnPlayButtonClicked;
-        if (_optionsButton != null) _optionsButton.clicked += OnOptionsButtonClicked;
-        if (_quitButton != null) _quitButton.clicked += OnQuitButtonClicked;
+        if (_playButton != null)
+            _playButton.clicked += OnPlayButtonClicked;
+
+        if (_optionsButton != null)
+            _optionsButton.clicked += OnOptionsButtonClicked;
+
+        if (_quitButton != null)
+            _quitButton.clicked += OnQuitButtonClicked;
         
     }//end OnEnable()
-
 ```
 
 2. Unregister on Disable
@@ -164,11 +168,16 @@ The New Input System uses an Observer Pattern, in which any action sends a notif
 
     private void OnDisable()
     {
-        if (_playButton != null) _playButton.clicked -= OnPlayButtonClicked;
-        if (_optionsButton != null) _optionsButton.clicked -= OnOptionsButtonClicked;
-        if (_quitButton != null) _quitButton.clicked -= OnQuitButtonClicked;
+        if (_playButton != null)
+            _playButton.clicked -= OnPlayButtonClicked;
+
+        if (_optionsButton != null)
+            _optionsButton.clicked -= OnOptionsButtonClicked;
+
+        if (_quitButton != null)
+            _quitButton.clicked -= OnQuitButtonClicked;
         
-    }//end OnEnable()
+    }//end OnDisable()
 
 ```
 > [!TIP]
@@ -178,48 +187,173 @@ The New Input System uses an Observer Pattern, in which any action sends a notif
 # 
 
 ### Step 7: Create the Click Handler
+Now we define what happens when each button is pressed.
+
 1. Create the `OnPlayButtonClicked` method
 
 ```csharp
-private void OnPlayButtonClicked()
-{
-    Debug.Log("Play button clicked! Loading game...");
-
-}//end OnPlayButtonClicked()
+ private void OnPlayButtonClicked()
+    {
+        Debug.Log("Play button clicked! Loading game...");
+        
+    }//end OnPlayButtonClicked()
 
 ```
 
 2. Create the `OnOptionsButtonClicked` method
 
 ```csharp
-private void OnOptionsButtonClicked()
-{
-    Debug.Log("Options button clicked! Loading Options menu");
-
-}//end OnOptionsButtonClicked()
+    private void OnOptionsButtonClicked()
+    {
+        Debug.Log("Options button clicked! Loading Options menu...");
+        
+    }//end OnOptionsButtonClicked()
 
 ```
 
 3. Create the `OnQuitButtonClicked` method
 
 ```csharp
-private void OnOptionsButtonClicked()
-{
-    Debug.Log("Quit button clicked! Exiting Game...");
+    private void OnQuitButtonClicked()
+    {
+        Debug.Log("Quit button clicked! Exiting game...");
 
-#IF UNITY EDITOR
-  exit play mode
-# Else
-    Application.Quit();
-# End IF
-
-}//end OnQuitButtonClicked()
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }//end OnQuitButtonClicked()
 
 ```
 
+#
 
+### Step 10 — 🎮 Playtest Main Menu Interaction
+Now that the **MainMenuController** is implemented, it’s time to see it in action with your **UI Document**.
 
+1.  **Open the MainMenu Scene** in Unity.
+2.  Ensure the **UIDocument GameObject** has the **MainMenuController** attached.
+3.  Ensure that the **UI Document** field in the **Inspector** has been set.
+4.  Press **Play** to run the scene.
+5.  Observe the following:
+    -   The **Main Menu UI** appears as defined in your UXML.
+    -   Clicking the **Play button** triggers the debug message or loads the game scene.
+    -   Clicking the **Options button** triggers the debug message or opens the options UI.
+    -   Clicking the **Quit button** triggers the debug message or exits the game (or stops play mode in the Editor).
 
+# 
+
+### 🐞 BUG FIX — Troubleshooting Checklist
+
+Experiencing issues? Try the following:
+
+-   **Buttons do not respond when clicked**
+    -   Ensure the **UIDocument** field in MainMenuController is assigned in the Inspector.
+    -   Confirm that the button **names in UXML match** the query names exactly (`playButton`, `optionsButton`, `quitButton`).
+        
+-   **Debug messages do not appear**
+    -   Make sure the MainMenuController is **enabled** and attached to the same GameObject as the UIDocument.
+    -   Check the **Console** for errors in Awake() or OnEnable().
+        
+-   **UI does not appear at all**
+    -   Verify the **Panel Settings** asset is assigned in the UIDocument component.
+    -   Confirm that the **UXML document** is assigned in the Source Asset field.
+ 
+   
+---
+
+# 🎉 New Achievement: Main Menu Ready
+
+You’ve successfully set up the **MainMenuController** and connected it to your **UI Document**. Your buttons now respond to player interaction via the **new Input System**, demonstrating a basic **event-driven UI workflow**. This controller acts as the bridge between UI events and game logic without tightly coupling the button elements to gameplay systems.
+
+```csharp
+using UnityEngine;
+using UnityEngine.UIElements;
+
+public class MainMenuController : MonoBehaviour
+{
+    [Header("Assign UIDocument GameObject")]
+    public UIDocument UIDocument;
+
+    private Button _playButton;
+    private Button _optionsButton;
+    private Button _quitButton;
+
+    private void Awake()
+    {
+        VisualElement root = UIDocument.rootVisualElement;
+
+        _playButton = root.Q<Button>("playButton");
+        _optionsButton = root.Q<Button>("optionsButton");
+        _quitButton = root.Q<Button>("quitButton");
+        
+    }//end Awake()
+
+    private void OnEnable()
+    {
+        if (_playButton != null)
+            _playButton.clicked += OnPlayButtonClicked;
+
+        if (_optionsButton != null)
+            _optionsButton.clicked += OnOptionsButtonClicked;
+
+        if (_quitButton != null)
+            _quitButton.clicked += OnQuitButtonClicked;
+        
+    }//end OnEnable()
+
+    private void OnDisable()
+    {
+        if (_playButton != null)
+            _playButton.clicked -= OnPlayButtonClicked;
+
+        if (_optionsButton != null)
+            _optionsButton.clicked -= OnOptionsButtonClicked;
+
+        if (_quitButton != null)
+            _quitButton.clicked -= OnQuitButtonClicked;
+        
+    }//end OnDisable()
+
+    private void OnPlayButtonClicked()
+    {
+        Debug.Log("Play button clicked! Loading game...");
+        
+    }//end OnPlayButtonClicked()
+
+    private void OnOptionsButtonClicked()
+    {
+        Debug.Log("Options button clicked! Loading Options menu...");
+        
+    }//end OnOptionsButtonClicked()
+
+    private void OnQuitButtonClicked()
+    {
+        Debug.Log("Quit button clicked! Exiting game...");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }//end OnQuitButtonClicked()
+    
+    
+    
+}//end MainMenuController
+```
+
+## 🚩 Checkpoint
+
+Key takeaways from this lesson:
+
+-   The **MainMenuController** subscribes to button events exposed by the **UIDocument**, rather than polling for input directly.
+-   **`rootVisualElement`** provides access to the hierarchy of UI elements, allowing the script to query specific buttons.
+-   Subscribing to events (`clicked`) in **OnEnable()** and unsubscribing in **OnDisable()** prevents memory leaks and ensures clean behavior.
+-   UI elements remain independent of gameplay logic; the controller interprets the events and triggers the corresponding behavior.
+-   Debug messages can be used to confirm that each button responds correctly before connecting to full game functionality.
+-   Following this structure ensures your UI interactions are **modular, testable, and easily expandable** as you add more buttons or menus.
 
 
 
