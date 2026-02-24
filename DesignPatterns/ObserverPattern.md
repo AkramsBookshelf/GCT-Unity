@@ -1,21 +1,11 @@
-# 📜 Decoupling Game Logic with the Observer Pattern
-
-So far, we’ve seen how the GameManager centralizes control over game state and level transitions. For example:
-- The **MainMenu** calls `ChangeGameState()` instead of loading scenes directly.
-- The **Player** calls `LoadNextLevel()` on the GameManager when reaching a goal.
-
-This works well, but notice that in both cases, the Player or MainMenu **directly references the GameManager**. In larger projects, this kind of tight coupling can become a problem:
-- Multiple systems might want to react to the same event (like reaching a goal or pausing the game).
-- Hard-coded calls create dependencies that are harder to maintain, extend, or reuse.
-
-## Observer Pattern
+# 📜 The Observer Pattern
 
 The **Observer pattern** solves this by establishing a **one-to-many relationship** between objects:
 - A **Subject (Publisher)** broadcasts a notification when something happens.
 - **Observers** subscribe to the Subject and automatically react when the notification occurs.
 The Subject **doesn’t need to know who is listening** or what they will do — each Observer decides how to respond.
 
-### C# Events
+## C# Events
 In C# and Unity, **events** are the tool that implements this pattern. They allow a class to **announce that something happened**, without worrying about which other objects care.
 - **Subject:** Declares and triggers the event.
 - **Observers:** Subscribe to the event and run their own logic when it is invoked.
@@ -26,17 +16,15 @@ In C# and Unity, **events** are the tool that implements this pattern. They allo
 
 To illustrate how events work in programming, imagine your favorite YouTuber is hosting a **special livestream**, and **only subscribers get notified** when it starts. Each subscriber reacts differently when they receive the notification, just like different parts of a game can respond in their own way to the same event.
 
-<div align="center">
-  <img src="imgs/livestream-events.jpg" alt="YouTube Live Event" width="500"/>
-</div>
-<br>
 
-When the stream goes live, each subscriber, **Gregory**, **Samantha**, and **Valerie** each gets a notification. However, they don’t all react the same way; instead, each subscriber takes a **different action**.
+When the stream goes live, each subscriber, **Gregory**, **Samantha**, and **Valerie**, gets a notification. However, they don’t all react the same way; instead, each subscriber takes a **different action**.
 - **Gregory** gets the notification while on his lunch break. He pops in his earbuds and casually watches on his phone.
 - **Samantha** sees the alert and rounds up a group of friends so they can watch and discuss the stream together.
 - **Valerie** gets the notification on her laptop and immediately joins the live chat to interact with other viewers.
   
 Even though they all received the same notification, their responses are completely different.
+
+![Observer Pattern](imgs/gct-observerPattern.png)
 
 The YouTuber has no idea **who their subscribers are** or **what they’ll do when notified**. They simply send out the alert, and each subscriber reacts in their own way.
 
