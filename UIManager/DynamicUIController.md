@@ -6,7 +6,9 @@ In our previous implementation, we created a `MainMenuController` that:
 -   Stored them in individual fields
 -   Subscribed to each button’s `clicked` event
 -   Wrote a dedicated method for each button
-    
+
+## Designing for Scale 
+
 This approach works well for small menus. However, as projects grow, several limitations begin to appear:
 -   Every new button requires a new field.
 -   Every new button requires a manual subscription code.
@@ -15,7 +17,7 @@ This approach works well for small menus. However, as projects grow, several lim
 
 #### ❌ This system does not scale efficiently.
 
-## Designing for Scale 
+
 To design for scalability, we need a UI controller that: 
 -   Automatically discovers buttons
 -   Registers them dynamically
@@ -26,14 +28,19 @@ To design for scalability, we need a UI controller that:
 > This is where abstraction becomes valuable.
 >
 
-### Base Button Controller 
+---
+## Base Button Controller 
 Thinking about our UI system, we can identify two responsibilities:
 1.  **Finding and registering UI elements**
 2.  **Defining what happens when they are interacted with**
     
-In the original `MainMenuController`, both responsibilities were handled in one class. By introducing a base class (`BaseButtonController`), we **centralize the common logic for querying buttons and registering events**, reducing repetition across multiple menus. This also provides a **loose separation between UI mechanics and behavior**, allowing derived classes to focus on defining interactions without rewriting the discovery logic.
+In the original `MainMenuController`, both responsibilities were handled in one class. By introducing a base class (`BaseButtonController`), we **centralize the common logic for querying buttons and registering events**, reducing repetition across multiple menus. 
 
-### Command Pattern
+This also provides a **loose separation between UI mechanics and behavior**, allowing derived classes to focus on defining interactions without rewriting the discovery logic.
+
+---
+
+## Command Pattern
 Once the base class handles discovery and event registration, we still need a way to define what happens when a button is clicked. This is where the **Command Pattern** comes in.
 
 The **Command Pattern** is a design principle that encapsulates a request or action as an object, allowing you to decouple the caller (button) from the implementation (game logic).
