@@ -7,7 +7,9 @@ In the Observer pattern, one object (the _subject_) broadcasts notifications whe
 
 ## New UI Toolkit and Observer Pattern
 
-UI Toolkit applies the Observer pattern directly to user interaction. Unlike the old Canvas UI system, where buttons were often assigned a specific method to run in the Inspector when clicked, UI Toolkit exposes events such as `clicked` that scripts can subscribe to. For example, a `MainMenuController` class subscribes to a button’s `clicked` event and runs a method like `OnPlayButtonClicked` when the event occurs. Importantly, the button itself does not know or care what method will run — the controller handles the behavior. This decouples the UI element from the game logic, so interaction and response are separated, even if the controller and button exist on the same GameObject.
+UI Toolkit applies the Observer pattern directly to user interaction. Unlike the old Canvas UI system, where buttons were often assigned a specific method to run in the Inspector when clicked, UI Toolkit exposes events such as `clicked` that scripts can subscribe to. 
+
+For example, a `MainMenuController` class subscribes to a button’s `clicked` event and runs a method like `OnPlayButtonClicked` when the event occurs. Importantly, the button itself does not know or care what method will run; the controller handles the behavior. This decouples the UI element from the game logic, so interaction and response are separated, even if the controller and button exist on the same GameObject.
 
 #
 
