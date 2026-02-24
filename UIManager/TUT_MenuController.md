@@ -3,13 +3,15 @@
 
 Unity’s UI Toolkit is built on an event-driven architecture that closely follows the **[Observer pattern](../DesignPatterns/ObserverPattern.md)**. 
 
-In the Observer pattern, one object (the _subject_) broadcasts notifications when something happens. Other objects (the _observers_) subscribe to those notifications and react accordingly. The subject does not know what the observers will do in response — it simply announces that an event occurred.
+In the Observer pattern, one object (the _subject_) broadcasts notifications when something happens. Other objects (the _observers_) subscribe to those notifications and react accordingly. The subject does not know what the observers will do in response; it simply announces that an event occurred.
 
 ## New UI Toolkit and Observer Pattern
 
 UI Toolkit applies the Observer pattern directly to user interaction. Unlike the old Canvas UI system, where buttons were often assigned a specific method to run in the Inspector when clicked, UI Toolkit exposes events such as `clicked` that scripts can subscribe to. 
 
-For example, a `MainMenuController` class subscribes to a button’s `clicked` event and runs a method like `OnPlayButtonClicked` when the event occurs. Importantly, the button itself does not know or care what method will run; the controller handles the behavior. This decouples the UI element from the game logic, so interaction and response are separated, even if the controller and button exist on the same GameObject.
+For example, a `MainMenuController` class subscribes to a button’s `clicked` event and runs a method like `OnPlayButtonClicked` when the event occurs. 
+
+Importantly, the button itself does not know or care what method will run; the controller handles the behavior. This decouples the UI element from the game logic, so interaction and response are separated, even if the controller and button exist on the same GameObject.
 
 #
 
