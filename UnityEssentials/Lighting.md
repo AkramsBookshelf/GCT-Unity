@@ -1,4 +1,4 @@
-# ⚒️ Tutorial: Custom Skybox
+# ⚒️ Tutorial: Setting up Lighting 
 
 <details>
 <summary><strong><em>Tutorial Details</em></strong></summary>
