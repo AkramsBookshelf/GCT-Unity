@@ -94,46 +94,91 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
 # 
 ---
 
-## 🔎 Examining Our Game Loop 
+## 🔎 Examining Our Game Loop
+In the Game Brief above, the **Main Gameplay Loop** provides a high-level breakdown of expected player actions and interactions. The **Detailed Gameplay Loop** goes further by defining all possible outcomes and object interactions.
 
-In the game brief above, the main gameplay loop provides a high-level breakdown of the expected player actions and interactions. The detailed gameplay loop breaks this down further by defining all possible actions and interactions, such as what happens if the player heads to the gate before collecting any trash? 
+For example:
+-   What happens if the player approaches the gate before collecting any trash?
+-   Who determines whether the gate should open?
+-   Where is mission progress stored?
+    
+The detailed loop forces us to answer these questions clearly.
 
-The detailed gameplay loop also separates the loops into individual objects. One common pitfall of beginner game developers is to have the Player game object keep track of everything. While it might sound like a good idea to keep everything centralized, it is a recipe for disaster. Instead, we need to think logically about the actions and interactions we want and what they are actually controlling. Each game object should be responsible for its own life cycle and behaviors. 
+---
 
-For example if we want the trash bags to be destroyed when we collect them, then the functionality of destroying the game object should be on the trash bag not the player, the same for the sound, if the sound is for the bag collection, it needs to be on the bag. The same goes for the gate; if the gate needs to play its animation, these conditions should be on the gate itself. 
+##  Object Responsibility and Life Cycle
+The detailed loop also breaks down the flow by game object. One common mistake beginner developers make is placing _all_ logic on the Player object. While centralizing everything may seem convenient at first, it quickly becomes unmanageable and difficult to scale.
 
-But what do we do about keeping track of things that are not related to any one object. For example, we need to keep track of the trash we collected, this will eventuall need to be checked against the required amount of trash to clear the level, which will ultimatly determine if the leve or mission is comlpleted. These varaiables are tied to any object but more so the level/mission. While they could be tied to the player, again this is not always the best solution, because the player may reset at certain points, or the missions change or update on different levels meaning the player which moves between levels may have elements that it no longer needs always attached to itself. 
+Instead, we must think logically about **ownership**.
 
-A better solution and one outlined in the detailed gameplay loop above is to implment a level manager. This is an invisible (empty object) that is created soley as a container to keep track of inforamtion for that specific level. In larger games this could even be expanded out into say a quest manager. 
+Each game object should be responsible for its own:
+-   Life cycle
+-   Behaviors
+-   Feedback
+-   Internal state
+    
 
-In development there is a design pattern known as the Single Responsiblity Pattern, this states that any object or function should be responsible for only one thing. meaning that the playe rneeds to be repsonisble for player input and anything related to the player, in other games this may be player health or player stats. So information about the level itself makes sense to be placed on the level manager. 
+For example:
+-   If a trash bag should destroy itself when collected, the destruction logic belongs on the Trash Bag.
+-   If the trash bag plays a collection sound, that sound belongs on the Trash Bag.
+-   If a gate plays an opening animation, that animation logic belongs on the Gate.
+    
+Each object manages itself. This keeps responsibilities clean and modular.
 
-When desigining our level manager we need to consider what exactly it needs to do. I needs to store information about the progress of our game such as how much trash we have collected, the required amount of trash needed to complete the level/mission and the when the mission is actually complete. To do this we can use a variable. Varaibles are containers taht store information that can vary over time. Variables can be anything from integers (whole numbers), floats (decimle values), booleans (true or false values), strings (text) and several other types. 
+>[!NOTE]
+> In software development, there is a set of design guidelines known as the SOLID principles. The **S** in SOLID stands for the _Single Responsibility Principle_, which states that any object, class, or method should have one responsibility. By keeping responsibilities separate, we maintain cleaner, more modular, and maintainable code.
+>
 
-For the purpse of our game we know that the current trash collected will the required amount should be whole numbers so an integer, while the check if the mission is complete can be a simple boolean. 
+---
 
-When naming these vairables we want to use names that expclitly define what the vairable is without any abmiguity. 
-For this purpouse we will use the following variable names: 
+### Level Responsibility 
+Not all behaviors belong to a specific game object. 
 
-currentTrashCount 
-requiredTrashCount
-IsMissionComplete 
+In our Park Clean-up game, we need to keep track of: 
+-   How much trash has been collected
+-   How much trash is required to complete the level
+-   Whether the mission is complete
 
-The term count at the end of the CurrentTrashCount and RequiredTrashCount explcitly identifies these as numeric values. Booleans vairables should be named as a question that whoes value is ture or false. IN this instance IsMissionComplete does just that. 
+These values are not tied to the Player or other objects in the game; instead, they describe the **state of the level itself**.
+The solution here, as illustrated in the Gameplay Brief above, is to implement a **Level Manager** that is responsible for keeping track of the level variables and conditions. The Level Manager does not need to be a visible object in the scene. In Unity, its logic is typically attached to an empty GameObject that exists purely to manage level state. In larger games, this same practice is often expanded into full game managers, quest managers, or even mission systems. 
 
-You might also notice that the currentTrashCount and requiredTrashCount vairables are camleCase and the IsMissionComplete is written in Parsle case, this is intential. The first two vairables are private meaning that only the level manager knows they exsist the trash bag and trash bin simply call methods on the level manager to check these values, they do not know the vairables exist at all. The IsMissionComplete viariable on the other hand needs to be checked by the Gate in order for it to open, since this needs to be accesible, this is a public vairable. it is beset practice and industry standard to use camel case for private variable and parsle case for public variables. 
+For our prototype, a simple Level Manager is sufficient.
 
+### Designing the Level Manager Variables
+To track mission progress, the Level Manager needs to store information as **variables**. A **variable** is a named container that stores data, which can change over time.
 
+Common variable types include:
+-   **Integer (int)** — whole numbers
+-   **Float** — decimal numbers
+-   **Boolean (bool)** — true or false
+-   **String** — text
+    
+For our park game, we need to keep track of the following data: 
+-   The amount of trash currently collected. Since trash is counted in whole units, an integer is the appropriate data type.
+-   The required amount of trash needed to complete the mission, again, an integer makes the most sense.
+-   A check to determine if the mission has been completed or not, this is either true or false, making a Boolean the perfect solution for this. 
 
+#### Variable Naming 
+When naming our vairables we should always use names that are explicit and remove any ambiguity. 
+For our Park Clean-up game, we've decided to go with: 
+- currentTrashCount: this explicitly states that it is the value (_count_) of the _current_ collected _trash_
+- requiredTrashCount: this explicitly states it is the _required_ value (_count_) of trash needed
+- IsMissionComplete: Boolean variables should read like a question that clearly resolves to either true or false.
 
+You may notice that in naming our variables: 
+-   `currentTrashCount` and `requiredTrashCount` use **camelCase**
+-   `IsMissionComplete` uses **PascalCase**
 
+This is intentional. In Unity and C# conventions:
+-   **Private variables** commonly use camelCase. These are variables that only the object that declares them has access to.
+-   **Public properties or methods** use PascalCase. These allow for other objects to access these values or behaviors.
 
-
-
-
-
-
-
+In a well-structured Level Manager:
+-   The trash bag and trash bin do **not** directly access `currentTrashCount` and `requiredTrashCount`.
+-   They call methods like `AddTrash()` or `CheckMissionComplete()`.
+-   The Gate checks a public property like `IsMissionComplete`.
+    
+This protects internal data while exposing only what other objects need. This concept is called **encapsulation**.
 
 
 
