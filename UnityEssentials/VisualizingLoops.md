@@ -144,6 +144,8 @@ The solution here, as illustrated in the Gameplay Brief above, is to implement a
 
 For our prototype, a simple Level Manager is sufficient.
 
+# 
+
 ### Designing the Level Manager Variables
 To track mission progress, the Level Manager needs to store information as **variables**. A **variable** is a named container that stores data, which can change over time.
 
@@ -157,6 +159,8 @@ For our park game, we need to keep track of the following data:
 -   The amount of trash currently collected. Since trash is counted in whole units, an integer is the appropriate data type.
 -   The required amount of trash needed to complete the mission, again, an integer makes the most sense.
 -   A check to determine if the mission has been completed or not, this is either true or false, making a Boolean the perfect solution for this. 
+
+# 
 
 #### Variable Naming 
 When naming our vairables we should always use names that are explicit and remove any ambiguity. 
