@@ -80,12 +80,9 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
 | Trash Bin | Position, type (recycle/regular)    | Receives trash, updates count, triggers feedback        |
 | Gate      | Position, locked/unlocked           | Opens when area objectives complete, triggers animation |
 
+
 #### Detailed Gameplay Loop
-![detailed gameplay loop](imgs/loops/gct-parkGame-DetailedLoop.png)
-
-#### Object Gameplay Loops
-![Detailed Gameplay Loop](imgs/loops/gct-ParkGameLoopDetailed.png)
-
+![detailed gameplay loop](imgs/loops/gct-ParkGameLoopDetailed.png)
 
 
 #### Levels / Progression
