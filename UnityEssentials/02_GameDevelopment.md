@@ -18,7 +18,7 @@ Once the initial game design is selected on, we can move into the actual game de
 > Park Clean-Up inspires players to care for the environment while having fun exploring and restoring a virtual park. Players learn about responsibility, cause-and-effect, and the impact of small actions in a safe, playful environment.
 >
 > ### Razor Statement
-> _*Park Clean-Up is an eco-friendly game where players restore the local park by collecting trash, unlocking new sections, and bringing order to the environment. The park is in disarray… will you help save the day?_
+> _Park Clean-Up is an eco-friendly game where players restore the local park by collecting trash, unlocking new sections, and bringing order to the environment. The park is in disarray… will you help save the day?_
 >
 > ## Target Audience
 > **Audience:** Children ages 8–9 (3rd grade), playing at home or at school on tablets or laptops.
