@@ -17,6 +17,10 @@ Without a collider, objects would pass straight through each other. There would 
 #### Trigger Colliders
 A collider can also be marked as a Trigger. Trigger colliders do not block objects, but they can detect when other colliders enter, exit, or stay inside them. Triggers are useful for zones, pickups, or interactive areas where you want to detect overlap without affecting physics movement.
 
+> \[!TIP\]  
+> Colliders can be primitive shapes (Box, Sphere, Capsule) or Mesh Colliders for complex models. Use primitives whenever possible for performance.
+>
+
 # 
 ### What Is a Rigidbody?
 A **Rigidbody** is what brings an object into the physics simulation.
@@ -138,31 +142,21 @@ The Physics Layer Matrix is a global collision filter that determines which laye
 >  - That you are on the **Interactions** branch in GitHub Desktop.
 >
 
-## Understanding Colliders 
-Colliders are **invisible shapes** that define the boundaries of an object for physics interactions in Unity. They allow objects to detect **collisions** and react to forces.
+### Step 1 — Mark Static Objects
+In your park scene, most of the environment objects (trees, benches, buildings, terrain) already have **Colliders**. This makes them physically “solid” so the player or other physics objects cannot pass through them.
 
-In games, there are two types of colliders: 
--   **Static Colliders**: Objects that **do not move** (e.g., terrain, walls, benches).
--    **Dynamic Colliders**: Objects that **move and react** to physics (e.g., balls, boxes).
-      -   Require **Rigidbody** for physical interaction.
+Even though they already have colliders, it is **best practice to mark immovable objects as Static** in the Inspector. This tells Unity that these objects will **never move during gameplay**, allowing the engine to optimize:
 
-> \[!TIP\]  
-> Colliders can be primitive shapes (Box, Sphere, Capsule) or Mesh Colliders for complex models. Use primitives whenever possible for performance.
->
+-   **Lighting** (baked light calculations)
+-   **Navigation** (AI pathfinding)
+-   **Occlusion Culling** (rendering optimization)
 
-#
-
-### Step 1 — Static Colliders
-1. In the **Hierarchy**, select any object that does not move to be static, for example
-   - Locate the Tree prefab in the **Hierarchy**
-   - In the **Inspector** window **check Static** in the top right-hand corner
-   - Click on the **Overrides** drop down and choose **Appy to All** to update the prefab
-     
->[!NOTE]
-> If prompted to apply static to child objects, go ahead and press **Yes**. This ensures that both child and parent objects are static.
->
-
-2. Repeat step one on all static objects
+1.  In the **Hierarchy**, select any object that should never move (e.g., a Tree prefab).
+2.  In the **Inspector**
+    - Check the **Static** checkbox at the top-right corner.
+    - Click the **Overrides** dropdown and choose **Apply to All** to update the prefab.
+3.  If prompted about applying Static to child objects, press **Yes**.
+    - This ensures both parent and child objects are marked as Static.
 
 
 ### Step 2 - Dynamic Colliders 
@@ -177,6 +171,26 @@ In games, there are two types of colliders:
 > If an object does not have at least one Collider, it **cannot participate in physics interactions**.
     
         
+### Step 3 Reacting to Physics
+1.  With the **Ball** selected, in the **Inspector** window click **Add Component → Physics → Rigidbody**
+2.  Ensure these settings in the Rigidbody:
+    -   **Use Gravity:** Checked
+    -   **Is Kinematic:** Unchecked (so the object reacts to forces)
+    -   **Constraints:** None 
+    
+### Step 4 — Ensuring the Player Can Push Objects
+Because we are using Unity's **Third Person Controller**, it implements the Rigidbody a little differently, by way of a **push enable** flag. 
+1.  Select the **PlayerAmerture** in the hierarchy
+2.  In the **Inspector**, expand the **Basic Rigidbody Push** section
+3.  Check **Enable Push / Interact with Physics Objects**
+    
+> \[!NOTE\]  
+> Without this setting, the player will not be able to interact with dynamic objects.
+>
 
+### Step 5 — Testing Interaction 
+1.  Press **Play** in Unity.
+2.  Walk up to the **Ball** and collide with it.
+3.  Observe that the ball **rolls away** when touched, reacting to physics.
 
 
