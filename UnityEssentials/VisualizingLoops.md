@@ -1,5 +1,5 @@
 # 📜 Visualizing Loops
-> By: Akram Taghavi-Burris | © 2026
+ By: Akram Taghavi-Burris | © 2026
 
 Game loops are the heartbeat of gameplay, driving player actions, game reactions, and feedback in a continuous cycle. While we can describe loops in words, **visualizing them helps designers and developers understand the flow of gameplay, identify potential issues, and plan interactions clearly**.
 
@@ -41,33 +41,58 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
 # 
 > #### 📗Textbook Project - Gameplay Brief
 >
-> ### 📄 Overview
-> - **Title:** Park Clean-Up
-> - **Genre / Style:** Casual Puzzle / Exploration
-> - **Platform(s):** Tablet, Chromebook, PC
-> - **Target Audience:** Ages 8–9 (3rd grade), motivated by creativity, achievement, and immersive exploration.
->
-> #### ⚙️ Core Gameplay
-> **Game Objective:**  
->
-> Players explore a park to collect trash and recyclables, deposit them in the correct bins, and unlock gates to progress to new areas. The goal is to clean all areas of the park while learning about environmental stewardship.
->
-> **Core Mechanics:**
-> -   **Walking/Movement:** Navigate the park using keyboard, controller, or touch input.
-> -   **Picking Up Trash:** Approach trash items and collect them into the player’s inventory.
-> -   **Depositing Trash:** Place collected items into the correct trash or recycling bins.
-> -   **Unlocking Gates:** Complete area objectives to trigger gate openings and access new sections.
->
-> **Player Controls:**
->
-> -   **Keyboard/Mouse:** WASD / Arrow Keys to move, Space to jump
->
-> ### Gameplay Loop (High-Level)
-> 1.  **Decision:** Player chooses where to go and what trash to collect.
-> 2.  **Action:** Player picks up trash or interacts with a gate/bin.
-> 3.  **Game Reaction:** Game updates inventory, bin status, and triggers feedback (animations, sounds).
-> 4.  **Feedback:** Player sees progress updates, audio cues, or visual indicators.
-> 5.  **Repeat:** Player continues until all areas are cleaned and all gates unlocked.
+ ### 📄 Overview
+ - **Title:** Park Clean-Up
+ - **Genre / Style:** Casual Puzzle / Exploration
+ - **Platform(s):** Tablet, Chromebook, PC
+ - **Target Audience:** Ages 8–9 (3rd grade), motivated by creativity, achievement, and immersive exploration.
+
+ #### ⚙️ Core Gameplay
+ **Game Objective:**  
+
+ Players explore a park to collect trash and recyclables, deposit them in the correct bins, and unlock gates to progress to new areas. The goal is to clean all areas of the park while learning about environmental stewardship.
+
+ **Core Mechanics:**
+ -   **Walking/Movement:** Navigate the park using keyboard, controller, or touch input.
+ -   **Picking Up Trash:** Approach trash items and collect them into the player’s inventory.
+ -   **Depositing Trash:** Place collected items into the correct trash or recycling bins.
+ -   **Unlocking Gates:** Complete area objectives to trigger gate openings and access new sections.
+
+ **Player Controls:**
+
+ -   **Keyboard/Mouse:** WASD / Arrow Keys to move, Space to jump
+
+ ### Gameplay Loop (High-Level)
+1.  **Decision:** Player chooses where to go and what trash to collect.
+2.  **Action:** Player picks up trash or interacts with a gate/bin.
+3.  **Game Reaction:** Game updates inventory, bin status, and triggers feedback (animations, sounds).
+4.  **Feedback:** Player sees progress updates, audio cues, or visual indicators.
+5.  **Repeat:** Player continues until all areas are cleaned and all gates unlocked.
+
+#### Main Gameplay Loop
+![main gameplay loop](imgs/gct-parkGame-MainLoop.png)
+
+| Object    | Attributes                          | Behaviors / Interactions                                |
+| --------- | ----------------------------------- | ------------------------------------------------------- |
+| Player    | Position, inventory capacity        | Moves, collects trash, deposits items, triggers gates   |
+| Trash     | Type (regular/recyclable), position | Can be collected, removed from scene                    |
+| Trash Bin | Position, type (recycle/regular)    | Receives trash, updates count, triggers feedback        |
+| Gate      | Position, locked/unlocked           | Opens when area objectives complete, triggers animation |
+
+#### Detailed Gameplay Loop
+![detailed gameplay loop](imgs/gct-parkGame-DetailedLoop.png)
+
+#### Object Gameplay Loops
+![Gate loop](imgs/gct-parkGame-GateLoop.png)
+
+![Level manager loop](imgs/gct-parkGame-LevelManager.png)
 
 
+#### Levels / Progression
+-   **Areas:** Park is divided into zones with increasing trash quantity and complexity.
+-   **Progression:** Clean one zone to unlock the next gate.
+-   **Challenge Curve:** Early zones are small with fewer trash items; later zones introduce more objects, limited inventory capacity, and time-based challenges.
+-   **Milestones:** Completing a zone triggers visual feedback, sounds, and opens new areas.
+
+# 
 
