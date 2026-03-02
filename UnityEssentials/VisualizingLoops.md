@@ -70,7 +70,7 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
 5.  **Repeat:** Player continues until all areas are cleaned and all gates unlocked.
 
 #### Main Gameplay Loop
-![main gameplay loop](imgs/gct-parkGame-MainLoop.png)
+![main gameplay loop](imgs/loops/gct-parkGame-MainLoop.png)
 
 | Object    | Attributes                          | Behaviors / Interactions                                |
 | --------- | ----------------------------------- | ------------------------------------------------------- |
@@ -80,12 +80,12 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
 | Gate      | Position, locked/unlocked           | Opens when area objectives complete, triggers animation |
 
 #### Detailed Gameplay Loop
-![detailed gameplay loop](imgs/gct-parkGame-DetailedLoop.png)
+![detailed gameplay loop](imgs/loops/gct-parkGame-DetailedLoop.png)
 
 #### Object Gameplay Loops
-![Gate loop](imgs/gct-parkGame-GateLoop.png)
+![Gate loop](imgs/loops/gct-parkGame-GateLoop.png)
 
-![Level manager loop](imgs/gct-parkGame-LevelManager.png)
+![Level manager loop](imgs/loops/gct-parkGame-LevelManager.png)
 
 
 #### Levels / Progression
