@@ -79,3 +79,34 @@ A **Razor Statement** is a concise 1–2 sentence summary that captures the esse
 > _The park is in disarray… will you help save the day?_ 
 > 
 #
+
+--- 
+
+## Game Player 
+Once we have a clear core concept (i.e., Razor Statement), the next step is to define **who we are making the game for** and **what we want them to feel**. This is done through a **Player Persona** and **Player Experience Goals (PX Goals)**.
+
+**Player Experience Goals (PX Goals)** define the **emotions, motivations, and interactions** designers want players to encounter while playing. These goals are context-specific: each game’s mechanics, narrative, and systems shape the experiences that emerge. Player experience is a holistic measure, including socio-psychological, behavioral, and physiological responses as players engage with the game.
+
+PX Goals are built around a **player persona**, a fictional representation of the player the game is intended for. This persona embodies the **motivations, preferences, and behaviors** your game is targeting. Even if you, as a designer or playtester, are not part of the target audience, you must evaluate the game objectively: **is it meeting the PX Goals for that persona?**
+
+> [!TIP]
+>  The role of the game designer is, first and foremost, to be an **advocate for the player**.  
+> This means all design choices should focus on what will engage and motivate the target player, shaping the desired player experience. Remember, the development team may not always be the target audience, so design decisions should align with the persona, not personal preferences.
+> 
+
+PX Goals will guide **mechanics, interactions, and feedback** throughout the game. By clearly defining the player and their desired experience early, every design decision, from level layout to scoring to visual cues, can support meaningful, engaging gameplay.
+
+# 
+> #### 📗Textbook Project - Player Persona
+
+| Game Title: Park Clean-Up | Player background | 
+| -------------------------------------------------- | ------------------------------------------ |
+| **Name:** _Prithvi Kandarie_ <br> <img alt="Prithvi Kandarie" width="300" src="https://github.com/csg-utulsa/.github/blob/main/doc-imgs/girl-studying-jemastock-Freepik.jpg">   | **Gender:** Female <br> **Age:** 8 <br> **Educaton:** 3rd <br> **Location:** Austin, Texas <br> **Access to Devices:** Tablet at home and a school Chromebook |
+| **Accessibility Needs:** <br> ● Plays on tablet/touch controls. Actions should be simple (tap, drag, swipe) <br> ● Enjoys bright visuals and clear feedback that show success <br> ● Limited play time, so progress should save automatically | **Favorite Games:** <br> ● Minecraft Education Edition <br> ● Animal Crossing: Pocket Camp <br> ● Angry Birds |
+| **Gamer Motivations:** <br> ● **Creativity** – Enjoys discovering and seeing how her actions change the game world <br> ● **Achievement** – Likes completing tasks and earning rewards for progress <br> ● **Immersion** – Feels connected to the world and enjoys relaxing, calm environments | **Frustrations with Existing Games:** <br> ● Complicated controls or confusing menus <br> ● Levels that are too long or hard to finish in one sitting <br> ● Games that don’t show progress or feel repetitive |
+|**Player Experience Goals:** <br> <ul><li>**Players will see direct consequences of their actions**, as previously dull or littered areas transform visually into vibrant, healthy spaces. <ul><li>**Motivations Met:** _Creativity_ change and discovery, _Achievement_ visible progress</li></ul></li>  <li>**Players will experience a sense of responsibility** and care for the environment by helping clean up the park. <ul><li>**Motivations Met:** _Immersion_ connection to theme, _Achievement_ positive outcomes</li><ul></li></ul>| **Needs and Expectations** <br> ● Simple touch-based controls for moving, collecting, and sorting trash <br> ● Visual and sound feedback that celebrates progress (sparkles, brighter colors, plant regrowth) <br> ● Short missions that can be completed quickly but add up to long-term progress |
+
+# 
+
+---
+
