@@ -53,10 +53,11 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
  Players explore a park to collect trash and recyclables, deposit them in the correct bins, and unlock gates to progress to new areas. The goal is to clean all areas of the park while learning about environmental stewardship.
 
  **Core Mechanics:**
- -   **Walking/Movement:** Navigate the park using keyboard, controller, or touch input.
- -   **Picking Up Trash:** Approach trash items and collect them into the player’s inventory.
- -   **Depositing Trash:** Place collected items into the correct trash or recycling bins.
- -   **Unlocking Gates:** Complete area objectives to trigger gate openings and access new sections.
+ -   **Walking/Movement:** Navigate the park using keyboard and mouse.
+ -   **Picking Up Trash:** Approach trash items to collect them.
+ -   **Depositing Trash:** Place collected items into the trash bin.
+ -   **Mission Complete:** Mission completed when the required amount of trash has been collected at the trash bin.
+ -   **Unlocking Gates:** Gate will unlock on mission complete. 
 
  **Player Controls:**
 
@@ -65,7 +66,7 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
  ### Gameplay Loop (High-Level)
 1.  **Decision:** Player chooses where to go and what trash to collect.
 2.  **Action:** Player picks up trash or interacts with a gate/bin.
-3.  **Game Reaction:** Game updates inventory, bin status, and triggers feedback (animations, sounds).
+3.  **Game Reaction:** Game updates the current collected count, deposited amount, and/or triggers animation/sound feedback.
 4.  **Feedback:** Player sees progress updates, audio cues, or visual indicators.
 5.  **Repeat:** Player continues until all areas are cleaned and all gates unlocked.
 
@@ -83,9 +84,8 @@ For this lesson, we will focus specifically on the **Core Gameplay Brief**, a su
 ![detailed gameplay loop](imgs/loops/gct-parkGame-DetailedLoop.png)
 
 #### Object Gameplay Loops
-![Gate loop](imgs/loops/gct-parkGame-GateLoop.png)
+![Detailed Gameplay Loop](imgs/loops/gct-ParkGameLoopDetailed.png)
 
-![Level manager loop](imgs/loops/gct-parkGame-LevelManager.png)
 
 
 #### Levels / Progression
