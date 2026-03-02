@@ -26,11 +26,11 @@ For this textbook project, our initial brainstorming for the game design led to 
 -   **Theme / Focus**
     
     -   Eco-friendly / Environmental awareness
-    -   Community / teamwork
+    -   Community/teamwork
     -   Relaxation / casual play
         
 -   **Gameplay Type**
-    -   Collection / resource gathering
+    -   Collection/resource gathering
     -   Light exploration
     -   Puzzle elements (sorting, organization)
         
@@ -41,7 +41,7 @@ For this textbook project, our initial brainstorming for the game design led to 
         
 -   **Mechanics / Actions**
     -   Move, pick up, interact
-    -   Simple inventory / carrying system
+    -   Simple inventory/carrying system
     -   Area progression
         
 -   **Setting / Context**
@@ -82,7 +82,7 @@ A **Razor Statement** is a concise 1–2 sentence summary that captures the esse
 
 --- 
 
-## Game Player 
+## 👤 Game Player 
 Once we have a clear core concept (i.e., Razor Statement), the next step is to define **who we are making the game for** and **what we want them to feel**. This is done through a **Player Persona** and **Player Experience Goals (PX Goals)**.
 
 **Player Experience Goals (PX Goals)** define the **emotions, motivations, and interactions** designers want players to encounter while playing. These goals are context-specific: each game’s mechanics, narrative, and systems shape the experiences that emerge. Player experience is a holistic measure, including socio-psychological, behavioral, and physiological responses as players engage with the game.
@@ -109,4 +109,12 @@ PX Goals will guide **mechanics, interactions, and feedback** throughout the gam
 # 
 
 ---
+## ➡️ From Design to Development
 
+With a clear understanding of our game’s concept, razor statement, and target player, we are ready to move from **design ideas into actual game development**.
+
+This section focused on the **big-picture decisions**: what our game is, who it’s for, and the experience we want to create. Now, it’s time to **start working with the tools** that will bring our ideas to life.
+
+In the chapters that follow, we’ll begin with **Unity fundamentals**, learning how to navigate the editor, organize our project, and create the first building blocks of our game world. These skills will form the foundation for everything we build later, scenes, assets, animations, audio, and interactions—all guided by the design decisions we’ve already made.
+
+By starting here, you’ll gain the confidence to move from abstract ideas to tangible game elements, setting the stage for a **hands-on, playable experience**.
