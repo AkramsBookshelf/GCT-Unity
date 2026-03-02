@@ -193,4 +193,12 @@ Because we are using Unity's **Third Person Controller**, it implements the Rigi
 2.  Walk up to the **Ball** and collide with it.
 3.  Observe that the ball **rolls away** when touched, reacting to physics.
 
+### Step 6 — Save Your Work
+1.  Save the scene: **File → Save** or **Ctrl + S**
+2.  Close Unity
+3.  In **GitHub Desktop**:
+    -   Stage your changes
+    -   Commit with message:
+        -   `feat: Added basic physics with interactive ball.`
+4.  Push to the **Interactions branch**
 
