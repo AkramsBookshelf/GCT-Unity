@@ -14,9 +14,9 @@ The term _game design_ often brings to mind both the game idea as well as the ar
 
 Starting with game design, the foundation of every project, we first define what will be developed.
 
-#
+---
 
-## Big Idea 
+## 💡 Big Idea 
 All game design projects begin with an idea! That spark, which defines what kind of experience you want to create for the player. This idea doesn’t need to be fully formed at first; it’s simply the seed that guides exploration and experimentation. 
 
 While there are many ways to generate ideas for a game, one simple and effective method is to start with a broad **brainstorming** session. At this stage, the goal isn’t to define the game in detail, but to capture general concepts, themes, and mechanics that feel interesting or fun. By collecting and organizing these ideas, we can begin to see patterns and possibilities that might evolve into a playable game.
@@ -49,15 +49,33 @@ For this textbook project, our initial brainstorming for the game design led to 
     -   Small, approachable map areas
     -   Visual cues for objectives
 
+#
+
 ### Keeping the Game in Scope
-After reviewing our brainstorming list, the next step is to narrow these broad ideas into a manageable and realistic scope for our project. Not every idea can be included, and trying to do too much too soon can lead to an unfocused game. By selecting the most important elements that make the game fun, meaningful, and achievable, we can define a clear direction for the project. 
 
-Once the scope is established, we can distill the core of the game into a **Razor Statement**.
+After brainstorming, the next step is to narrow our ideas into a **manageable and realistic scope**. Not every idea can be included, and trying to do too much too soon can make the game unfocused. By selecting the elements that are fun, meaningful, and achievable, we can define a clear direction for the project.
 
----
+# 
+> #### 📗Textbook Project - Big Idea
+>  We’ve decided on a **Park Clean-Up game**, where the player must collect trash in each park section before moving to the next.
+> 
+#
 
-## Razor Statement 
-The **Razor Statement** distills the idea into a single, sharp sentence that captures the game’s essence: what it is, how it feels, and what makes it unique. It acts as the compass for all design decisions that follow, keeping the team aligned and focused on the player experience.
+Once the scope is clear, we can distill the core of the game into a **Razor Statement**, which will guide all design decisions moving forward.
 
+## 🔪 Razor Statement
 
+A **Razor Statement** is a concise 1–2 sentence summary that captures the essence of the game: what it is, how it feels, and what makes it unique. It “cuts away” everything unnecessary, leaving only the most essential and compelling elements of the vision. The Razor Statement acts as a compass for the project, keeping the team aligned and focused on the player experience.
 
+**Key Elements of a Razor Statement:**
+
+-   **Familiarity:** Genre or mechanics players already recognize (e.g., RPG, Action, Adventure, Simulation).
+-   **Novelty:** The unique twist or hook that sets your game apart.
+-   **Tagline (optional):** A short line that reflects the game’s personality, mood, or tone.
+    
+# 
+> #### 📗Textbook Project - Razor Statement
+>  _**Park Clean-Up** is an eco-friendly game where players restore the local park by collecting trash, unlocking new sections, and bringing order to the environment._
+> _The park is in disarray… will you help save the day?_ 
+> 
+#
