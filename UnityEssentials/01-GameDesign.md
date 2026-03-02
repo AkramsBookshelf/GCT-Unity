@@ -1,4 +1,4 @@
-# 📜 Game Design
+# 📚 Game Design
 > By: Akram Taghavi-Burris | © 2026
 
 
