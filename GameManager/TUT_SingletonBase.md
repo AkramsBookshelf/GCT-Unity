@@ -44,19 +44,32 @@ This gives us a solution that is:
 
 ### Step 2: Class Declaration
 
-1. Declare the Singleton Class 
+1. Declare the Singleton Class
+-   Mark the class as **`abstract`** because it is not meant to be instantiated directly; it only provides the shared singleton behavior for subclasses 
 -   Use a **generic type parameter `<T>`** so this base class can work with any class (GameManager, AudioManager, etc.).
 -   Add the constraint **`where T : MonoBehaviour`** to ensure **`T`** is a Unity component, which lets us safely use Unity-specific methods like **`DontDestroyOnLoad()`**.
+
+> [!NOTE]
+> Making the class abstract also aligns with the **Template Method Pattern**, where the base class defines the invariant behavior (singleton enforcement) and derived classes supply their own concrete logic.
+> 
 
 ```csharp
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
 
 }//end Singleton
 
 ```
+> [!WARNING]
+> Although abstract classes often use a Base prefix, this class represents a **design pattern**, not a domain-specific base type.
+> 
+> Naming it Singleton<T> keeps the intent clear and expressive when implementing, for exmaple: `public class GameManager : Singleton<GameManager> { }`
+>
+> This reads naturally, “GameManager is a Singleton”, and communicates the pattern more directly than BaseSingleton<T>. The clarity of the pattern outweighs the convention of prefixing abstract classes with Base.
+>
+
 
     
 **📝 Task:** Save the script. No errors should appear.
@@ -209,7 +222,7 @@ This is the foundation for our next lesson, where we build the **GameManager** a
 
 using UnityEngine;
 
-public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
 
     public static T Instance { get; private set; }
