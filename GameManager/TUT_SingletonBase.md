@@ -63,11 +63,11 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 
 ```
 > [!WARNING]
-> Although abstract classes often use a Base prefix, this class represents a **design pattern**, not a domain-specific base type.
+> Although abstract classes often use a `Base` prefix, this class represents a **design pattern**, not a domain-specific base type.
 > 
 > Naming it Singleton<T> keeps the intent clear and expressive when implementing, for exmaple: `public class GameManager : Singleton<GameManager> { }`
 >
-> This reads naturally, “GameManager is a Singleton”, and communicates the pattern more directly than BaseSingleton<T>. The clarity of the pattern outweighs the convention of prefixing abstract classes with Base.
+> This reads naturally, “GameManager is a Singleton”, and communicates the pattern more directly than `BaseSingleton<T>`. The clarity of the pattern outweighs the convention of prefixing abstract classes with `Base`.
 >
 
 
