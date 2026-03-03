@@ -207,10 +207,37 @@ These callbacks will **reference a method** to handle the event, which we will d
 > [!WARNING]
 > At this stage, `HandleButtonTriggered()` has not yet been defined. This method will receive the event object and forward the button interaction to `OnClickButton()`.  We will implement it in **Step 9**.
 > 
+#
+
+### Step 8: Enabling Buttons 
+When a UI object becomes active, we need to ensure the buttons are **mapped** and **callbacks are registered** so they can respond to user interactions.
+
+Instead of placing all logic directly inside `OnEnable()`, we call two dedicated methods:
+-   `BuildButtonMap()` — queries all buttons and stores references in the dictionary
+-   `RegisterButtonCallbacks()` — attaches the event handlers to the buttons
+    
+This approach has several advantages:
+-   **Separation of concerns:** The lifecycle timing (`OnEnable`) is kept separate from the button discovery and registration logic.
+-   **Single Responsibility Principle:** Each method does one clear task, making the code easier to read, test, and maintain.
+-   **Clear intent through naming:** The method names explicitly describe **what each task does**. If all logic were placed directly in `OnEnable()`, the responsibilities could become **muddy** and harder to understand at a glance.
+
+1. Define the `OnEnable()` behaviors
+
+```csharp
+    // OnEnable is called every time the object becomes active.
+    protected virtual void OnEnable()
+    {
+
+        BuildButtonMap();
+        RegisterButtonCallbacks();
+        
+    } //end OnEnable()
+```
 
 #
 
-### Step 8: Unregister Button Callbacks
+
+### Step 9: Unregister Button Callbacks
 To avoid **duplicate events** or **dangling references**, we must unregister callbacks whenever the UI is disabled.  
 `UnregisterButtonCallbacks()` removes all previously registered callbacks for each button.
 
@@ -230,9 +257,27 @@ To avoid **duplicate events** or **dangling references**, we must unregister cal
     }//end UnregisterButtonCallbacks()
 ```
 
+#
+### Step 9: Disabling Buttons
+When the UI object is **disabled or destroyed**, we need to ensure the buttons **stop listening for events**.
+
+If we don’t unregister callbacks, the buttons could still respond to input, potentially causing **errors, duplicate event triggers, or unintended behavior**.
+
+Using a similar method to how we set up `OnEnable()`, we do not put all the logic directly in `OnDisable()`, instead we call our dedicated method, 
+-   `UnregisterButtonCallbacks()` — removes all previously registered event handlers from the buttons
+
+```csharp
+    //OnDisable is called every time the object becomes inactive
+    protected void OnDisable()
+    {
+        UnregisterButtonCallbacks();
+        
+    }//end OnClickButton
+```
+
 # 
 
-### Step 9: Handle Button Triggered
+### Step 10: Handle Button Triggered
 As discussed in Step 7, when a callback is registered, it **triggers an event** whenever the user interacts with a button.
 
 To handle this, we implement `HandleButtonTriggered()`.
@@ -265,7 +310,7 @@ To handle this, we implement `HandleButtonTriggered()`.
 
 # 
 
-### Step 10: Define the Abstract `OnClickButton()` Method
+### Step 11: Define the Abstract `OnClickButton()` Method
 The base button controller provides all the infrastructure to **find buttons, register callbacks, and handle events**.
 However, the **specific behavior** for each button (i.e., what happens when it is clicked)  is **application-specific**. We don’t want the base class to know about individual button logic.
 
@@ -280,6 +325,166 @@ To enforce this, we define an **abstract method** `OnClickButton()`:
    //Child classes define the OnClickButton behavior
     protected abstract void OnClickButton(string buttonName);
 ```
+
+---
+
+# 🎉 New Achievement: UI Button Framework Created!
+You now have a **fully reusable UI button system** that:
+-   Automatically discovers buttons
+-   Supports mouse + keyboard/gamepad
+-   Prevents duplicate registration
+-   Forces a consistent UI architecture
+-   Encourages scalable design
+
+```csharp
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+[RequireComponent(typeof(UIDocument))]
+public abstract class BaseButtonController : MonoBehaviour
+{
+    // Reference to the UIDocument component attached to this GameObject.
+    protected UIDocument _uiDocument;
+    
+    // The root VisualElement of the UI Document.
+    private VisualElement _root;
+
+    // Dictionary storing all discovered buttons.
+    protected Dictionary<string, Button> _buttonDictionary = new();
+    
+    // Awake is called once on initialization (before Start)
+    protected virtual void Awake()
+    {
+        // Retrieve the UIDocument component attached to this GameObject.
+        _uiDocument = GetComponent<UIDocument>();
+        
+        // Get the root visual element of the UI.
+        _root = _uiDocument.rootVisualElement;
+        
+        //If the UXML file is not found
+        if(_root == null)
+        {
+            Debug.LogError("No visual element root found, ensure UXML document is set.");
+            return;
+        }
+
+    } //end Awake()
+
+    
+    // OnEnable is called every time the object becomes active.
+    protected virtual void OnEnable()
+    {
+
+        BuildButtonMap();
+        RegisterButtonCallbacks();
+        
+    } //end OnEnable()
+    
+    //OnDisable is called every time the object becomes inactive
+    protected void OnDisable()
+    {
+        UnregisterButtonCallbacks();
+        
+    }//end OnClickButton
+
+    
+    // Queries buttons and maps references 
+    private void BuildButtonMap()
+    {
+        // Create a list of all buttons in the UXML hierarchy
+        List<Button> buttons = _root.Query<Button>().ToList();
+        
+        // If no buttons are found, log an error and return
+        if (buttons.Count == 0)
+        {
+            Debug.LogError("No Buttons Found");
+            return;
+        }
+
+        // Loop through each discovered button
+        foreach (var button in buttons)
+        {
+            // Get the button name assigned in the UXML.
+            string buttonName = button.name;
+            
+            // Store the button reference in the dictionary using its UXML name.
+            _buttonDictionary[buttonName] = button;
+            
+        }//end foreach
+        
+    }//end BuildButtonMap()
+
+    // Register the necessary UI Toolkit callbacks to each Button
+    private void RegisterButtonCallbacks()
+    {
+        // Loop through all Button objects in the dictionary
+        foreach (Button button in _buttonDictionary.Values)
+        {
+            
+            // Register callback for mouse clicks.
+            // ClickEvent fires when the button is clicked with a pointer device.
+            button.RegisterCallback<ClickEvent>(HandleButtonTriggered);
+            
+            // Register callback for navigation submit events.
+            // NavigationSubmitEvent fires when pressing Enter or gamepad submit.
+            button.RegisterCallback<NavigationSubmitEvent>(HandleButtonTriggered);
+            
+        }//end foreach
+        
+    }//end RegisterButtonCallbacks()
+
+    // UnregisterButtonCallbacks removes all previously registered callbacks from each Button.
+    private void UnregisterButtonCallbacks()
+    {
+        foreach (var button in _buttonDictionary.Values)
+        {
+            button.UnregisterCallback<ClickEvent>(HandleButtonTriggered);
+            button.UnregisterCallback<NavigationSubmitEvent>(HandleButtonTriggered);
+            
+        }//end foreach
+        
+    }//end UnregisterButtonCallbacks()
+
+    
+    // HandleButtonTriggered is the central callback handler for all button events.
+    // It extracts the button that triggered the event and passes its name to OnClickButton.
+    // The EventBase parameter is required by UI Toolkit to receive event data.
+    private void HandleButtonTriggered(EventBase evt)
+    {
+        //Check if the target that triggered the event is a button
+        if (evt.target is Button button)
+        {
+            // Forward the button's name to the abstract OnClickButton method
+            // for the child class to handle specific behavior.
+            OnClickButton(button.name);
+        }
+        
+    }//end HandleButtonTriggered
+    
+
+    //Child classes define the OnClickButton behavior
+    protected abstract void OnClickButton(string buttonName);
+
+    
+}//end BaseButtonController
+```
+    
+
+# 🚩 Checkpoint
+
+Key takeaways from this lesson:
+
+-   **BaseButtonController** centralizes UI button logic.
+-   `UIDocument` is required for UI Toolkit integration.
+-   Buttons are automatically discovered using `Query<Button>()`.
+-   A **Dictionary** stores button references by name.
+-   Both `ClickEvent` and `NavigationSubmitEvent` are supported.
+-   `HandleButtonTriggered()` acts as a routing layer.
+-   Child classes implement behavior through `OnClickButton()`.
+-   Proper lifecycle cleanup occurs in `OnDisable()`.
+    
+This creates a scalable and professional UI architecture that avoids repetitive code and keeps UI logic clean and maintainable.
 
 
 
