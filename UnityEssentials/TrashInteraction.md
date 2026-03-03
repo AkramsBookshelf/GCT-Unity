@@ -75,4 +75,14 @@ Select the entire graph and ctrl+click to group all the nodes. Name this group O
 
 Drag the trashbag prefab from the hierarchy to the Prefabs folder in the project window to create a prefab varient. Rename the variabnt to TrashBag_Interactable.
 
+----
+
+Create a new empty game object in the hiearchy. 
+Name this object LevelManager. 
+Add a script machine component
+Under graph choose new
+Name this graph LevelManager and save it in the scripts folder
+In the inspector choose edit graph.
+Remove the on start and update methods
+
 
