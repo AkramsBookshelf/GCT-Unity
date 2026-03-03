@@ -30,13 +30,33 @@ To design for scalability, we need a UI controller that:
 
 ---
 ## Base Button Controller 
-Thinking about our UI system, we can identify two responsibilities:
-1.  **Finding and registering UI elements**
-2.  **Defining what happens when they are interacted with**
-    
-In the original `MainMenuController`, both responsibilities were handled in one class. By introducing a base class (`BaseButtonController`), we **centralize the common logic for querying buttons and registering events**, reducing repetition across multiple menus. 
+In the original, `MainMenuController` had the following responsibilities:
+-   Finds all **Buttons** inside a UXML document
+-   Registers both **mouse** and **keyboard/gamepad** callbacks
+-   Defining what method runs when the interacted with.
 
-This also provides a **loose separation between UI mechanics and behavior**, allowing derived classes to focus on defining interactions without rewriting the discovery logic.
+While the methods that run on each button are different, the querying of the buttons and registering events will follow the same process for any UI document whose buttons we need to control.
+Instead of writing repetitive button registration logic in every UI script, we centralize the system here, but introducing a **BaseButtonController**; an **abstract foundation class** that automatically:
+This class will: 
+-   Finds all **Buttons** inside a UXML document
+-   Store buttons in a **dictionary**
+-   Registers both **mouse** and **keyboard/gamepad** callbacks
+-  Routes all button presses through a single method
+
+# 
+
+### ⚙️ Understanding the Architecture
+Implementing the **BaseButtonController** class provides a **loose separation between UI mechanics and behavior**, allowing derived classes to focus on defining interactions without rewriting the discovery logic.
+
+This controller also follows three important design goals:
+1.  **Automatic Discovery** – We do not manually drag button references.
+2.  **Centralized Event Handling** – All button events pass through one method.
+3.  **Extensibility** – Concrete UI controllers define behavior, not the base class.
+
+
+This is an example of **Template Method Pattern** behavior. The Template Method pattern is a behavioral design pattern used in object-oriented programming. It defines the skeleton of an algorithm in a superclass while allowing subclasses to override specific steps without changing the overall structure of the algorithm.
+-   The base class defines the workflow.
+-   The child class fills in the specific action.
 
 ---
 
