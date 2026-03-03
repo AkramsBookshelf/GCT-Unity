@@ -64,17 +64,28 @@
 ### Step 4 — Add a Spot Light to the Lamp
 1.  Ensure you are still _editing the **Lamp** prefab in context_
 2.  Right-click on the **Prefab Hierarchy** and choose **Create > Light > Spot Light** as a child of the lamp.
-3.  Position it at the top of the lamp, just inside the glass, and rotate it to face down:
-    - Rotation X: -180
-4.  In the **Inspector**, set the following:
-    -   **Spot Angle**: Inner 50 / Outer 80
+3.  Position it at the top of the lamp, just inside the glass, and rotate it to face down
+4.  In the **Inspector**, set the following **Spot Angle** Setting: 
+    -   **Inner** = 50
+    -  **Outer** =  80
+      
+![Spotlight Inner/Outer Spot ANgle](imgs/lighting/gct-spotAngle.png)
+
+5. Set the following **Emission** settings:    
     -   **Color**: R: 244, G: 223, B: 131, A: 255
     -   **Intensity**: 5
     -   **Range**: 5
+  
+![Spot Light Inner/Outer Spot ANgle](imgs/lighting/gct-spotEmission.png)
+
+
+6. Set the Following **Shadow** settings: 
     -   **Shadow Type**: Soft Shadows
+    -   **Resolution**: low
     -   **Shadow Strength**: 1
     -   **Bias / Near Plane**: 0.5
-  
+
+  ![Spot Light Inner/Outer Spot ANgle](imgs/lighting/gct-spotShadows.png)
 # 
 
 ### Step 5 — Save Lamp as Prefab Variant
