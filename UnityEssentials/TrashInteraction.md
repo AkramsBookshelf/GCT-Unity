@@ -71,4 +71,6 @@ Set the delay time to 0.5 seconds to match the length of the sound clip.
 Have the Play One Shot output to the Destory Gameobject. 
 Save your graph, then test it in Play mode to ensure the trash bag is destroyed only after the sound has finished playing.
 
+Select the entire graph and ctrl+click to group all the nodes. Name this group OnTriggerEnter change it's color to your liking. 
+
 
