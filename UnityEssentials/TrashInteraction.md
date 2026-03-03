@@ -56,4 +56,19 @@ Before we get much further, we will test to make sure that the `OnTriggerEnter`
     -   Enter **Play Mode** in Unity and move the player toward a trash bag.
     -   Check the **Console** to verify the correct debug message appears when entering the trash bag's trigger.
   
-3. Once the debug messages confirm the interaction is working, we can proceed to implementing the actual trash collection logic.
+3. Once the debug messages confirm the interaction is working, we can proceed to implement the actual trash collection logic.
+
+Add  an Audio source Play One Shot (used for short soudn fx) 
+The Audio Source should be set to "this"
+Add a Audio Source Get Clip node. Set it to this. This will get the clip on the game object. 
+Set this as the value of the clip on the Play ONe Shot node. 
+
+Have the Debug.Log for the Player Triggered output to the Playe One Shot 
+
+ add a Destroy node with an object and time delay parameter.
+Set the target to This, which refers to the trash bag object.
+Set the delay time to 0.5 seconds to match the length of the sound clip.
+Have the Play One Shot output to the Destory Gameobject. 
+Save your graph, then test it in Play mode to ensure the trash bag is destroyed only after the sound has finished playing.
+
+
