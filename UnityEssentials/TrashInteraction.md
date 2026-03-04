@@ -236,6 +236,7 @@ Now that we know the Trigger is working correctly, we set up our soundfx to play
 7.  Save the graph.
 
 The graph should look like the following: 
+
   ![Trashbag Interactions](imgs/interactions/gct-trashBag-08.png)
 
   # 
