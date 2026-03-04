@@ -171,8 +171,9 @@ Before building full functionality, confirm the trigger works.
 
 ![Trashbag Interactions](imgs/interactions/gct-trashBag-04.png)
 
+#
 
-## Step 7 — Play Audio 
+## Step 10 — Play Audio 
 Now that we know the Trigger is working correctly, we set up our soundfx to play. 
 
 1.  In the **Graph Editor**, **right-click** on an empty space and search for:  
@@ -202,10 +203,51 @@ Now that we know the Trigger is working correctly, we set up our soundfx to play
 > `This` ensures the script references the Audio Source attached to the Trash Bag it
 > 
 
+### Step 11 — Add a Destroy Node
 
+1.  **Right-click** in the graph and search for `Destroy`
+    
+2.  Select **Destroy(Obj,T)** to select the Destory compnent with _time delay_
 
+   ![Trashbag Interactions](imgs/interactions/gct-trashBag-07.png)
+    
+3.  **Right-click** in the graph and search for `This` node
+4.  Set the **This** (i.e., this trash bag object) to the object input for the **Desotry** node
+5.  Set **Time Delay** to `0.5` seconds (matches your sound clip length)
+    
+6.  Connect the nodes:
+    
+    -   Drag from the **Finished output** of `Play One Shot` and  Connect to the **Destroy input**
+      
 
+> \[!NOTE\]  
+> This ensures the trash bag is removed **after** the audio plays, not instantly.
+>
 
+# 
+
+### Step 12 —  Group and Organize the Nodes
+
+1.  Click and drag a window around all nodes in the **OnTriggerEnter** _flow path_ 
+2. With the mouse still held down, press **Ctrl** to group them.
+3.  Click on the **Group** text at the top of the group box to rename it
+    - Name the group: `OnTriggerEnter`
+5.  Change the group’s **color** if desired for readability.
+7.  Save the graph.
+
+The graph should look like the following: 
+  ![Trashbag Interactions](imgs/interactions/gct-trashBag-08.png)
+
+  # 
+  
+### Step 13 — Save Your Work
+1.  Save the scene: **File → Save** or **Ctrl + S**
+2.  Close Unity.
+3.  In **GitHub Desktop**:
+    -   Stage your changes
+    -   Commit with message:
+        -   `feat: TrashBag Interaction.`
+4.  Push to the appropriate branch.
 
 
 
