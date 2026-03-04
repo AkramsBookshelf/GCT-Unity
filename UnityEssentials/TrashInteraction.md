@@ -1,88 +1,178 @@
-1.  **Open the Trash Bag Prefab**
-    
-    -   In the **Hierarchy**, locate a trash bag object in the **Park Scene**.
-    -   Right-click the object and select `Prefab > Open Asset in Context` to edit the prefab directly.
-2.  **Add a Box Collider (Trigger)**
-    
-    -   With the trash bag prefab selected, go to the **Inspector** panel.
-    -   Click `Add Component` and search for `Box Collider`.
-    -   Enable `Is Trigger` to allow interaction without physical collision.
-    -   Set the size of the box collider to allow for easy interaction with the player and trash bag.
-3.  **Add an Audio Source**
-    
-    -   Click `Add Component` and search for `Audio Source`.
-    -   In the `Audio Source` component, **uncheck** `Play on Awake` so the sound only plays when triggered.
-    -   Set the `Loop` to **unchecked** as this clip will only play once.
-    -   Click the `Audio Clip` field and assign the **SX\_collected-trash.wav** sound file.
-4.  **Add a Script Machine**
-    
-    -   Click `Add Component` and search for `Script Machine`.
-    -   In the `Script Machine` component, click `New` to create a new Script Graph.
-    -   Name the graph **TrashBag** and save it in your **Scripts** folder.
+# ⚒️ Tutorial: TrashInteraction
 
-_The following is a screenshot of the trash bag prefab with the above setting applied_
+<details>
+<summary><strong><em>Tutorial Details</em></strong></summary>
 
-With the **Trash Bag Prefab** still open in **Prefab Mode**, follow these steps to set up the interaction logic:
+|📝 Topic          | 🕑 Estimated Time | 🧰 Requirements   |
+| :---------------: | :---------------: | :---------------: |
+| Visual Scripting   | 45 minutes       |   GitHub Desktop, Unity, Trash Package |
+</details>
 
-1.  **Open the Script Graph**
-    
-    -   In the **Inspector**, locate the `Script Machine` component.
-    -   Click `Edit Graph` to open the visual scripting editor.
-2.  **Remove Default Nodes**
-    
-    -   In the script graph, delete the default `OnStart` and `OnUpdate` nodes, as they are not needed for this interaction.
-3.  **Add an OnTriggerEnter Node**
-    
-    -   In the **Graph Editor**, right-click and search for `OnTriggerEnter`.
-    -   This node will trigger when another object enters the trash bag's `Box Collider`.
-4.  **Check If the Player Entered the Trigger**
-    
-    -   Add a `Collider → Get Game Object` node and connect it to `OnTriggerEnter`.
-    -   Add a `Game Object → Compare Tag` node and set the tag to **Player**.
-    -   Connect the `Get Game Object` node to the `Compare Tag` node.
-    - 
-Before we get much further, we will test to make sure that the `OnTriggerEnter` event is even working. We can easily test this with a `Debug Log` message sent to the console.
+> [!NOTE]
+> Before starting this tutorial, ensure you have :
+>  - Completed **[Physics Interaction Tutorial](PhyscisInteractions.md)**
+>  - That you are on the **Interactions** branch in GitHub Desktop.
+>
 
-1.  **Test the Condition with Debug Logs**
+### Step 1 — Add the TrashBag to the Scene
+1.  In the **Project** window **3rdParty/POLYGON City / PRefabs** folder,
+   - Locate the **trashBag**
+2. Drag the **trashBag** prefab into the scene.
+3. Place it somewhere in **Area One** of the scene.
+4. Save the scene.
+
+#
+
+###  Step 2 — Add a Trigger Collider
+1.  With the trash bag selected, go to the **Inspector**.
+2.  Click **Add Component** → search for **Box Collider**.
+3.  Enable **Is Trigger**.
+4.  Adjust the **Box Collider size** so the player can easily enter the interaction area.
+
+> \[!TIP\]  
+> The trigger should be slightly larger than the trash bag mesh to make interaction feel responsive.
+>
+
+#
+
+###  Step 3 — Add an Audio Source
+
+1.  Click **Add Component** → search for **Audio Source**.
+2.  Configure the component:
+    -   **Play On Awake**: ❌ Unchecked
+    -   **Loop**: ❌ Unchecked
+    -   **Audio Clip**: Assign `SX_collected-trash.wav`
+        
+> [!NOTE]
+> This sound will play when the trash bag is collected.
+>
+
+#
+
+###  Step 4 — Create a Scripts Folder 
+1. In the **Project** window create a new folder
+2. Name this folder **Scripts**
+
+> [!NOTE]
+> All of our visual script graphs will live in this folder. The same is true if you are creating any c# scripts.
+>
+
+# 
+
+###  Step 5 — Add a Script Machine
+1.  Click **Add Component** search for **Script Machine**.
+2.  Click **New** to create a new Script Graph.
+3.  Name the graph: **TrashBag**
+4.  Save it inside your **Scripts** folder.
+
+# 
+
+###  Step 6 — Create the Trigger Logic
+1. . Open the Graph
+-   In the **Inspector**, locate the Script Machine.
+-   Click **Edit Graph**.
     
-    -   Add an `If` (Branching Node) and connect the `Compare Tag` output.
-    -   Create a `Debug Log` node and a **String Literal** node.
-    -   Set the **String Literal** to `"Player Entered"` and connect it to the **True** output of the If node.
-    -   Add a second **Debug Log** and **String Literal**, setting the message to `"Player did not Enter"`.
-    -   Connect this to the **False** output of the If node.
-2.  **Test the Interaction**
+
+2.  Remove Default Nodes in the **Graph Editor area** (blackboard),  
+-   Delete **On Start**
+-   Delete **On Update**
+
+They are not needed for this interaction.
+
+
+3.  Add OnTriggerEnter
+ -  In the **Graph Editor area**, **Right-click** to open the node search menu.
+ -  In the search bar, type: `OnTriggerEnter`
+ - Click **OnTriggerEnter (Event)** to add it to the graph.
+
+> \[!NOTE\]  
+> This is an **Event Node**. It runs automatically when another collider enters the Trash Bag’s trigger collider.
+> 
+ 
+ #
+
+ ###  Step 7 —  Get the Other Object
+
+The `OnTriggerEnter` node gives us a **Collider** reference for the object that set off the trigger (i.e., the other object).  
+We need to find out which GameObject owns that collider.
+
+1.  **Right-click** in the graph.
     
-    -   Save the graph and close the **Script Graph** window.
-    -   Enter **Play Mode** in Unity and move the player toward a trash bag.
-    -   Check the **Console** to verify the correct debug message appears when entering the trash bag's trigger.
+2.  Search for:  `Get GameObject`
+    
+3.  Select **Collider → Get GameObject**
+    
+4. Connect it:
+    -   Click and drag from the **Collider output port** on `OnTriggerEnter`
+    -   Connect it to the **Collider input port** on `Get GameObject`
   
-3. Once the debug messages confirm the interaction is working, we can proceed to implement the actual trash collection logic.
+>[!TIP]
+> This converts the collider into a GameObject reference.
+>
 
-Add  an Audio source Play One Shot (used for short soudn fx) 
-The Audio Source should be set to "this"
-Add a Audio Source Get Clip node. Set it to this. This will get the clip on the game object. 
-Set this as the value of the clip on the Play ONe Shot node. 
+# 
 
-Have the Debug.Log for the Player Triggered output to the Playe One Shot 
+###  Step 8 —  Compare to Player
 
- add a Destroy node with an object and time delay parameter.
-Set the target to This, which refers to the trash bag object.
-Set the delay time to 0.5 seconds to match the length of the sound clip.
-Have the Play One Shot output to the Destory Gameobject. 
-Save your graph, then test it in Play mode to ensure the trash bag is destroyed only after the sound has finished playing.
+Now we verify that the object entering the trigger is the Player. 
 
-Select the entire graph and ctrl+click to group all the nodes. Name this group OnTriggerEnter change it's color to your liking.
+1.  **Right-click** in the graph.
+    
+2.  Search for: `Compare Tag`
+    
+3.  Set the **Tag** value to **Player**
 
-Drag the trashbag prefab from the hierarchy to the Prefabs folder in the project window to create a prefab varient. Rename the variabnt to TrashBag_Interactable.
+4. Connect it:
+    -   Drag from the **GameObject output** of `Get GameObject`
+    -   Connect it to the **GameObject input** on `Compare Tag`
+    -   Drag the flow output from **OnTriggerEnter** to the input of `Compare Tag`
+  
+# 
 
-----
+## Step 9 — Test With Debug Logs
 
-Create a new empty game object in the hiearchy. 
-Name this object LevelManager. 
-Add a script machine component
-Under graph choose new
-Name this graph LevelManager and save it in the scripts folder
-In the inspector choose edit graph.
-Remove the on start and update methods
+Before building full functionality, confirm the trigger works.
+
+1.  Add an **If (Branch)** node.
+    
+2.  Connect the **Compare Tag** result into the condition.
+    
+3.  Add two **Debug Log** nodes 
+4. Add two **String** (literal) nodes with the following message
+   - Other triggered bag
+   - Player triggered bag
+4.  Connect it
+     - Connect the **String** nodes one to each **Debug Log** node.
+     - Connect the **Debug Log** node with the _Player_ message to the **TRUE** output of the `if` branch
+    - Connect the **Debug Log** node with the _Other_ message to the **FALSE** output of the `if` branch
+7.  Save the graph.
+8.  Enter **Play Mode**.
+9.  Move the player into the trash bag trigger.
+10.  Verify correct messages appear in the **Console**.
+    
+> \[!NOTE\]  
+> Always test event detection before adding complex behavior.
+> 
+
+![Trashbag Interactions](imgs/interactions/gct-trashbag-04.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
