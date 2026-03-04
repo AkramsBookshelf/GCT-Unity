@@ -138,6 +138,8 @@ Now we verify that the object entering the trigger is the Player.
     -   Connect it to the **GameObject input** on `Compare Tag`
     -   Drag the flow output from **OnTriggerEnter** to the input of `Compare Tag`
   
+![Trashbag Interactions](imgs/interactions/gct-trashBag-02.png)
+  
 # 
 
 ## Step 9 — Test With Debug Logs
@@ -147,9 +149,11 @@ Before building full functionality, confirm the trigger works.
 1.  Add an **If (Branch)** node.
     
 2.  Connect the **Compare Tag** result into the condition.
+
+![Trashbag Interactions](imgs/interactions/gct-trashBag-03.png)
     
-3.  Add two **Debug Log** nodes 
-4. Add two **String** (literal) nodes with the following message
+4.  Add two **Debug Log** nodes 
+5. Add two **String** (literal) nodes with the following message
    - _"Other triggered bag"_
    - _"Player triggered bag"_
 4.  Connect it
@@ -168,7 +172,35 @@ Before building full functionality, confirm the trigger works.
 ![Trashbag Interactions](imgs/interactions/gct-trashBag-04.png)
 
 
+## Step 7 — Play Audio 
+Now that we know the Trigger is working correctly, we set up our soundfx to play. 
 
+1.  In the **Graph Editor**, **right-click** on an empty space and search for:  
+    `Play One Shot`
+    
+2.  Select **Audio Source → Play One Shot**
+    
+3.  Click the **Target** input on the node and set it to **This** (referring to the Trash Bag prefab)
+    
+4.  Next, **right-click** again and search for `Get Clip`
+    
+5.  Select **Audio Source → Get Clip**
+    
+6.  Set the **Target** on this node also to **This**
+    
+7.  Connect the nodes:
+    
+    -   Drag from the **Clip output** of `Get Clip`  and connect to the **Clip input** of `Play One Shot`
+
+ ![Trashbag Interactions](imgs/interactions/gct-trashBag-05.png)
+        
+   - Connect the **Debgu Log** for the **TRUE** value, to the the **Play One Shot**
+    
+         ![Trashbag Interactions](imgs/interactions/gct-trashBag-06.png)
+
+> \[!TIP\]  
+> `This` ensures the script references the Audio Source attached to the Trash Bag it
+> 
 
 
 
