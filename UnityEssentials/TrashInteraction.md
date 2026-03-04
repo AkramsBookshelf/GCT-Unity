@@ -67,23 +67,34 @@
 
 # 
 
-###  Step 6 — Create the Trigger Logic
-1. . Open the Graph
--   In the **Inspector**, locate the Script Machine.
--   Click **Edit Graph**.
+## Step 6 — Create a Prefab Variant
+1.  In the **Hierarchy**, select your Trash Bag prefab.
+2.  Drag it into the **Prefabs folder** in the **Project window**.
+3.  When prompted, choose **Create Prefab Variant**
+4.  Rename the new variant: `TrashBag_Interactable`
     
+> \[!TIP\]  
+> Using a Prefab Variant allows you to reuse the original Trash Bag mesh while applying the new interaction logic consistently across the scene.
+>
 
-2.  Remove Default Nodes in the **Graph Editor area** (blackboard),  
+#
+
+###  Step 6 — Create the Trigger Logic
+1.  In the **Hierarchy**, select your Trash Bag prefab.
+2. In the **Inspector**, locate the Script Machine.
+   -   Click **Edit Graph**.
+     
+3.  Remove Default Nodes in the **Graph Editor area** (blackboard),  
 -   Delete **On Start**
 -   Delete **On Update**
 
 They are not needed for this interaction.
-
-
-3.  Add OnTriggerEnter
+4. Add OnTriggerEnter
  -  In the **Graph Editor area**, **Right-click** to open the node search menu.
  -  In the search bar, type: `OnTriggerEnter`
  - Click **OnTriggerEnter (Event)** to add it to the graph.
+
+![TrashBag interaction OnTriggerEnter](imgs/interactions/gct-trashBag-01.png)
 
 > \[!NOTE\]  
 > This is an **Event Node**. It runs automatically when another collider enters the Trash Bag’s trigger collider.
@@ -139,8 +150,8 @@ Before building full functionality, confirm the trigger works.
     
 3.  Add two **Debug Log** nodes 
 4. Add two **String** (literal) nodes with the following message
-   - Other triggered bag
-   - Player triggered bag
+   - _"Other triggered bag"_
+   - _"Player triggered bag"_
 4.  Connect it
      - Connect the **String** nodes one to each **Debug Log** node.
      - Connect the **Debug Log** node with the _Player_ message to the **TRUE** output of the `if` branch
