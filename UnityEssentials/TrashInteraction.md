@@ -1,4 +1,4 @@
-# ⚒️ Tutorial: TrashInteraction
+# ⚒️ Tutorial: Trash Interaction
 
 <details>
 <summary><strong><em>Tutorial Details</em></strong></summary>
