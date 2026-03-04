@@ -193,10 +193,10 @@ Now that we know the Trigger is working correctly, we set up our soundfx to play
     -   Drag from the **Clip output** of `Get Clip`  and connect to the **Clip input** of `Play One Shot`
 
  ![Trashbag Interactions](imgs/interactions/gct-trashBag-05.png)
-        
+
    - Connect the **Debgu Log** for the **TRUE** value, to the the **Play One Shot**
     
-         ![Trashbag Interactions](imgs/interactions/gct-trashBag-06.png)
+![Trashbag Interactions](imgs/interactions/gct-trashBag-06.png)
 
 > \[!TIP\]  
 > `This` ensures the script references the Audio Source attached to the Trash Bag it
