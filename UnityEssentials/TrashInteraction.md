@@ -154,7 +154,7 @@ Before building full functionality, confirm the trigger works.
 > Always test event detection before adding complex behavior.
 > 
 
-![Trashbag Interactions](imgs/interactions/gct-trashbag-04.png)
+![Trashbag Interactions](imgs/interactions/gct-trashBag-04.png)
 
 
 
