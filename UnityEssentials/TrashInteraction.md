@@ -15,7 +15,7 @@
 >
 
 ### Step 1 — Add the TrashBag to the Scene
-1.  In the **Project** window **3rdParty/POLYGON City / PRefabs** folder,
+1.  In the **Project** window **3rdParty/POLYGON City/Prefabs** folder,
    - Locate the **trashBag**
 2. Drag the **trashBag** prefab into the scene.
 3. Place it somewhere in **Area One** of the scene.
