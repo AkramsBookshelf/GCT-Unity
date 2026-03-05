@@ -22,48 +22,56 @@ When designing a UI system for a game, we face a few recurring challenges:
     
 
 To address these challenges, we carefully chose four design patterns that complement each other:
-
 -   **MVC (Model–View–Controller):** Separates visuals, input handling, and game logic so each part can evolve independently.
-    
--   **Observer:** Lets systems listen to UI events without creating direct dependencies, keeping communication loose and scalable.
-    
+-   **Observer:** Let's systems listen to UI events without creating direct dependencies, keeping communication loose and scalable.
 -   **Command:** Encapsulates player actions as tokens, providing a predictable and centralized way to execute logic.
-    
 -   **Strategy:** Allows different behaviors to be plugged into the same UI element, keeping components flexible and reusable.
-    
-
+  
 By combining these patterns, we create a **decoupled, maintainable UI architecture** where elements can grow in complexity without breaking the system.
 
-
 --- 
-# The MVC Pattern: Who Does What?
-
+## The MVC Pattern: Who Does What?
 The **Model–View–Controller (MVC)** pattern helps us divide responsibilities across the UI system. Instead of placing all functionality into one large script, each component plays a specific role.
 
 This prevents the creation of **“God Objects”**—scripts that try to handle everything and quickly become difficult to debug or extend.
 
 In our UI architecture, MVC divides the system into three main parts.
 
-## The View – _BaseUIView_
+#
 
+### The View 
 The **View** is the visual representation of the UI.
 
 It is responsible for:
-
 -   Accessing the **UI Document**
-    
 -   Reading the **UXML layout**
-    
 -   Finding UI elements like buttons and sliders
-    
 -   Detecting user interactions
     
-
 For example, if a button is clicked, the View simply reports that the button was pressed.
 
 Importantly, the View **does not know why the button exists** or what should happen next. It only knows that the interaction occurred.
 
 This keeps the View focused purely on **presentation and input detection**.
+
+# 
+
+### The Controller – _MainMenuController_
+
+The **Controller** acts as the middleman between the View and the rest of the game.
+
+When the View detects a button click, it sends that information to the Controller. The Controller then examines the **Token** (the identifier assigned to that UI element) and determines what action the player intends to perform.
+
+The Controller’s responsibilities include:
+
+-   Listening to the View
+    
+-   Interpreting button tokens
+    
+-   Dispatching events to other systems
+    
+
+Instead of executing game logic directly, the Controller **communicates the player’s intent** to the rest of the system.
 
 
 
