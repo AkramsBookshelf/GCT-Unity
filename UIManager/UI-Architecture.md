@@ -158,32 +158,143 @@ In a typical UI setup, a button "knows" too much; it directly calls a specific f
 The UI does not need to know **how** a command works, only **which command** should be executed.
 
 ---
+## The Adapter & Flyweight Patterns: Bridging UI Design and Code
 
+So far, we have discussed how UI actions are represented as **tokens** using the Command Pattern. However, there is still an important challenge we must solve.
 
+UI layouts in Unity are defined in **UXML files**, which identify elements using **string names**.
 
+For example:
+```xml
+<Button name\="startButton" />  
+<Button name\="quitButton" />
+```
 
+However, our architecture is based on **tokens**, not strings.
+```csharp
+UICommandType.StartGame  
+UICommandType.Quit
+```
 
+This creates a mismatch between the **UI design layer** and the **code layer**.
+-   Designers work with **string identifiers** in UXML.
+-   Programmers work with **strongly typed enums** in code.
+    
+If we tried to rely directly on strings in our code, we would run into several problems:
+-   Strings are **fragile** (typos break functionality).
+-   Strings cannot be **checked by the compiler**.
+-   String comparisons are **slower and harder to debug**.
+    
+To solve this, we introduce a **translation layer** between the UI and the code.
+This is where the **Adapter Pattern** comes in.
 
+#
 
+### The Adapter Pattern: Translating UI Names into Tokens
+The **Adapter Pattern** allows two incompatible systems to communicate by inserting a **translator** between them.
 
+In our UI system:
+| System         | Representation            |
+| -------------- | ------------------------- |
+| UXML UI Layout | `"startButton"`           |
+| Game Logic     | `UICommandType.StartGame` |
 
+To implement this, we can create a class named **UIMappingRegistry**, which acts as the **adapter** that converts between these two representations.
 
+For example:
+```csharp
+"startButton"  →  UICommandType.StartGame  
+"quitButton"   →  UICommandType.Quit
+```
 
+This means the UI can remain **designer-friendly**, while the code remains **type-safe and structured**.
 
+The Controller never needs to worry about string comparisons; it simply asks the registry for the **token associated with a UI element**.
 
+#
 
+### The Flyweight Pattern: Centralizing Shared Mappings
+Another issue we want to avoid is redundancy. Without a central mapping system, every UI controller might contain its own lookup logic:
+```chsarp
+if(buttonName \== "startButton")
 
+// or
 
+switch(buttonName)
+````
 
+This would lead to **repeated logic across many UI scripts**.
 
+The **Flyweight Pattern** is used to reduce redundancy by **sharing common data instead of duplicating it**.
+By implementing the **UIMappingRegistry**, it stores these mappings **once in a centralized location**, allowing every UI controller to reuse the same data.
 
-| Class / Component                     | Category                 | Pattern Role              | Purpose |
-|--------------------------------------|--------------------------|---------------------------|---------|
-| UICommandType / UISettingType       | Structural               | Command (The Token)       | These enums act as standardized **tokens** that represent an intent. |
-| UIMappingRegistry                   | Creational / Structural  | Flyweight / Adapter       | Maps raw UXML strings to enums. Acts as the **translator between design and logic**. |
-| BaseUIView                          | Structural               | View (Base)               | Provides the structure for finding UIElements and registering their native events. |
-| MainMenuController (Specific Controllers) | Behavioral        | Controller                | Bridges the View to the game logic by catching UI events and firing bus events. |
-| UIEvents (The Bus)                  | Behavioral               | Observer / Mediator       | Dispatches signals so the sender (UI) does not need to know who the receiver (Logic) is. |
-| UICommands (Static Class)           | Behavioral               | Command (The Invoker)     | Executes the actual logic for discrete actions such as **Start, Quit, and Save**. |
-| UISettingsHandler                   | Behavioral               | Command / Strategy        | Executes the logic for state changes such as **volume, toggles, and graphics settings**. |
-| PlayerPrefs / SaveSystem            | Structural               | Model                     | Holds the actual data state that the settings handler modifies. |
+This provides several benefits:
+-   **Memory efficiency:** Only one mapping table exists.
+-   **Consistency:** All UI controllers reference the same definitions.
+-   **Maintainability:** Changes to mappings happen in a single place.
+---
+
+## From Architecture to Implementation
+
+Now that we have established the **design patterns** guiding our UI architecture, we can begin translating this blueprint into actual code.
+
+So far, we have defined how our system should behave:
+
+-   **MVC** separates UI visuals, interaction handling, and game logic.
+-   The **Command Pattern** standardizes player intent through tokens.
+-   The **Observer Pattern** allows systems to react to UI events without tight coupling.
+    -   The **Event Bus** provides a centralized communication channel for those events.
+- **Adapter** translates UXML string identifiers into strongly typed command tokens.   
+- **Flyweight** centralizes shared UI mappings so they can be reused across the system.
+    
+With this communication flow in place, we can now **map these responsibilities to concrete classes and components**. Each class in the system will play a specific role within the architecture we designed.
+
+The following table outlines the core components we will implement and how they fit into the patterns discussed in this lesson.
+
+| Class / Component                              | Type                    | Pattern Role                 | Purpose                                                                                           |
+| ---------------------------------------------- | ----------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------- |
+| **UICommandType / UISettingType**              | Structural              | Command (Token)              | These enums act as standardized **tokens** representing player intent.                            |
+| **UIMappingRegistry**                          | Creational / Structural | Adapter / Flyweight          | Maps raw UXML string identifiers to enums, acting as the **translator between design and logic**. |
+| **BaseUIView**                                 | Structural              | MVC (View)                | Provides the structure for finding UIElements and registering their native events.                |
+| **MainMenuController** (and other controllers) | Behavioral              | MVC (Controller)                   | Bridges the View to the game logic by catching UI events and broadcasting tokens.                 |
+| **UIEvents** (Event Bus)                       | Behavioral              | Observer          | Dispatches signals so senders (UI) do not need to know who receives them.                         |
+| **UICommandHandler**                           | Behavioral              | MVC (Model/Service), Command (Invoker / Executor) | Executes the logic for actions such as **Start Game, Quit, and Save**.                            |
+
+With the architecture defined, the next step is to **implement these classes step by step**, starting with the foundational components that allow UI elements to communicate through tokens and events.
+
+Once these building blocks are in place, we will be able to construct a scalable UI system where menus, HUD elements, and settings panels can all operate within the same architecture.
+
+--- 
+## 🚩 Checkpoint
+
+Having explored the **architecture and design patterns** behind our UI system, here are some key points to **keep in mind** before moving on to implementation:
+
+-   **Separation of responsibilities (MVC):**  
+    The **View detects input**, the **Controller interprets player intent**, and the **Model (UICommandHandler)** executes the actual game logic. Keeping these responsibilities separate prevents UI scripts from becoming overloaded.
+    
+-   **Tokens represent player intent:**  
+    UI interactions are translated into **command tokens** (such as `StartGame` or `Quit`) rather than directly calling functions. This standardizes how the system interprets player actions.
+    
+-   **Enums improve safety and clarity:**  
+    Using an `enum` for command tokens avoids fragile string comparisons, provides **compile-time validation**, and makes the system easier to debug and maintain.
+    
+-   **Observer pattern enables loose communication:**  
+    Instead of directly calling other systems, the **Controller broadcasts tokens through the UI Event Bus**, allowing any interested system to respond independently.
+    
+-   **The Event Bus scales the Observer pattern:**  
+    A centralized **UI Event Bus** allows multiple systems (UICommands, Scene Manager, Audio Manager, etc.) to react to the same event without knowing about each other.
+    
+-   **Commands separate intent from execution:**  
+    The **Command Pattern** ensures that UI elements only express **what the player wants**, while the **UICommandHandler** determines **how that action is performed**.
+    
+-   **Adapters bridge UI design and code:**  
+    The **UIMappingRegistry** translates **UXML string identifiers** into strongly typed command tokens, allowing designers and programmers to work with different representations safely.
+    
+-   **Flyweight reduces duplicated logic:**  
+    By centralizing UI mappings in a shared registry, all controllers reuse the same data, ensuring **consistency and maintainability**.
+    
+-   **Architecture comes before implementation:**  
+    Designing the communication flow first helps prevent tightly coupled systems and makes the UI easier to expand as the game grows.
+    
+
+With these principles in mind, we are now ready to **translate this architecture into concrete classes and begin implementing the system step by step.**
