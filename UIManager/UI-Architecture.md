@@ -253,7 +253,7 @@ The following table outlines the core components we will implement and how they 
 
 | Class / Component                              | Type                    | Pattern Role                 | Purpose                                                                                           |
 | ---------------------------------------------- | ----------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------- |
-| **UICommandType / UISettingType**              | Structural              | Command (Token)              | These enums act as standardized **tokens** representing player intent.                            |
+| **UICommandType**              | Structural              | Command (Token)              | These enums act as standardized **tokens** representing player intent.                            |
 | **UIMappingRegistry**                          | Creational / Structural | Adapter / Flyweight          | Maps raw UXML string identifiers to enums, acting as the **translator between design and logic**. |
 | **BaseUIView**                                 | Structural              | MVC (View)                | Provides the structure for finding UIElements and registering their native events.                |
 | **MainMenuController** (and other controllers) | Behavioral              | MVC (Controller)                   | Bridges the View to the game logic by catching UI events and broadcasting tokens.                 |
