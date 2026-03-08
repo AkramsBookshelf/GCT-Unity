@@ -142,11 +142,11 @@ Follow the steps below:
             -   **MVC separation**
             -   **Event-driven communication**
                     
-    4.  This comment will serve as your **design record**, showing that you **planned the system architecture** before implementation, as would be done in a professional team.
+4.  This comment will serve as your **design record**, showing that you **planned the system architecture** before implementation, as would be done in a professional team.
         
-    > \[!TIP\]  
-    > Think of this as a **“design proposal”**: your teammates (or instructors) should be able to understand your architectural choices just from this comment.
-    >
+> [!TIP]  
+> Think of this as a **“design proposal”**: your teammates (or instructors) should be able to understand your architectural choices just from this comment.
+>
 
 #### Implementation & Playtesting
 Once your architecture is documented:
@@ -158,7 +158,7 @@ Once your architecture is documented:
 #
 
 #### Implementation & Playtesting
-- Once your architecture is documented:
+Once your architecture is documented:
 1.  **Implement the new system** according to your plan.
 2.  **Playtest** all sliders and toggles to ensure proper behavior.
 3.  Use the same GitHub Issue to **report progress, and document fixes**.
