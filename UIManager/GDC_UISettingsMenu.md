@@ -201,7 +201,7 @@ Once your architecture is documented:
 ### 💾 Save & Commit
 - Ensure that the **GameManager** branch is active 
 -   Save scripts and scenes often.
--   Commit after each completed step (e.g., `_feat: Added MainMenu, Playing, Paused, GameOver states_`).
+-   Commit after each completed step (e.g., `_feat: Extended UI - Settings impmentation`).
 -   Push to GitHub after major features or at the end of the day.
 
   
