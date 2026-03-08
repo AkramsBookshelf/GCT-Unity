@@ -117,7 +117,7 @@ Using the **design intent**, **core concepts**, and **existing architecture**, y
 The UX designer has already provided the **Options Menu layout**, including a **slider** and a **toggle** related to audio settings. Your responsibility is to determine **how these inputs should be integrated into the existing UI architecture**.
 
 ### Key Deliverables
-- #### GitHub Issue** 
+- #### GitHub Issue
 To simulate a professional development workflow, you will use **GitHub Issues** for documenting your design decisions before coding.
 Follow the steps below: 
 
