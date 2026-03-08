@@ -25,7 +25,7 @@ To address these challenges, we carefully chose four design patterns that comple
 -   **MVC (Model–View–Controller):** Separates visuals, input handling, and game logic so each part can evolve independently.
 -   **Observer:** Let's systems listen to UI events without creating direct dependencies, keeping communication loose and scalable.
 -   **Command:** Encapsulates player actions as tokens, providing a predictable and centralized way to execute logic.
--   **Strategy:** Allows different behaviors to be plugged into the same UI element, keeping components flexible and reusable.
+-   **Adapter & Flyweight:** Translates UXML IDs into command tokens and shares mappings across controllers, enabling safe designer–programmer collaboration and reusable, consistent UI logic.
   
 By combining these patterns, we create a **decoupled, maintainable UI architecture** where elements can grow in complexity without breaking the system.
 
