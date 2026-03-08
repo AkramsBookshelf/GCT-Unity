@@ -1,4 +1,4 @@
-# 🏹 Game Design Challenge: Extending the UI System – Settings Menus
+# 🏹 Game Design Challenge: Extending the UI System
 
 > By: Akram Taghavi-Burris | © 2026
 
@@ -17,9 +17,16 @@ Our task is to **extend the current UI system** to support **sliders and toggles
 **From:** Game Designer
 
 ### 🎯 Design Intent
-The design team would like to extend the current UI system to handle UI sliders and toggle inputs that control the volume settings. This UX Designer has already provided the layout for the Options menu where these inputs are housed. While currently we will only be creating functionality for the master volume setting and the mute all setting, we want to build out the system to ensure that future sliders and toggles behave in a similar manner. Much like the buttons, these new elements should: 
+The design team would like to extend the current UI system to handle **UI sliders and toggle inputs** that control the volume settings. The UX Designer has already provided the layout for the **Options Menu** where these inputs are housed.
 
--   Use **tokens** to represent slider/toggle intent (similar to buttons).
--   Use the **Event Bus** so multiple systems can respond to changes independently.
+While we are initially implementing **Master Volume** (slider) and **Mute All** (toggle), the system should be designed so that **future sliders and toggles** can be added and behave consistently.
+
+Much like the buttons, these new elements should:
+-   Use **tokens** to represent slider or toggle intent, similar to button commands.
+-   Use the **Event Bus** so multiple systems can respond independently to changes.
 -   Maintain a **clean separation of concerns** between View, Controller, and Model.
 -   Support **centralized mapping** between UI element names and their logic, minimizing duplication.
+
+#
+
+
