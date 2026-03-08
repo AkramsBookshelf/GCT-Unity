@@ -43,6 +43,7 @@ Much like the buttons, these new elements should:
 2.  **Tokens for UI Settings**
     -   Similar to how buttons use **`UICommandType`**, sliders and toggles should use a **token** to represent the intent (the type of **setting** being changed).
     -  Token names should be **explicit but simple**, avoid names that are too tied to the UI or too ambiguous.
+
 | Good Examples | Too UI-Specific    | Too Ambiguous    |
 | ------------- | ------------------ | ---------------- |
 | `MusicVolume` | `MusicSlider`      | `Volume`         |
