@@ -29,4 +29,57 @@ Much like the buttons, these new elements should:
 
 #
 
+### 🔹 Core Concepts
+
+1.  **Slider vs Toggle Behavior**
+    -   **UI Sliders** pass a `float` value, typically from **0-100** or a defined range.
+      -   **UI Toggles** pass a `boolean` value (`true`/`false`).
+
+> [!TIP]
+>  Consider creating **two methods with the same name**, one taking a `float`, one taking a `bool ', to be triggered when these UI elements _values_ are changed.
+>
+
+        
+2.  **Tokens for UI Settings**
+    -   Similar to how buttons use **`UICommandType`**, sliders and toggles should use a **token** to represent the intent (the type of **setting** being changed).
+    -  Token names should be **explicit but simple**, avoid names that are too tied to the UI or too ambiguous.
+| Good Examples | Too UI-Specific    | Too Ambiguous    |
+| ------------- | ------------------ | ---------------- |
+| `MusicVolume` | `MusicSlider`      | `Volume`         |
+| `SFXVolume`   | `SFXSlider`        | `AudioSetting`   |
+| `Fullscreen`  | `FullscreenToggle` | `DisplaySetting` |
+    
+  
+ 3. **Mapping and Registration**
+    -   Tokens will need to be mapped to their corresponding **UXML `name` property** string values.
+     -   The **`BaseUIView`** should create additional **dictionaries** for sliders and toggles and register the appropriate callbacks for each element type.
+  
+> [!IMPROTANT]
+> Be sure to check the **`name` property** of the UI elements in the **OptionsMenu UXML document** when creating your mappings.
+>
+
+      
+4.  **Event Bus Integration**
+    -   Menu controllers should **invoke settings actions** through the **`UIEvents` system**.
+    -   This enables multiple systems (for example, audio or UI feedback systems) to **respond independently** to setting changes.
+        
+        
+5.  **Audio Handling**
+    -   To manipulate the game volume through the options menu, implement these **controller methods**:
+  
+```csharp
+public static void MasterVolumeChange(float val) 
+{
+    AudioListener.volume = val;
+    Debug.Log($"[Audio] Master Volume is now: {val}");
+}
+
+public static void MuteAll(bool val) 
+{
+    AudioListener.pause = val;
+    Debug.Log($"[Audio] AudioListener Paused: {val}");
+}
+```
+
+
 
