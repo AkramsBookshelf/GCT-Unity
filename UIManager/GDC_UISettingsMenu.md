@@ -117,32 +117,30 @@ Using the **design intent**, **core concepts**, and **existing architecture**, y
 The UX designer has already provided the **Options Menu layout**, including a **slider** and a **toggle** related to audio settings. Your responsibility is to determine **how these inputs should be integrated into the existing UI architecture**.
 
 ### Key Deliverables
-- #### GitHub Issue
+#### GitHub Issue
 To simulate a professional development workflow, you will use **GitHub Issues** for documenting your design decisions before coding.
 Follow the steps below: 
 
-    1.  **Create a new Issue** in your repository titled:  
-        `Implementing UI Settings`
+1.  **Create a new Issue** in your repository titled:  `Implementing UI Settings`
         
-    2.  **In the Issue description**, briefly state the goal of the task (extending the UI system to handle sliders and toggles).
+2.  **In the Issue description**, briefly state the goal of the task (extending the UI system to handle sliders and toggles).
         
-    3.  **As a comment on the Issue**, provide your **Architecture Documentation**:
-        
-        -   **Updated [Architecture Table](#-architectural-analysis-extending-the-ui-system)** _(above)_
-            -   Include **new classes, enums, or systems** introduced
-            -   Mark **existing classes that were modified**
-            -   Indicate the **pattern role** of each component
+3.  **As a comment on the Issue**, provide your **Architecture Documentation**:
+    -   **Updated [Architecture Table](#-architectural-analysis-extending-the-ui-system)** _(above)_
+        -   Include **new classes, enums, or systems** introduced
+        -   Mark **existing classes that were modified**
+        -   Indicate the **pattern role** of each component
                 
-        -   **Class Modifications Explanation**
-            -   Which existing classes do you modify?
-            -   What changes were made
-            -   Why were these changes necessary to support slider and toggle behavior
+    -   **Class Modifications Explanation**
+        -   Which existing classes do you modify?
+        -   What changes were made
+        -   Why were these changes necessary to support slider and toggle behavior
                 
-        -   **Architectural Justification**
-            -   Demonstrate how your system preserves:
-                -   **Token-based intent**
-                -   **MVC separation**
-                -   **Event-driven communication**
+    -   **Architectural Justification**
+        -   Demonstrate how your system preserves:
+            -   **Token-based intent**
+            -   **MVC separation**
+            -   **Event-driven communication**
                     
     4.  This comment will serve as your **design record**, showing that you **planned the system architecture** before implementation, as would be done in a professional team.
         
@@ -150,8 +148,17 @@ Follow the steps below:
     > Think of this as a **“design proposal”**: your teammates (or instructors) should be able to understand your architectural choices just from this comment.
     >
 
-- #### Implementation & Playtesting
+#### Implementation & Playtesting
 Once your architecture is documented:
+1.  **Implement the new system** according to your plan.
+2.  **Playtest** all sliders and toggles to ensure proper behavior.
+3.  Use the same GitHub Issue to **report progress, and document fixes**.
+4.  **Close the Issue only after** your implementation works as intended and playtesting confirms the system behaves correctly.
+
+#
+
+#### Implementation & Playtesting
+- Once your architecture is documented:
 1.  **Implement the new system** according to your plan.
 2.  **Playtest** all sliders and toggles to ensure proper behavior.
 3.  Use the same GitHub Issue to **report progress, and document fixes**.
@@ -197,4 +204,5 @@ Once your architecture is documented:
 -   Commit after each completed step (e.g., `_feat: Added MainMenu, Playing, Paused, GameOver states_`).
 -   Push to GitHub after major features or at the end of the day.
 
+  
   
