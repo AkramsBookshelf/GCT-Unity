@@ -4,7 +4,7 @@
 
 We’ve already learned how to set up a **robust UI system** with buttons, using **MVC, Command, and Observer patterns**, an **Event Bus**, and a **UIMappingRegistry** to map UXML buttons to command tokens. Students have implemented a **Main Menu Controller**, handled **StartGame** and **QuitGame** commands, and centralized logic in the **UICommandHandler**.
 
-Now, imagine we’re on the job: the design team wants the game to support **player-adjustable settings**, like audio volume, graphics options, and toggles for fullscreen or VSync.
+Now, imagine we’re on the job: the design team wants the game to support **player-adjustable settings**, like audio volume, graphics options, and toggles for mute or fullscreen.
 
 Our task is to **extend the current UI system** to support **sliders and toggles**, using the same design patterns, while keeping the architecture decoupled, scalable, and maintainable.
 
