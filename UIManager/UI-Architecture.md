@@ -50,7 +50,7 @@ The View’s responsibilities include:
 -   **Finding UI elements:** Locates buttons components.
 -   **Detecting user interactions:** Listens for clicks, drags, key presses, and other input events, and reports them to the Controller.
     
-The View is _"dumb"_ by design. It knows that a button was clicked, but it doesn't know why. It simply hands a **Command Token **to the Controller.
+The View is _"dumb"_ by design. It knows that a button was clicked, but it doesn't know why. It simply hands a **Command Token** to the Controller.
 
 This keeps the View focused purely on **presentation and input detection**.
 
