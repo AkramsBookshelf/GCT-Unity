@@ -33,7 +33,9 @@ Much like the buttons, these new elements should:
 
 1.  **Slider vs Toggle Behavior**
     -   **UI Sliders** pass a `float` value, typically from **0-100** or a defined range.
-      -   **UI Toggles** pass a `boolean` value (`true`/`false`).
+    -   **UI Toggles** pass a `boolean` value (`true`/`false`).
+    - These are triggered by a value change (i.e., `RegisterValueChangedCallback`)
+   
 
 > [!TIP]
 >  Consider creating **two methods with the same name**, one taking a `float`, one taking a `bool ', to be triggered when these UI elements _values_ are changed.
