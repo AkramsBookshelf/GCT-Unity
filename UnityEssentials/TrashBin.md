@@ -66,168 +66,41 @@ We need to now update all the trash bins in our scene to use the interactable pr
 #
 
 ###  Step 6 — Create the Trigger Logic
-1.  In the **Hierarchy**, select your Trash Bag prefab.
+The trigger logic for the trash bin and the trash bag is very similar. To avoid having to create the OnTriggerEnter from scratch, we can simply copy and paste one to the other. 
+
+1.  In the **Hierarchy**, select your **Trash Bag** prefab.
 2. In the **Inspector**, locate the Script Machine.
    -   Click **Edit Graph**.
-     
-3.  Remove Default Nodes in the **Graph Editor area** (blackboard),  
--   Delete **On Start**
--   Delete **On Update**
+3.  Drag a window around the **OnTriggerEnter** group all the way to the **Custom Event Trigger** nodes.
 
-They are not needed for this interaction.
-4. Add OnTriggerEnter
- -  In the **Graph Editor area**, **Right-click** to open the node search menu.
- -  In the search bar, type: `OnTriggerEnter`
- - Click **OnTriggerEnter (Event)** to add it to the graph.
+![TrashBag interaction OnTriggerEnter](imgs/interactions/gct-trashBag-11.png)
 
-![TrashBag interaction OnTriggerEnter](imgs/interactions/gct-trashBag-01.png)
+4. Press **CTRL+C** to copy the nodes
+5. Return to the **Hierarchy**, select your **Trash Bin** prefab.
+6. In the **Inspector**, locate the Script Machine.
+   -   Click **Edit Graph**.
+    
+7.  Remove Default Nodes in the **Graph Editor area** (blackboard),  
+    -   Delete **On Start**
+    -   Delete **On Update**
 
-> \[!NOTE\]  
-> This is an **Event Node**. It runs automatically when another collider enters the Trash Bag’s trigger collider.
-> 
+8. Press **CTRL+V** to paste the copied **OnTriggerEnter** event 
+
  
  #
+ 
+###  Step 7 — Update Custom Event Trigger
+When the player interacted with the **trash bag**, it triggered the `AddToCurrentTrashCount` event on the **LevelManager**. As for the **trash bin**, it should trigger a different event, the `CheckMissionStatus` event. 
 
- ###  Step 7 —  Get the Other Object
+1. Select the **Custom Event Trigger** in the event graph 
+  - Change the name of the event to `CheckMissionStatus`
 
-The `OnTriggerEnter` node gives us a **Collider** reference for the object that set off the trigger (i.e., the other object).  
-We need to find out which GameObject owns that collider.
-
-1.  **Right-click** in the graph.
-    
-2.  Search for:  `Get GameObject`
-    
-3.  Select **Collider → Get GameObject**
-    
-4. Connect it:
-    -   Click and drag from the **Collider output port** on `OnTriggerEnter`
-    -   Connect it to the **Collider input port** on `Get GameObject`
-  
->[!TIP]
-> This converts the collider into a GameObject reference.
->
-
-# 
-
-###  Step 8 —  Compare to Player
-
-Now we verify that the object entering the trigger is the Player. 
-
-1.  **Right-click** in the graph.
-    
-2.  Search for: `Compare Tag`
-    
-3.  Set the **Tag** value to **Player**
-
-4. Connect it:
-    -   Drag from the **GameObject output** of `Get GameObject`
-    -   Connect it to the **GameObject input** on `Compare Tag`
-    -   Drag the flow output from **OnTriggerEnter** to the input of `Compare Tag`
-  
-![Trashbag Interactions](imgs/interactions/gct-trashBag-02.png)
-  
-# 
-
-## Step 9 — Test With Debug Logs
-
-Before building full functionality, confirm the trigger works.
-
-1.  Add an **If (Branch)** node.
-    
-2.  Connect the **Compare Tag** result into the condition.
-
-![Trashbag Interactions](imgs/interactions/gct-trashBag-03.png)
-    
-4.  Add two **Debug Log** nodes 
-5. Add two **String** (literal) nodes with the following message
-   - _"Other triggered bag"_
-   - _"Player triggered bag"_
-4.  Connect it
-     - Connect the **String** nodes one to each **Debug Log** node.
-     - Connect the **Debug Log** node with the _Player_ message to the **TRUE** output of the `if` branch
-    - Connect the **Debug Log** node with the _Other_ message to the **FALSE** output of the `if` branch
-7.  Save the graph.
-8.  Enter **Play Mode**.
-9.  Move the player into the trash bag trigger.
-10.  Verify correct messages appear in the **Console**.
-    
-> \[!NOTE\]  
-> Always test event detection before adding complex behavior.
-> 
-
-![Trashbag Interactions](imgs/interactions/gct-trashBag-04.png)
-
-#
-
-## Step 10 — Play Audio 
-Now that we know the Trigger is working correctly, we set up our soundfx to play. 
-
-1.  In the **Graph Editor**, **right-click** on an empty space and search for:  
-    `Play One Shot`
-    
-2.  Select **Audio Source → Play One Shot**
-    
-3.  Click the **Target** input on the node and set it to **This** (referring to the Trash Bag prefab)
-    
-4.  Next, **right-click** again and search for `Get Clip`
-    
-5.  Select **Audio Source → Get Clip**
-    
-6.  Set the **Target** on this node also to **This**
-    
-7.  Connect the nodes:
-    
-    -   Drag from the **Clip output** of `Get Clip`  and connect to the **Clip input** of `Play One Shot`
-
- ![Trashbag Interactions](imgs/interactions/gct-trashBag-05.png)
-
-   - Connect the **Debgu Log** for the **TRUE** value, to the the **Play One Shot**
-    
-![Trashbag Interactions](imgs/interactions/gct-trashBag-06.png)
-
-> \[!TIP\]  
-> `This` ensures the script references the Audio Source attached to the Trash Bag it
-> 
-
-### Step 11 — Add a Destroy Node
-
-1.  **Right-click** in the graph and search for `Destroy`
-    
-2.  Select **Destroy(Obj,T)** to select the Destory compnent with _time delay_
-
-   ![Trashbag Interactions](imgs/interactions/gct-trashBag-07.png)
-    
-3.  **Right-click** in the graph and search for `This` node
-4.  Set the **This** (i.e., this trash bag object) to the object input for the **Desotry** node
-5.  Set **Time Delay** to `0.5` seconds (matches your sound clip length)
-    
-6.  Connect the nodes:
-    
-    -   Drag from the **Finished output** of `Play One Shot` and  Connect to the **Destroy input**
-      
-
-> \[!NOTE\]  
-> This ensures the trash bag is removed **after** the audio plays, not instantly.
->
-
-# 
-
-### Step 12 —  Group and Organize the Nodes
-
-1.  Click and drag a window around all nodes in the **OnTriggerEnter** _flow path_ 
-2. With the mouse still held down, press **Ctrl** to group them.
-3.  Click on the **Group** text at the top of the group box to rename it
-    - Name the group: `OnTriggerEnter`
-5.  Change the group’s **color** if desired for readability.
-7.  Save the graph.
-
-The graph should look like the following: 
-
-  ![Trashbag Interactions](imgs/interactions/gct-trashBag-08.png)
+> [!NOTE]
+> While we setup the **trash bin** to trigger the `CheckMissionStatus` on the **LevelManager**, that event has not yet been setup. We will do that next. 
 
   # 
   
-### Step 13 — Save Your Work
+### Step 8 — Save Your Work
 1.  Save the scene: **File → Save** or **Ctrl + S**
 2.  Close Unity.
 3.  In **GitHub Desktop**:
@@ -235,40 +108,8 @@ The graph should look like the following:
     -   Commit with message:
         -   `feat: TrashBag Interaction.`
 4.  Push to the appropriate branch.
-
 
 ---
-## 🐞 Debugging & Playtesting Insight
 
-While the Trash Bag interaction works as intended, playtesting revealed a potential issue: if the player quickly re-enters the trigger before the Trash Bag is destroyed, the event could fire **multiple times**, resulting in double counts. This often happens when a **time delay** is used before destroying an object.
+## Updating the Level Manager 
 
-> [!NOTE]  
-> This wasn’t part of the original game loop design; it was discovered during testing. This demonstrates why **playtesting is essential**: even a well-planned system may need updates and adjustments.
-> 
-
-### Step 14 — Prevent Double Trigger
-
-One simple fix is to **disable the Trash Bag’s collider immediately** when the trigger is first entered:
-
-1.  In the **Graph Editor**, after the **Custom Event Trigger Arguments** node, add a **Set Collider Enabled** node.
-2. Set **Enabled** to `false` (**unchecked**)
-
-![Collider Enabled](imgs/interactions/gct-trashBag-10.png)
-
-4. Set the flow of the **Custom Event Trigger Arguments** to the **Set Collider Enabled**
-5. Set the flow of **Set Collider Enabled**  to the **Play One Shot** node. 
-    
-
-> [!TIP]  
-> This prevents the trigger from firing a second time before the Trash Bag is destroyed, keeping your game logic accurate.
->
-> This addition not only fixes the bug but also highlights the importance of **flexible design**—plans are valuable, but real-world testing often uncovers edge cases you didn’t anticipate.
-
-### Step 15 — Save Your Work
-1.  Save the scene: **File → Save** or **Ctrl + S**
-2.  Close Unity.
-3.  In **GitHub Desktop**:
-    -   Stage your changes
-    -   Commit with message:
-        -   `feat: TrashBag Interaction.`
-4.  Push to the appropriate branch.
