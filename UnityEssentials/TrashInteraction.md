@@ -267,7 +267,7 @@ One simple fix is to **disable the Trash Bag’s collider immediately** when the
 1.  In the **Graph Editor**, after the **Custom Event Trigger Arguments** node, add a **Set Collider Enabled** node.
 2. Set **Enabled** to `false` (**unchecked**)
 
-![Collider Enabled](imgs/interactions/gct-trashBag-11.png)
+![Collider Enabled](imgs/interactions/gct-trashBag-10.png)
 
 4. Set the flow of the **Custom Event Trigger Arguments** to the **Set Collider Enabled**
 5. Set the flow of **Set Collider Enabled**  to the **Play One Shot** node. 
