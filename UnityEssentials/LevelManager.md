@@ -9,7 +9,7 @@
 
 > [!NOTE]
 > Before starting this tutorial, ensure you have :
->  - Completed **[Physics Interaction Tutorial](PhyscisInteractions.md)**
+>  - Completed **[Trash Interaction Tutorial](TrashInteractions.md)**
 >  - That you are on the **Interactions** branch in GitHub Desktop.
 >
 
