@@ -251,9 +251,29 @@ The graph should look like the following:
 4.  Push to the appropriate branch.
 
 
+---
+## 🐞 Debugging & Playtesting Insight
 
+While the Trash Bag interaction works as intended, playtesting revealed a potential issue: if the player quickly re-enters the trigger before the Trash Bag is destroyed, the event could fire **multiple times**, resulting in double counts. This often happens when a **time delay** is used before destroying an object.
 
+> [!NOTE]  
+> This wasn’t part of the original game loop design; it was discovered during testing. This demonstrates why **playtesting is essential**: even a well-planned system may need updates and adjustments.
+> 
 
+### Solution — Prevent Double Trigger
+
+One simple fix is to **disable the Trash Bag’s collider immediately** when the trigger is first entered:
+
+1.  In the **Graph Editor**, after the **Custom Event Trigger Arguments** node, add a **Set Collider Enabled** node.
+2. Set **Enabled** to `false` (**unchecked**)
+3. Set the flow of the **Custom Event Trigger Arguments** to the **Set Collider Enabled**
+4. Set the flow of **Set Collider Enabled**  to the **Play One Shot** node. 
+    
+
+> [!TIP]  
+> This prevents the trigger from firing a second time before the Trash Bag is destroyed, keeping your game logic accurate.
+>
+> This addition not only fixes the bug but also highlights the importance of **flexible design**—plans are valuable, but real-world testing often uncovers edge cases you didn’t anticipate.
 
 
 
