@@ -260,7 +260,7 @@ While the Trash Bag interaction works as intended, playtesting revealed a potent
 > This wasn’t part of the original game loop design; it was discovered during testing. This demonstrates why **playtesting is essential**: even a well-planned system may need updates and adjustments.
 > 
 
-### Solution — Prevent Double Trigger
+### Step 14 — Prevent Double Trigger
 
 One simple fix is to **disable the Trash Bag’s collider immediately** when the trigger is first entered:
 
@@ -275,6 +275,14 @@ One simple fix is to **disable the Trash Bag’s collider immediately** when the
 >
 > This addition not only fixes the bug but also highlights the importance of **flexible design**—plans are valuable, but real-world testing often uncovers edge cases you didn’t anticipate.
 
+### Step 15 — Save Your Work
+1.  Save the scene: **File → Save** or **Ctrl + S**
+2.  Close Unity.
+3.  In **GitHub Desktop**:
+    -   Stage your changes
+    -   Commit with message:
+        -   `feat: TrashBag Interaction.`
+4.  Push to the appropriate branch.
 
 
 
