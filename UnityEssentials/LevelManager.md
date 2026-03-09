@@ -59,6 +59,13 @@ Only the Level Manager needs access to this variable; as such, we will set it to
     -   **Name**: `currentTrashCounter`
     -   **Type**: Integer
     -   **Default Value**: `0`
+  
+![Graph Variable](imgs/interactions/gct-currentTrashCount-var.png)
+
+> [!NOTE]
+> **Graph Variables** in visual scripting is similar to **private** variables in standard C#. They are only accessible by the object they are attached to.
+>
+
         
 3.  In the graph, add these nodes:
     -   **Get Variable** → set to `currentTrashCounter` (reads the current count)
@@ -101,6 +108,8 @@ To trigger the event on the **LevelManager**, the **trashBag** object needs to h
 2.  Create a **Scene Variable**:
     -   **Name**: `LevelManager`
     -   **Type**: GameObject
+  
+![Level Manager](imgs/interactions/gct-LevelManager_var.png)
         
 3.  Drag the **LevelManager object** from the **Hierarchy** into the variable field.
     
@@ -127,6 +136,9 @@ Now we’ll make each Trash Bag trigger the LevelManager event when the player c
 5.  Update the flow of your **OnTriggerEnter group** so it looks like this:
 
 6.  Save all graphs.
+
+The final **TrashBag** script graph should look like the following: 
+![Level Manager](imgs/interactions/gct-trashBag-09.png)
    
 > \[!TIP\]  
 > This ensures the LevelManager counter updates **before** the sound plays and the trash bag is destroyed.
