@@ -81,6 +81,10 @@ Only the Level Manager needs access to this variable; as such, we will set it to
 > This ensures you can visually confirm in the Console that the counter increments correctly when triggered.
 >
 
+The final `AddToCurrentTrashCounter` event on the **LevelManager** should look like below: 
+![Level Manager](imgs/interactions/gct-levelManager-01.png)
+
+
 #
 
 ## Communicating with Objects 
