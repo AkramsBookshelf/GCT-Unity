@@ -201,7 +201,7 @@ Once your architecture is documented:
     Check **scene references** and ensure the Options Menu is active during playtesting. Verify **AudioListener** is present and not paused unintentionally.
 
 ### 💾 Save & Commit
-- Ensure that the **GameManager** branch is active 
+- Ensure that the **UIManager** branch is active 
 -   Save scripts and scenes often.
 -   Commit after each completed step (e.g., `_feat: Extended UI - Settings impmentation`).
 -   Push to GitHub after major features or at the end of the day.
