@@ -29,7 +29,7 @@
 
 # 
 
-## Step 2 — Create a Custom Event on the Level Manager
+### Step 2 — Create a Custom Event on the Level Manager
 
 The **LevelManager** will keep track of how many trash bags the player collects. 
 First, we need a custom event to increment a counter.
@@ -50,7 +50,7 @@ First, we need a custom event to increment a counter.
 #
 
 
-## Step 3 — Create a Private Counter Variable
+### Step 3 — Create a Private Counter Variable
 We need a variable to store the current number of trash bags collected. 
 Only the Level Manager needs access to this variable; as such, we will set it to be a _graph_ which can be thought of as _private_ variables in standard C#. 
 
@@ -97,7 +97,7 @@ The final `AddToCurrentTrashCounter` event on the **LevelManager** should look l
 ## Communicating with Objects 
 The **LevelManager**'s `AddToCurrentTrashCount` needs to be triggered when the player hits the **trashBag** object. To set this up properlly we will need to revise the behaviors for our **trashBag**.
 
-## Step 4 — Create a Scene Variable for LevelManager
+### Step 4 — Create a Scene Variable for LevelManager
 1.  In the scene **Hierarchy** window, locate the **trashBag** object.
 2.  In the **Inspector** window, click **Edit Graph** to edit the visual script graph on the Trash bag.
 
@@ -120,7 +120,7 @@ To trigger the event on the **LevelManager**, the **trashBag** object needs to h
 
 # 
 
-## Step 5 — Trigger the LevelManager Event from the Trash Bag
+### Step 5 — Trigger the LevelManager Event from the Trash Bag
 Now we’ll make each Trash Bag trigger the LevelManager event when the player collects it.
 
 1.  In the **TrashBag Script Graph**, **right-click** → search for **Trigger Custom Event** → add it.
