@@ -181,12 +181,65 @@ The **Stack pattern** allows the UIManager to:
 -   Efficiently manage caching, reusing, or removing panels
 
 Together, **Singleton** and **Stack** give the UIManager a **clear structure**: a single orchestrator that can manage panels dynamically, maintain focus, and keep runtime behavior aligned with the panel definitions.
+---
+## From Architecture to Implementation
 
+Now that we have established the **design patterns** and runtime strategies guiding our UI system, we can start mapping the architecture into the components we will **actually construct**.
 
+So far, we have defined how the system behaves:
 
+-   **Data-Driven Design:** Separates panel definitions from runtime logic
+-   **Registry Pattern:** Central directory of UI asset definitions
+-   **Singleton:** One authoritative UIManager orchestrating all panels
+-   **Stack:** Tracks runtime instances and manages panel order
 
+Together, these patterns provide a **predictable, maintainable, and scalable foundation** for runtime panel management.
 
+The next step is to translate these ideas into **concrete responsibilities**. Each class or component in our system will fulfill a distinct role, while adhering to the patterns and strategies we’ve discussed.
 
+The following table outlines the core components we will implement and how they fit into the patterns discussed in this lesson.
+
+| Class / Component                              | Type                    | Pattern Role             | Purpose                                                                                                                                                         |
+| ---------------------------------------------- | ----------------------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `UIManager`                                    | Behavioral              | Singleton / Orchestrator | Central controller for opening, closing, caching, and ordering UI panels; coordinates runtime behavior and enforces system-wide rules                           |
+| `UIAssetRegistry`                              | Creational / Structural | Registry                 | Stores all UI asset definitions (blueprints); allows panels to be referenced by unique ID, independent of scene or runtime instance                             |
+| `UIStackEntry`                                 | Structural / Runtime    | Stack Element            | Represents a single runtime instance of a panel, linking the **GameObject** to its **UIAssetData**, enabling the UIManager to track open panels and input focus |
+| `UIAssetData`                                  | Data                    | Data-Driven / Blueprint  | Holds all static information about a UI panel: unique ID, prefab reference, layout rules, caching options, and metadata                                         |
+
+By combining these components with the **Singleton, Stack, and Registry patterns**, we are now ready to **translate our architecture into a concrete implementation**, building a system where UI panels can open, close, and interact predictably, no matter how complex the game becomes.
+
+---
+
+## 🚩 Checkpoint: UI Manager Architecture
+
+Having explored the **runtime UI system, design patterns, and data-driven strategies**, here are some key points to **keep in mind** before moving on to implementation:
+
+-   **UI definitions vs. runtime instances:**  
+    Separate **UI Asset Definitions** (blueprints) from **runtime GameObjects** (buildings). This ensures that **panel configuration, caching, and behavior** are managed independently of live objects.
+    
+-   **Singleton ensures a single orchestrator:**  
+    The **UIManager** is the **central controller** of all panels, providing **global access** and preventing conflicting logic.
+    
+-   **Stack models panel behavior:**  
+    Panels follow a **Last-In, First-Out (LIFO)** order: the most recently opened panel is the first to close. The **UIStackEntry** links each runtime instance to its asset definition, allowing the manager to maintain focus and track active panels.
+    
+-   **Registry centralizes definitions:**  
+    The **UIAssetRegistry** stores all panel blueprints and metadata, providing a **single source of truth** that can be queried by ID. This reduces scattered references and prevents runtime errors.
+    
+-   **Data-driven design empowers designers:**  
+    **ScriptableObjects** allow designers to configure panels, layout rules, caching, and metadata **without touching code**, while programmers can reference panels dynamically via ID.
+    
+-   **Dynamic panel management:**  
+    The system must handle **opening, closing, ordering, and overlapping panels** consistently, regardless of scene or gameplay state.
+    
+-   **Caching improves performance:**  
+    Panels can be **disabled and reused** instead of destroyed and re-instantiated, reducing CPU and memory overhead.
+    
+-   **Scene independence:**  
+    UI panels exist **across scenes**, so the system avoids duplicating assets or hard-coding panels in multiple locations.
+    
+-   **Clear responsibilities:**  
+    Keep the **registry for definitions**, **stack entries for runtime tracking**, and the **UIManager for orchestration**, ensuring the system is predictable, maintainable, and scalable.
 
 
 
