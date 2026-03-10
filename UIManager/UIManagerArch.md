@@ -88,63 +88,110 @@ In other words, the ScriptableObject is a **blueprint for your panels**, providi
 
 ---
 
-## UI Asset Registry: The Central Lookup
+## UI Stack and Registry: Blueprints vs. Buildings
 
-Once each panel is defined, we need a **centralized place to store and access these assets**.
+In our UI system, we need to manage panels in two very different ways: **what exists in the project** and **what exists in the game at runtime**. These two realities are distinct, and confusing them can create serious problems. That’s why we have **both a UIAssetRegistry and a UIStackEntry system**, each serving a different purpose.
 
-This is the **UIAssetRegistry**, another ScriptableObject that acts like a **phonebook or blueprint library**.
--   Maps panel **IDs to UIAssetData**
--   Persists across **all scenes and editor sessions**
--   Provides **fast lookup** at runtime
+#
+
+### The Registry: The Blueprint
+
+Think of the **UIAssetRegistry** as a **set of blueprints for every UI panel in your game**. It lives in your project folder as a ScriptableObject, separate from any scene. It knows that the ID `"main_menu"` corresponds to a specific prefab and stores information like whether it should be cached or how it should be displayed.
+
+Because the registry exists **at the project level**, it persists across scenes and even when the game isn’t running. Designers can configure assets directly in the editor without touching code, and programmers can retrieve any UI panel by its unique ID:
+
+```csharp
+UIAssetData mainMenuAsset \= UIAssetRegistry.Get("main\_menu");
+```
+
+The registry doesn’t hold any live instances of panels in the scene. It’s only concerned with **definitions and metadata**, the blueprint, not the building. Trying to store active GameObjects in the registry would lead to a host of problems:
+
+-   **Scene reload bugs:** Prefab instances are destroyed when a scene reloads, leaving broken references in the registry.
+    
+-   **Multiple instances:** Some UI elements, like tooltips or confirmation dialogs, can appear multiple times simultaneously. A single registry entry can’t track all of them.
+    
+-   **Data pollution:** Modifying ScriptableObjects at runtime could accidentally overwrite project assets, breaking your configuration.
     
 
->[!IMPORTANT]
-> The Registry only stores **static data**, not instantiated GameObjects.
->
+In short, the registry answers the question: **“What can we build?”**
 
-# 
+#
+### The Stack Entry: The Physical Building
 
-### Why the Registry Cannot Hold Instances
+Once a panel is opened in the game, a **real instance of the prefab exists in the scene**. This instance is completely separate from the blueprint; it doesn’t inherently know which asset it came from.
 
-Trying to store live GameObjects in the Registry would cause serious issues:
+This is where the **UIStackEntry** comes in. Each stack entry is a simple C# object that lives in memory while the game is running. It **links the instantiated GameObject to its original UIAssetData**:
 
-1.  **Scene Reload Bugs:** Reloading a scene destroys the GameObject, leaving a "Missing Reference" in the Registry
+By storing both the asset data and the prefab instance, the stack entry allows the UIManager to:
+-   Track which panels are currently open
+-   Determine which panel is on top and should receive input
+-   Close or hide panels even when the request comes from the prefab instance itself
     
-2.  **Multiple Instances:** Tooltips or popups may appear multiple times; the Registry cannot track multiple active instances
+Without this association, the UIManager wouldn’t know which blueprint an instance belongs to. For example, when the user clicks a **Close button** on a settings menu, the button only knows about its own GameObject. The stack entry lets the manager **look up the associated asset data**, find its ID, and correctly remove it from the stack.
+
+You can think of the stack entry as a **runtime record of what exists in the game**, bridging the gap between the blueprint (registry) and the physical panel in the scene.
+
+---
+## The UIManager: The Runtime Orchestrator
+
+Now that we understand the **blueprint** (UIAssetRegistry) and the **physical building record** (UIStackEntry), we need a **system to orchestrate everything**, which is the role of the **UIManager**.
+
+The UIManager acts as the **director of the UI**, handling:
+
+-   **Opening panels:** Instantiate prefabs from the registry and push them onto the stack.
+-   **Closing panels:** Pop panels off the stack and deactivate or destroy them.
+-   **Ordering panels:** Ensure the newest panel appears on top of older ones.
+-   **Managing input focus:** Only the topmost panel should respond to player interactions.
+-   **Caching panels:** Optionally keep panels in memory so they can be reopened quickly without re-instantiation.
     
-3.  **Data Pollution:** Modifying ScriptableObject fields at runtime can permanently overwrite asset data in the editor
+Without the UIManager, we would be left with **blueprints and runtime records**, but no system to **control how panels appear, disappear, and interact with each other**.
 
---- 
+#
 
-## UI Stack: Tracking Active Panels
+### How the UIManager Uses the Registry and Stack
 
-In a dynamic UI system, panels can appear and disappear at any time. **Some panels appear on top of others** (like Settings over Main Menu), while **popups or tooltips** may exist simultaneously.
+The UIManager is the bridge between **asset definitions** and **live instances**:
 
-To manage this effectively, we use a **stack** to track **all active UI panels**. A stack ensures that:
-
--   **Push → Open a new panel**: The newest panel is on top
+1.  **Opening a panel**
+    -   A request is made to open a UI panel using the UI asset **ID** 
+    -   The manager asks the **registry** (the collection of blueprints): “Which asset corresponds to this ID?”
+    -   The registry returns the **UIAssetData** (the single blueprint).
+    -   The manager **instantiates the prefab** in the scene.
+    -   A **UIStackEntry** (building) is created, linking the blueprint to the instance.
+    -   The entry is **pushed onto the stack**, making it the active panel.
+        
+2.  **Closing a panel**
+    -   The request might come from the panel itself (e.g., a close button on the prefab).
+    -   Since the prefab doesn’t know about its ID or asset, the manager **looks up the stack entry by instance**.
+    -   Using the entry, the manager knows which asset it came from and can safely remove it from the stack, update the focus, and deactivate or destroy the GameObject.
     
--   **Pop → Close the top panel**: The previous panel regains focus
+3.  **Caching panels**
+    -   If the asset is configured to be cached, the manager simply disables the GameObject instead of destroying it.
+    -   Reopening the panel reactivates the cached instance, reducing the overhead of repeated instantiation.
+        
+
+By keeping responsibilities clear **registry for definitions**, **stack entries for runtime tracking**, and **UIManager for orchestration**, our system remains **predictable, efficient, and scalable**.
+
+### Why a Stack Works
+
+The stack structure perfectly models typical UI behavior:
+
+-   **Push:** Open a panel → it goes on top of existing panels.
     
--   **Peek → Check the top panel**: Determine which panel receives input
--   
-
-### The Stack Entry: The Physical Building (Runtime State)
-
-While the **UIAssetData** ScriptableObject serves as the **blueprint** for a panel, we also need a **runtime reference** to the actual GameObject in the scene. That’s the purpose of the **UIStackEntry**.
-
-Your `UIStackEntry` is a standard C# class that lives entirely in RAM while the game is running. It links:
-
--   **AssetData:** The **UIAssetData blueprint** defining the panel
+-   **Pop:** Close the top panel → reveal the previous panel underneath.
     
--   **Instance:** The **instantiated GameObject**, the physical clone of the prefab in the scene
+-   **Peek:** Quickly check which panel is active without modifying the stack.
     
 
-> Think of it this way:
-> 
-> -   The **Registry/ScriptableObject** is the **architectural blueprint**, persistent and scene-independent.
->     
-> -   The **Stack Entry** is the **physical building**, created and controlled at runtime.
->     
+This ensures that **menus appear and disappear in a predictable order**. Players can’t accidentally interact with a background menu while a popup is open, and programmers don’t have to manually track which panels are visible.
 
-As soon as you close the game or reload a scene (without `DontDestroyOnLoad`), the **GameObject ceases to exist**, but the blueprint remains intact in your project folder.
+
+
+
+
+
+
+
+
+
+
