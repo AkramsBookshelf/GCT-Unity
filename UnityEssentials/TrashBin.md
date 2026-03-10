@@ -113,3 +113,6 @@ When the player interacted with the **trash bag**, it triggered the `AddToCurren
 
 ## Updating the Level Manager 
 
+Now that we have our **trash bin** logic setup, we need to create the `CheckMissionStatus` on the **Level Manager** 
+
+
