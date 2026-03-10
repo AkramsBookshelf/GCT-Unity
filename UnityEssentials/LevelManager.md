@@ -15,17 +15,17 @@
 
 ### Step 1 — Scene Setup 
 1.  In the **Hierarchy** window right-click and choose **Create Hierarchy Folder**
-    -Name this folder **Managers**
+    - Name this folder **Managers**
 2. Inside the folder right-click and choose **Create Empty**
 3. In the **Inspector** window
    - Rename this object to **LevelManager**
    - Add a **Script Machine** component
   
-4. From the **Hierarchy** window drag the **LevelManger** to the **Projects** window
+4. Make the **LevelManager** a prefab by dragging it from the **Hierarchy** window the **Projects** window
    - Into the **Assets/Prefabs** folder
   
-5. Back in the **Hierarchy** window select the **LevelManager** prefab
-6. In the **Inspector** window click on **Edit Graph** 
+6. Back in the **Hierarchy** window select the **LevelManager** prefab
+7. In the **Inspector** window click on **Edit Graph** 
 
 # 
 
@@ -83,7 +83,7 @@ Only the Level Manager needs access to this variable; as such, we will set it to
     -   Set the message to something like `"Current Trash Count: "` + `currentTrashCounter`
         
 6.  Save the graph.
-. 
+ 
 > \[!TIP\]  
 > This ensures you can visually confirm in the Console that the counter increments correctly when triggered.
 >
@@ -98,7 +98,7 @@ The final `AddToCurrentTrashCounter` event on the **LevelManager** should look l
 The **LevelManager**'s `AddToCurrentTrashCount` needs to be triggered when the player hits the **trashBag** object. To set this up properlly we will need to revise the behaviors for our **trashBag**.
 
 ## Step 4 — Create a Scene Variable for LevelManager
-1.  In the scene **Hierarchy** window, locate the **trashBag** object
+1.  In the scene **Hierarchy** window, locate the **trashBag** object.
 2.  In the **Inspector** window, click **Edit Graph** to edit the visual script graph on the Trash bag.
 
 To trigger the event on the **LevelManager**, the **trashBag** object needs to hold a reference to the **LevelManager' Game Object**. To do this we will create a **scene** variable. 
