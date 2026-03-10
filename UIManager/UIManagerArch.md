@@ -16,22 +16,41 @@ Without a structured runtime system, UI panels can quickly become disorganized:
 -   UI objects are repeatedly instantiated and destroyed, causing unnecessary performance overhead
 
 In this lesson, we will focus on **creating a runtime UI system** that is **scene-independent, predictable, and maintainable**. This system separates **UI definitions** from **runtime instances**, making it easy to manage, cache, and extend UI panels without bugs.
-#
 
-## Key Components of the Runtime System
+---
+## Design Patterns & Strategies for the UI Runtime System
 
-To build a robust, scene-independent UI system, we need four essential pieces:
+Building a robust UI Manager comes with its own set of challenges, many of which are rooted in the difference between a **UI panel’s definition** and its **runtime instance**:
 
-1.  **UI Asset Definition** – a blueprint describing each panel 
-2.  **Registry** – a centralized list of all UI assets, linking IDs to prefabs
-3.  **Stack System** – tracks which menus are active and what’s on top
-4.  **UI Manager** – the runtime controller responsible for opening, closing, caching, and ordering panels
+1.  **Dynamic UI panel management:** Panels can open, close, or overlap at any time. To manage this reliably, we need a system that knows **what panels exist** and how to instantiate them correctly.
     
-These components work together to ensure that **UI panels behave predictably**, menus open and close in the right order, and designer-defined assets can be used without hardcoding references.
+2. **Asset-instance separation:** Traditionally, a UI prefab might be treated as the “asset” itself, but in our system, we separate **definition** from **runtime instance**. A **UI Asset Definition** contains only the **data about the panel**—its unique ID, configuration, layout rules, and behavior metadata—but **not the visual GameObject** that appears on screen.
+    
+3. **Asset-instance tracking:** When a **runtime instance** (prefab) is instantiated, the system needs to track the actual **GameObject instance** while still referencing the **original UI Asset Definition**. This ensures the UIManager knows the panel’s configuration, animations, and settings, even though the visual object is dynamically created at runtime.
+ 
+4.  **Scene independence:** UI panels may appear across multiple scenes. We don’t want each scene to hard-code its own copies of every menu, because that leads to duplication and inconsistency.
+    
+5.  **Caching & performance:** Instantiating and destroying UI prefabs repeatedly is expensive. If we separate the **definition** from the **runtime instance**, we can cache panels, preload them, or reuse them efficiently.
+    
+6.  **Designer-programmer workflow:** Designers need to tweak layout, text, and behavior without touching code, while programmers need a reliable way to reference panels by ID or type.
 
---- 
-## 1. UI Asset Definition: The Blueprint
+To solve these challenges, we use a combination of design patterns and practical strategies:
 
+- **Data-Driven Design** by separating UI definitions from code	Designers can configure panels without changing code; allows fields and methods on assets.
+
+-  **Registry Pattern:** Stores all UI Asset Definitions and allows for a central directory.
+  
+- **Singleton:** ensures only one `UIManager` exists and orchestrates all UI panels. Provides global, consistent access to UI functionality
+
+- **Stack:** A stack is a **Last In, First Out (LIFO)** collection, which will make tracking UI assets more efficient.
+
+By combining these patterns and strategies, we create a **decoupled, maintainable runtime system** for our UI panels. The architecture now clearly separates **panel definitions from their runtime instances**, tracks which panels are active, and allows for efficient caching and scene-independent access.
+
+With this foundation in place, we can adopt a **data-driven approach** to define our UI panels, using **ScriptableObjects** as the blueprint for every menu and panel in the game.
+
+---
+
+## Data Driven Approach
 Our goal is to treat UI panels as **managed assets** rather than hard-coded objects.
 
 Instead of writing code like:
@@ -39,12 +58,13 @@ Instead of writing code like:
 Instantiate(mainMenuPrefab);    
 Instantiate(settingsMenuPrefab);
 ```
-
 we want a **central mapping of UI panels** that we can reference by a **unique identifier (ID)**:
 
+```csharp
 UIManager.OpenUI("main\_menu");
+```
 
-This approach separates **UI definitions from UI logic**, allowing:
+This approach separates **UI Asset Definition from UI logic**, allowing:
 -   Designers to configure UI panels as assets
 -   Programmers to build dynamic systems that **load, display, and manage them consistently**
 
@@ -62,12 +82,6 @@ We do **not need live GameObjects yet** — all we need is:
 > [!NOTE]
 To optimize performance, we should **cache** common menus so we are not instantiating them each time the player requests them.
 > 
-
-This is enough to **plan, instantiate, and manage UI panels dynamically at runtime**.
-Trying to store live GameObjects here would create problems:
--   **Scene reload bugs:** GameObjects in a scene are destroyed on reload, but we want static definitions that persist
--   **Multiple instances problem:** Some UI panels might appear more than once (tooltips, popups), so storing a single instance won’t work
--   **Data pollution:** Modifying live objects in a static asset can accidentally overwrite designer settings
 #
 
 ### Why a ScriptableObject Makes Sense
@@ -88,104 +102,85 @@ In other words, the ScriptableObject is a **blueprint for your panels**, providi
 
 ---
 
-## UI Stack and Registry: Blueprints vs. Buildings
+## Registry Pattern: Blueprints vs. Buildings
 
-In our UI system, we need to manage panels in two very different ways: **what exists in the project** and **what exists in the game at runtime**. These two realities are distinct, and confusing them can create serious problems. That’s why we have **both a UIAssetRegistry and a UIStackEntry system**, each serving a different purpose.
+In software development, the **Registry Pattern** is a design pattern used to **store and access shared objects or data from a central location**. Instead of each system keeping its own references, a registry provides a single place to **look up objects by a unique key**, reducing dependencies and keeping the code organized. It’s particularly useful when multiple parts of a program need access to the same resources, ensuring consistency and maintainability.
 
-#
+In our UI system, we are dealing with **two very different realities**:
 
-### The Registry: The Blueprint
-
-Think of the **UIAssetRegistry** as a **set of blueprints for every UI panel in your game**. It lives in your project folder as a ScriptableObject, separate from any scene. It knows that the ID `"main_menu"` corresponds to a specific prefab and stores information like whether it should be cached or how it should be displayed.
-
-Because the registry exists **at the project level**, it persists across scenes and even when the game isn’t running. Designers can configure assets directly in the editor without touching code, and programmers can retrieve any UI panel by its unique ID:
-
-```csharp
-UIAssetData mainMenuAsset \= UIAssetRegistry.Get("main\_menu");
-```
-
-The registry doesn’t hold any live instances of panels in the scene. It’s only concerned with **definitions and metadata**, the blueprint, not the building. Trying to store active GameObjects in the registry would lead to a host of problems:
-
--   **Scene reload bugs:** Prefab instances are destroyed when a scene reloads, leaving broken references in the registry.
+1.  **Blueprints** – the **UI Asset Definitions** stored in the project. These contain all the **data about a panel**: its unique ID, layout rules, behavior metadata, and configuration. They exist independently of any scene and are never directly visible to the player.
     
--   **Multiple instances:** Some UI elements, like tooltips or confirmation dialogs, can appear multiple times simultaneously. A single registry entry can’t track all of them.
+2.  **Buildings** – the **runtime instances** of those panels. These are the actual GameObjects that appear in the scene and that the player interacts with.
     
--   **Data pollution:** Modifying ScriptableObjects at runtime could accidentally overwrite project assets, breaking your configuration.
+
+Confusing these two can lead to problems: manipulating project data as if it were live objects, losing track of runtime panels, or unintentionally modifying assets at runtime.
+
+### UI Asset Registry: Collection of Blueprints
+To manage UI definitions efficiently, we implement a **UIAssetRegistry**. This acts as a **central directory of all UI Asset Definitions**, allowing the system to:
+
+-   Register each panel with a **unique ID**
+-   Look up any asset by its ID, rather than keeping scattered references
+-   Minimize dependencies and keep the system organized
+    
+Think of the registry as the city planner’s **master map of blueprints**. It doesn’t create buildings itself; it simply tells the UIManager **what panels can exist**, along with rules about how they should behave. 
+
+The registry only stores **definitions and metadata**, not live GameObjects. Storing active panels in the registry would create problems:
+
+-   **Scene reload bugs:** Prefab instances are destroyed on scene changes, leaving broken references.
+    
+-   **Multiple instances:** Some panels, like tooltips, can appear multiple times at once.
+    
+-   **Data pollution:** Modifying assets at runtime could overwrite project data.
     
 
 In short, the registry answers the question: **“What can we build?”**
 
 #
+
 ### The Stack Entry: The Physical Building
 
-Once a panel is opened in the game, a **real instance of the prefab exists in the scene**. This instance is completely separate from the blueprint; it doesn’t inherently know which asset it came from.
+Once a panel is opened in the game, a **real GameObject exists in the scene**. This instance is separate from the blueprint and doesn’t inherently know which asset it came from.
 
-This is where the **UIStackEntry** comes in. Each stack entry is a simple C# object that lives in memory while the game is running. It **links the instantiated GameObject to its original UIAssetData**:
+This is where the **UIStackEntry** comes in. Each stack entry is a **C# class living entirely in memory**, linking the **runtime instance** to its original **UIAssetData**. It allows the UIManager to:
 
-By storing both the asset data and the prefab instance, the stack entry allows the UIManager to:
 -   Track which panels are currently open
 -   Determine which panel is on top and should receive input
 -   Close or hide panels even when the request comes from the prefab instance itself
     
-Without this association, the UIManager wouldn’t know which blueprint an instance belongs to. For example, when the user clicks a **Close button** on a settings menu, the button only knows about its own GameObject. The stack entry lets the manager **look up the associated asset data**, find its ID, and correctly remove it from the stack.
+For example, when a user clicks the **Close button** on a settings menu, the button only knows about its own GameObject. The stack entry lets the manager **look up the associated asset data**, retrieve its ID, and remove it safely from the stack.
 
-You can think of the stack entry as a **runtime record of what exists in the game**, bridging the gap between the blueprint (registry) and the physical panel in the scene.
+Think of the stack entry as a **runtime record of what exists in the game**, bridging the gap between **blueprint (registry)** and **physical building (scene instance)**. It’s the essential piece that allows the UIManager to handle panels dynamically, efficiently, and reliably.
 
 ---
-## The UIManager: The Runtime Orchestrator
 
-Now that we understand the **blueprint** (UIAssetRegistry) and the **physical building record** (UIStackEntry), we need a **system to orchestrate everything**, which is the role of the **UIManager**.
+## The UIManager: Central Orchestrator
 
-The UIManager acts as the **director of the UI**, handling:
-
--   **Opening panels:** Instantiate prefabs from the registry and push them onto the stack.
--   **Closing panels:** Pop panels off the stack and deactivate or destroy them.
--   **Ordering panels:** Ensure the newest panel appears on top of older ones.
--   **Managing input focus:** Only the topmost panel should respond to player interactions.
--   **Caching panels:** Optionally keep panels in memory so they can be reopened quickly without re-instantiation.
-    
-Without the UIManager, we would be left with **blueprints and runtime records**, but no system to **control how panels appear, disappear, and interact with each other**.
+The **UIManager** is the central system that coordinates all UI panels. It sits between **UI definitions** (the registry) and **runtime instances** (the stack), ensuring that panels open, close, and interact in a **predictable, maintainable, and efficient** way.
 
 #
 
-### How the UIManager Uses the Registry and Stack
+### Singleton: One Source of Truth
 
-The UIManager is the bridge between **asset definitions** and **live instances**:
+We use the **Singleton pattern** to ensure there is **only one UIManager** controlling all panels. This provides:
 
-1.  **Opening a panel**
-    -   A request is made to open a UI panel using the UI asset **ID** 
-    -   The manager asks the **registry** (the collection of blueprints): “Which asset corresponds to this ID?”
-    -   The registry returns the **UIAssetData** (the single blueprint).
-    -   The manager **instantiates the prefab** in the scene.
-    -   A **UIStackEntry** (building) is created, linking the blueprint to the instance.
-    -   The entry is **pushed onto the stack**, making it the active panel.
-        
-2.  **Closing a panel**
-    -   The request might come from the panel itself (e.g., a close button on the prefab).
-    -   Since the prefab doesn’t know about its ID or asset, the manager **looks up the stack entry by instance**.
-    -   Using the entry, the manager knows which asset it came from and can safely remove it from the stack, update the focus, and deactivate or destroy the GameObject.
+-   A single authoritative controller for UI behavior
+-   Global access from any system in the game
+-   Consistent rules for opening, closing, and ordering panels
     
-3.  **Caching panels**
-    -   If the asset is configured to be cached, the manager simply disables the GameObject instead of destroying it.
-    -   Reopening the panel reactivates the cached instance, reducing the overhead of repeated instantiation.
-        
+The Singleton ensures that no conflicting or duplicated logic arises, making the system **predictable and easy to maintain**.
 
-By keeping responsibilities clear **registry for definitions**, **stack entries for runtime tracking**, and **UIManager for orchestration**, our system remains **predictable, efficient, and scalable**.
+#
 
-### Why a Stack Works
+### Stack: Modeling Runtime Panel Behavior
 
-The stack structure perfectly models typical UI behavior:
+UI panels naturally behave like a **Last-In, First-Out (LIFO)** collection: the most recently opened panel is usually the first to close.
 
--   **Push:** Open a panel → it goes on top of existing panels.
-    
--   **Pop:** Close the top panel → reveal the previous panel underneath.
-    
--   **Peek:** Quickly check which panel is active without modifying the stack.
-    
+The **Stack pattern** allows the UIManager to:
+-   Track which panels are currently open
+-   Determine which panel is on top and should receive input
+-   Efficiently manage caching, reusing, or removing panels
 
-This ensures that **menus appear and disappear in a predictable order**. Players can’t accidentally interact with a background menu while a popup is open, and programmers don’t have to manually track which panels are visible.
-
-
+Together, **Singleton** and **Stack** give the UIManager a **clear structure**: a single orchestrator that can manage panels dynamically, maintain focus, and keep runtime behavior aligned with the panel definitions.
 
 
 
