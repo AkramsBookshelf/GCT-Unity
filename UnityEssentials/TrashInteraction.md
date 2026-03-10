@@ -16,7 +16,7 @@
 
 ### Step 1 — Add the TrashBag to the Scene
 1.  In the **Project** window **3rdParty/POLYGON City/Prefabs** folder,
-   - Locate the **trashBag**
+    - Locate the **trashBag**
 2. Drag the **trashBag** prefab into the scene.
 3. Place it somewhere in **Area One** of the scene.
 4. Save the scene.
@@ -50,8 +50,8 @@
 #
 
 ###  Step 4 — Create a Scripts Folder 
-1. In the **Project** window create a new folder
-2. Name this folder **Scripts**
+1. In the **Project** window create a new folder.
+2. Name this folder **Scripts**.
 
 > [!NOTE]
 > All of our visual script graphs will live in this folder. The same is true if you are creating any c# scripts.
@@ -67,7 +67,7 @@
 
 # 
 
-## Step 6 — Create a Prefab Variant
+### Step 6 — Create a Prefab Variant
 1.  In the **Hierarchy**, select your Trash Bag prefab.
 2.  Drag it into the **Prefabs folder** in the **Project window**.
 3.  When prompted, choose **Create Prefab Variant**
@@ -79,7 +79,7 @@
 
 #
 
-###  Step 6 — Create the Trigger Logic
+###  Step 7 — Create the Trigger Logic
 1.  In the **Hierarchy**, select your Trash Bag prefab.
 2. In the **Inspector**, locate the Script Machine.
    -   Click **Edit Graph**.
@@ -102,7 +102,7 @@ They are not needed for this interaction.
  
  #
 
- ###  Step 7 —  Get the Other Object
+ ###  Step 8 —  Get the Other Object
 
 The `OnTriggerEnter` node gives us a **Collider** reference for the object that set off the trigger (i.e., the other object).  
 We need to find out which GameObject owns that collider.
@@ -123,7 +123,7 @@ We need to find out which GameObject owns that collider.
 
 # 
 
-###  Step 8 —  Compare to Player
+###  Step 9 —  Compare to Player
 
 Now we verify that the object entering the trigger is the Player. 
 
@@ -142,7 +142,7 @@ Now we verify that the object entering the trigger is the Player.
   
 # 
 
-## Step 9 — Test With Debug Logs
+## Step 10 — Test With Debug Logs
 
 Before building full functionality, confirm the trigger works.
 
@@ -173,7 +173,7 @@ Before building full functionality, confirm the trigger works.
 
 #
 
-## Step 10 — Play Audio 
+## Step 11 — Play Audio 
 Now that we know the Trigger is working correctly, we set up our soundfx to play. 
 
 1.  In the **Graph Editor**, **right-click** on an empty space and search for:  
@@ -203,7 +203,7 @@ Now that we know the Trigger is working correctly, we set up our soundfx to play
 > `This` ensures the script references the Audio Source attached to the Trash Bag it
 > 
 
-### Step 11 — Add a Destroy Node
+### Step 12 — Add a Destroy Node
 
 1.  **Right-click** in the graph and search for `Destroy`
     
@@ -212,7 +212,7 @@ Now that we know the Trigger is working correctly, we set up our soundfx to play
    ![Trashbag Interactions](imgs/interactions/gct-trashBag-07.png)
     
 3.  **Right-click** in the graph and search for `This` node
-4.  Set the **This** (i.e., this trash bag object) to the object input for the **Desotry** node
+4.  Set the **This** (i.e., this trash bag object) to the object input for the **Destroy** node
 5.  Set **Time Delay** to `0.5` seconds (matches your sound clip length)
     
 6.  Connect the nodes:
@@ -226,7 +226,7 @@ Now that we know the Trigger is working correctly, we set up our soundfx to play
 
 # 
 
-### Step 12 —  Group and Organize the Nodes
+### Step 13 —  Group and Organize the Nodes
 
 1.  Click and drag a window around all nodes in the **OnTriggerEnter** _flow path_ 
 2. With the mouse still held down, press **Ctrl** to group them.
