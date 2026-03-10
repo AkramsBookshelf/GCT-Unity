@@ -1,4 +1,4 @@
-# 📜 UI Architecture & Design Patterns: Component-Level Blueprint
+# 📜 UI Architecture & Design Patterns
 > By: Akram Taghavi-Burris | © 2026
 
 UI is an integral part of any modern game. From health bars to ammo counters, dialogue boxes and inventory screens, crafting menus to pop-up notifications, and main menus. Each of these elements looks different, behaves differently, and interacts with the player in unique ways, but many of them also share common behaviors: they need to appear or disappear, respond to clicks or key presses, and update dynamically based on the game state.
