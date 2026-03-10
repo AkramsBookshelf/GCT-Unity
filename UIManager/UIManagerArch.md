@@ -61,7 +61,7 @@ Instantiate(settingsMenuPrefab);
 we want a **central mapping of UI panels** that we can reference by a **unique identifier (ID)**:
 
 ```csharp
-UIManager.OpenUI("main\_menu");
+UIManager.OpenUI("main_menu");
 ```
 
 This approach separates **UI Asset Definition from UI logic**, allowing:
