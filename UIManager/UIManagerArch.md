@@ -181,7 +181,9 @@ The **Stack pattern** allows the UIManager to:
 -   Efficiently manage caching, reusing, or removing panels
 
 Together, **Singleton** and **Stack** give the UIManager a **clear structure**: a single orchestrator that can manage panels dynamically, maintain focus, and keep runtime behavior aligned with the panel definitions.
+
 ---
+
 ## From Architecture to Implementation
 
 Now that we have established the **design patterns** and runtime strategies guiding our UI system, we can start mapping the architecture into the components we will **actually construct**.
