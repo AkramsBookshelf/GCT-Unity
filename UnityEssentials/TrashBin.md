@@ -156,3 +156,19 @@ First, we need a custom event to increment a counter.
 3.  Set up the node:
     -   **Target**: `This` (refers to the LevelManager object)
     -   **Name**: `CheckMissionStatus`
+4. In the graph, add these nodes:
+    -   **Get Variable** → set to `currentTrashCount` (reads the current count)
+    -    **Get Variable** → set to `requiredTrashCount` (reads the required amount)
+    -   **Greater or Equal** → 2 inputs
+5. Set `currentTrashCount`
+
+
+
+
+
+
+
+
+
+
+
