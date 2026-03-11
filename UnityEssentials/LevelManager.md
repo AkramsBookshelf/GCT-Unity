@@ -38,13 +38,13 @@ First, we need a custom event to increment a counter.
 2.  Search for **Custom Event** and add it.
 3.  Set up the node:
     -   **Target**: `This` (refers to the LevelManager object)
-    -   **Name**: `AddToCurrentTrashCounter`
+    -   **Name**: `AddToCurrentTrashCount`
         
 
 > \[!NOTE\]  
 > Custom Events act like functions you can trigger from other objects.
 > 
-> Here, `AddToCurrentTrashCounter` will increase the trash count whenever a trash bag is collected.
+> Here, `AddToCurrentTrashCount` will increase the trash count whenever a trash bag is collected.
 > 
 
 #
@@ -88,7 +88,7 @@ Only the Level Manager needs access to this variable; as such, we will set it to
 > This ensures you can visually confirm in the Console that the counter increments correctly when triggered.
 >
 
-The final `AddToCurrentTrashCounter` event on the **LevelManager** should look like below: 
+The final `AddToCurrentTrashCount` event on the **LevelManager** should look like below: 
 ![Level Manager](imgs/interactions/gct-levelManager-01.png)
 
 
@@ -125,7 +125,7 @@ Now we’ll make each Trash Bag trigger the LevelManager event when the player c
 
 1.  In the **TrashBag Script Graph**, **right-click** → search for **Trigger Custom Event** → add it.
 2.  Configure the node:
-    -   **Event Name**: `AddToCurrentTrashCounter`
+    -   **Event Name**: `AddToCurrentTrashCount`
         
 3.  Add a **Get Variable** node:
     -   Set to **Scene → LevelManager**
