@@ -128,6 +128,7 @@ Only the Level Manager needs access to this variable; as such, we will set it to
     -   **Name**: `requiredTrashCount`
     -   **Type**: Integer
     -   **Default Value**: `1`
+![Required Trash Cout](imgs/interactions/gct-requiredTrashCount-var.png)
   
 > [!NOTE]
 > We are setting our required amount to 1 for testing purposes. Once everything is working, we can come back and increase the amount.
@@ -141,6 +142,8 @@ We need a variable to check if the mission (level) has been completed. This vari
     -   **Name**: `IsMissionComplete`
     -   **Type**: Boolean
     -   **Default Value**: `False` (_unchecked_)
+
+![Is Mission Comlete Scene Var](imgs/interactions/gct-IsMissionComplete-var.png)
 
 > [!Tip]
 > Since variables act as public variables, and should be written in _PascalCase_, while private variables are written in _camelCase_.
@@ -159,16 +162,55 @@ First, we need a custom event to increment a counter.
 4. In the graph, add these nodes:
     -   **Get Variable** → set to `currentTrashCount` (reads the current count)
     -    **Get Variable** → set to `requiredTrashCount` (reads the required amount)
-    -   **Greater or Equal** → 2 inputs
-5. Set `currentTrashCount`
+    -   **Greater or Equal** 
+5. Set the **Greater or Equal** node folow 
+   - A → set to `currentTrashCount`
+   - B → set to `requiredTrashCount`
 
+![Greater than or Equal to](imgs/interactions/gct-greaterEqual.png)
 
+6. In the graph editor, add an **If** node
+    - Set the flow `CheckMissionStatus` →  **if** 
+    - Set the flow of **Greater or Equal**  → **if**
 
+### Step 5 — Test With Debug Logs
 
+Before building full functionality, we will confirm that our functions are working as intended.
+1. Add two **Debug Log** nodes 
+2. Add two **String** (literal) nodes with the following message
+   - _"Mission Incomplete"_
+   - _"Mission Completed 🎉"_
+3.  Connect it
+     - Connect the **String** nodes one to each **Debug Log** node.
+     - Connect the **Debug Log** node with the _Completed_ message to the **TRUE** output of the `if` branch
+    - Connect the **Debug Log** node with the _Incomplete_ message to the **FALSE** output of the `if` branch
+4.  Save the graph.
+5.  Enter **Play Mode**.
+6.  Move to the **trash bin**
+    - The _Incompelte_ message should appear.
+7.  Collect the trash and deposit it in the trash bin.
+     - The _Completed_ message should appear.
+8. Verify correct messages appear in the **Console**.
 
+### Step 6 - Set Mission Status
+1. In the graph editor on the **LevelManager** add a **Set Vaariable** node
+    - Ensure it is a **scene* variable
+    - Set its name to `IsMissionComplete`
+2. Add a **Boolean** node
+    - Set its value to `True` (checked)
+3. Set the flow of the **Boolean** value into the value of **Set Vairable**
+4. Set the flow of the **true** branch **Debug Log** into the **Set Variable** node.
 
+### Step 7 —  Group and Organize the Nodes
 
+1.  Click and drag a window around all nodes in the **OnTriggerEnter** _flow path_ 
+2. With the mouse still held down, press **Ctrl** to group them.
+3.  Click on the **Group** text at the top of the group box to rename it
+    - Name the group: `CheckMissionStatus`
+5.  Change the group’s **color** if desired for readability.
+7.  Save the graph.
 
-
+The graph should look like the following: 
+![Check Mission Complete](imgs/interactions/gct-levelManager-02.png)
 
 
