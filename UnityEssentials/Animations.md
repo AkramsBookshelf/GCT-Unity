@@ -218,14 +218,17 @@ The **Animator** controller allows us to control when animations play using **st
        - **Check Exit Time** = True
        -   Set **Exit Time** = 1 (ensures the animation finishes before returning to Closed)
 
+![Opening to Open Transition](imgs/interactions/gct-animatorClosed.png)
+
 #
 ### Step 11 — Test the Gate Animation
 1.  Press **Play** in Unity.
 2.  In the **Scene view**, locate **Gate_Interactable**.
-3.  In the Animator window:
-    -   Set **IsLocked = False** → gate opens automatically.
-    -   Set **ShouldOpen = False** → gate closes automatically.
-4.  Exit Play mode.
+3.  In the **Animator** window set **IsOpen = True** and **IsLocked = False** 
+   - Gate opens automatically.
+4. Now set the **IsOpen = false** back to false
+   - The gate closes automatically.
+5.  Exit Play mode.
    
 > [!NOTE]  
 > This verifies that the **Animator state machine and conditions work correctly**.
