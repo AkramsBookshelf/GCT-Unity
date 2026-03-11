@@ -96,6 +96,9 @@ They are not needed for this interaction.
 2. Add a second **Animator Set Bool** node
     - Set the name to `IsOpen`
     - Set the value to `True`
+  
+The final `OnTriggerEnter` should look like the following: 
+![Gate Prefab](imgs/interactions/gct-gate-02.png)
 
 ### Step 6 - Playtest
 1. Enter **Play Mode**.
@@ -118,6 +121,8 @@ Now that our open animation plays correctly, we want to trigger the close animat
     -   Connect it to the **Collider input port** on `Get GameObject`
 5. Add an **If (Branch)** node.
 
+![Gate Prefab](imgs/interactions/gct-gate-03.png)
+
 Now we want to check if the gate is open, then we want to set the value back to false. 
 
 6. Add an **Animator Get Bool**
@@ -135,6 +140,9 @@ Now we want to check if the gate is open, then we want to set the value back to 
     - Set the value to `False`
 
 This will reset the open condition until the enter is triggered again.
+
+The final `OnTriggerEnter` should look like the following: 
+![Gate Prefab](imgs/interactions/gct-gate-04.png)
 
 ### Step 7 - Playtest
 1. Enter **Play Mode**.
