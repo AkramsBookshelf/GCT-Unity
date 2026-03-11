@@ -119,5 +119,40 @@ Now that we have our **trash bin** logic setup, we need to create the `CheckMiss
 1. Select **Level Manager** from the **Hierarchy** window
 2. In the **Inspector** window choose **Edit Graph**.
 
-3. 
+### Step 2 — Create a Private Required Variable
+We need a variable to store the number of required bags of trash to complete the level. 
+Only the Level Manager needs access to this variable; as such, we will set it to be a _graph_ which can be thought of as _private_ variables in standard C#. 
 
+1.  In the **Graph Editor**, in the **Inspector** window on the left
+2.  Create a **Graph Variable**:
+    -   **Name**: `requiredTrashCount`
+    -   **Type**: Integer
+    -   **Default Value**: `1`
+  
+> [!NOTE]
+> We are setting our required amount to 1 for testing purposes. Once everything is working, we can come back and increase the amount.
+>
+
+### Step 3 — Create a Scene Variable
+We need a variable to check if the mission (level) has been completed. This variable will be used by the gates to allow access to the next area. In order for the gate to see this variable, we will make it a _scene_ variable. 
+
+1.  In the **Graph Editor**, in the **Inspector** window on the left
+2.  Create a **Scene Variable**:
+    -   **Name**: `IsMissionComplete`
+    -   **Type**: Boolean
+    -   **Default Value**: `False` (_unchecked_)
+
+> [!Tip]
+> Since variables act as public variables, and should be written in _PascalCase_, while private variables are written in _camelCase_.
+>      
+ 
+### Step 4 — Create a Custom Event on the Level Manager
+
+The **LevelManager** will keep track of how many trash bags the player collects. 
+First, we need a custom event to increment a counter.
+
+1.  In the **LevelManager Script Graph**, **right-click** on an empty area.
+2.  Search for **Custom Event** and add it.
+3.  Set up the node:
+    -   **Target**: `This` (refers to the LevelManager object)
+    -   **Name**: `CheckMissionStatus`
