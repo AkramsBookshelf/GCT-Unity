@@ -37,6 +37,15 @@
 3.  Name the graph: **Gate**
 4.  Save it inside your **Scripts** folder.
 
+### Step 3 - Apply the Prefab Changes
+1. Select the **Gate** preab in the **Hierarchy** window.
+2. In the **Inspectory** window click on the **Overrides** drop down
+    - Choose **Apply All**
+This will apply all the changes we made to the Gate Interactable to all prefab instances.
+
+![Gate Prefab](imgs/interactions/gct-gate-ApplyPrefab.png)
+
+
 ### Step 3 - Create the Trigger Logic
 1.  In the **Hierarchy**, select your Trash Bag prefab.
 2. In the **Inspector**, locate the Script Machine.
@@ -76,7 +85,14 @@ They are not needed for this interaction.
 >
 
 ### Step 5 - Set Animator Parameter
+1. Add an **Animator Set Bool** node
+    - Set the name to `IsLocked.`
+> [!WARNING]
+> `IsLocked` is one of the **Animator Paramaters** we created in the Animation tutorial. This parameter must be spelled exactly how you have it in the animator.
+>
 
+2. Add a **Boolean** node and set it to `False` (unchecked)
+   - Set the flow of the **Boolean** node into the **Animator Set Bool** value
 
 
 
