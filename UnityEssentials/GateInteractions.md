@@ -86,15 +86,17 @@ They are not needed for this interaction.
 
 ### Step 5 - Set Animator Parameter
 1. Add an **Animator Set Bool** node
-    - Set the name to `IsLocked.`
+    - Set the name to `IsLocked`
+    - Set the value to `True`
 > [!WARNING]
 > `IsLocked` is one of the **Animator Paramaters** we created in the Animation tutorial. This parameter must be spelled exactly how you have it in the animator.
 >
 
-2. Add a **Boolean** node and set it to `False` (unchecked)
-   - Set the flow of the **Boolean** node into the **Animator Set Bool** value
-
 ![Gate Prefab](imgs/interactions/gct-setBool-IsLocked.png)
+
+1. Add an **Animator Set Bool** node
+    - Set the value to `True`
+
 
 
 
