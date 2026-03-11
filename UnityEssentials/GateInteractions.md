@@ -27,7 +27,7 @@
 5.  Adjust the **Box Collider size** so the player can easily enter the interaction area.
 
 > \[!TIP\]  
-> The trigger should be slightly larger than the trash bag mesh to make interaction feel responsive.
+> The trigger should be slightly larger than the gate mesh to make interaction feel responsive.
 >
 
 ### Step 2 — Add a Gate Script
@@ -46,14 +46,13 @@ This will apply all the changes we made to the Gate Interactable to all prefab i
 ![Gate Prefab](imgs/interactions/gct-gate-ApplyPrefab.png)
 
 
-### Step 3 - Create the Trigger Logic
+### Step 4 - Create the Trigger Logic
 1.  In the **Hierarchy**, select your Trash Bag prefab.
-2. In the **Inspector**, locate the Script Machine.
-   -   Click **Edit Graph**.
+2. In the **Inspector**, click **Edit Graph**.
      
 3.  Remove Default Nodes in the **Graph Editor area** (blackboard),  
--   Delete **On Start**
--   Delete **On Update**
+     -   Delete **On Start**
+     -   Delete **On Update**
 
 They are not needed for this interaction.
 
@@ -87,14 +86,15 @@ They are not needed for this interaction.
 ### Step 5 - Set Animator Parameter
 1. Add an **Animator Set Bool** node
     - Set the name to `IsLocked`
-    - Set the value to `True`
+    - Set the value to `False`
 > [!WARNING]
 > `IsLocked` is one of the **Animator Paramaters** we created in the Animation tutorial. This parameter must be spelled exactly how you have it in the animator.
 >
 
 ![Gate Prefab](imgs/interactions/gct-setBool-IsLocked.png)
 
-1. Add an **Animator Set Bool** node
+2. Add a second **Animator Set Bool** node
+    - Set the name to `IsOpen`
     - Set the value to `True`
 
 
