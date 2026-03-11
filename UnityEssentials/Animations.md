@@ -225,7 +225,7 @@ The **Animator** controller allows us to control when animations play using **st
 1.  Press **Play** in Unity.
 2.  In the **Scene view**, locate **Gate_Interactable**.
 3.  In the **Animator** window set **IsOpen = True** and **IsLocked = False** 
-   - Gate opens automatically.
+    - Gate opens automatically.
 4. Now set the **IsOpen = false** back to false
    - The gate closes automatically.
 5.  Exit Play mode.
