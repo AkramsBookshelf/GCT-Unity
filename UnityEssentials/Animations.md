@@ -160,9 +160,12 @@ The **Animator** controller allows us to control when animations play using **st
 
 ### Step 9 — Create Animator Parameters
 1.  In the Animator window, go to the **Parameters tab**.
-2.  Click **+ → Bool** → name: `ShouldOpen`
-3.  Click **+ → Bool** → name: `IsLocked`
-4.  Set both default values to **True**
+2.  Click **+ → Bool** → name: `IsLocked`
+    - Set the value to `True` (checked )
+3.  Click **+ → Bool** → name: `IsOpen`
+    - Set the value to `False` (unchecked)
+
+![Animator Paramaters](imgs/interactions/gct-animatorPrameters.png)
 
 > [!NOTE]  
 > **Animator Parameters** are values that control when animations switch states.
@@ -181,15 +184,14 @@ The **Animator** controller allows us to control when animations play using **st
 5.  Select **Opening** state and in the **Inspector**:
     -   Set **Motion** = `ANM_GateOpen`
     -   Set **Speed = 1**  (will auto-play the animation)
-  
-
-        
+       
 6.  Select the **transition arrow (Closed → Opening)**, in the **Inspector** window
     - Uncheck **Has Exit Time** 
     - In the **Conditions** Panel, press the **`+`** to add the following coniditions:
         -   `IsLocked = False`
-        -   `ShouldOpen = True`
-            
+        -   `IsOpen = True`
+![Close to Opening Transition](imgs/interactions/gct-animatorOpening.png)
+
 8.  Right-click **Opening** state and choose **Make Transition**
     - Drag the transition arrow to **Opened**
 9.  Select **Opened** state and in the **Inspector**:
@@ -198,7 +200,17 @@ The **Animator** controller allows us to control when animations play using **st
         
 10.  Select **transition arrow (Opening → Open)**:
     -   Uncheck **Has Exit Time**
-    -   Condition: `ShouldOpen = False.`
+    -   Condition: `IsOpen = False.`
+
+![Opening to Open Transition](imgs/interactions/gct-animatorOpen.png)
+
+> [!IMPORTANT]
+> The logic behind our conditions comes from the interactions we plan to create later.
+> When the Player triggers the gate, it will need to check if we have completed our mission. If this is true, we need to:
+>  - Unlock the gate, setting `IsLocked` value to `False.`
+>  - Start the open animation, but set the `IsOpen` to `true.`
+>  Once we exit the trigger area, we will check if `IsOpen` is `true` and if so, set it back to `false`. This triggers the close animation.
+>
         
 11.  Right-click **Opened** state and choose **Make Transition**
      - Drag the transition arrow to **Closed**
