@@ -15,10 +15,9 @@
 >
 
 ---
-
-In this tutorial, we want to set up the interactions that will trigger our gate animations. If you recall from past 
-
-
+> [!IMPORTANT]
+>  In this tutorial, we want to set up the interactions that will trigger our gate animations, which we completed in the **[Animation Tutorial](Animations.md)**. You will need to have completed that tutorial before proceeding.
+> 
 --- 
 
 ###  Step 1 — Add a Trigger Collider
