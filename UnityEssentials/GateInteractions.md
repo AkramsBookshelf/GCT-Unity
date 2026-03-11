@@ -106,5 +106,50 @@ They are not needed for this interaction.
 4. Return to the gate trigger
    - The gate should now animate open. 
 
+### Step 7 - On Trigger Exit 
+Now that our open animation plays correctly, we want to trigger the close animation when we exit the gate trigger area. 
 
+1. Add **OnTriggerExit** node to the **Gate** script graph
+2. Add a **Collider Get GameObject** node
+3. Add a **Game Object Compare Tag** node
+   - Set the **Tag** value to `Player`
+4. Connect it:
+    -   Click and drag from the **Collider output port** on `OnTriggerEnter`
+    -   Connect it to the **Collider input port** on `Get GameObject`
+5. Add an **If (Branch)** node.
 
+Now we want to check if the gate is open, then we want to set the value back to false. 
+
+6. Add an **Animator Get Bool**
+   - Set the name to `IsOpen`
+7. Connect it:
+    -   Click and drag from the `True` output on the **If** node 
+    -   Connect it to the **Animator Get Bool** 
+7. Add a second **If** branch node
+8. Connect it:
+    - Connect the **Animator Get Bool**  flow to **If** node
+    - Connect the **Animator Get Bool**  output to the **If** value
+  
+9.  Add a second **Animator Set Bool** node
+    - Set the name to `IsOpen`
+    - Set the value to `False`
+
+This will reset the open condition until the enter is triggered again.
+
+### Step 7 - Playtest
+1. Enter **Play Mode**.
+2. Collect the trash bags and deposit them in the trash bin
+   - _"Mission Complete"_ message should appear in the **Console**
+3. Enter the gate trigger
+   - The gate should now animate open.
+4. Exit the gate trigger
+   - The gate should now animate close.
+  
+### Step 8 — Save Your Work
+1.  Save the scene: **File → Save** or **Ctrl + S**
+2.  Close Unity.
+3.  In **GitHub Desktop**:
+    -   Stage your changes
+    -   Commit with message:
+        -   `feat: Gate Interaction.`
+4.  Push to the appropriate branch.
