@@ -56,7 +56,7 @@ Only the Level Manager needs access to this variable; as such, we will set it to
 
 1.  In the **Graph Editor**, in the **Inspector** window on the left
 2.  Create a **Graph Variable**:
-    -   **Name**: `currentTrashCounter`
+    -   **Name**: `currentTrashCount`
     -   **Type**: Integer
     -   **Default Value**: `0`
   
@@ -68,10 +68,10 @@ Only the Level Manager needs access to this variable; as such, we will set it to
 
         
 3.  In the graph, add these nodes:
-    -   **Get Variable** → set to `currentTrashCounter` (reads the current count)
+    -   **Get Variable** → set to `currentTrashCount` (reads the current count)
     -   **Add Node** → 2 inputs
     -   **Integer Literal** → set value to `1`
-    -   **Set Variable** → set to `currentTrashCounter` (writes the updated count)
+    -   **Set Variable** → set to `currentTrashCount` (writes the updated count)
         
 4.  Connect the nodes in this order:
     -   `Get Variable → Add Node`
@@ -80,7 +80,7 @@ Only the Level Manager needs access to this variable; as such, we will set it to
     -   `Custom Event → Set Variable` (so the flow runs when the event triggers)
         
 5.  Add a **Debug Log** node after the Set Variable node to print the new counter value.
-    -   Set the message to something like `"Current Trash Count: "` + `currentTrashCounter`
+    -   Set the message to something like `"Current Trash Count: "` + `currentTrashCount.`
         
 6.  Save the graph.
  
@@ -95,7 +95,7 @@ The final `AddToCurrentTrashCounter` event on the **LevelManager** should look l
 #
 
 ## Communicating with Objects 
-The **LevelManager**'s `AddToCurrentTrashCount` needs to be triggered when the player hits the **trashBag** object. To set this up properlly we will need to revise the behaviors for our **trashBag**.
+The **LevelManager**'s `AddToCurrentTrashCount` needs to be triggered when the player hits the **trashBag** object. To set this up properly, we will need to revise the behaviors for our **trashBag**.
 
 ### Step 4 — Create a Scene Variable for LevelManager
 1.  In the scene **Hierarchy** window, locate the **trashBag** object.
