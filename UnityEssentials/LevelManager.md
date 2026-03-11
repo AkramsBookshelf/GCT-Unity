@@ -131,7 +131,7 @@ Now we’ll make each Trash Bag trigger the LevelManager event when the player c
     -   Set to **Scene → LevelManager**
         
 4.  Connect the nodes:
-    -   `Get Variable (LevelManager) → Target input` of **Trigger Custom Event**
+    - **Get Variable** `LevelManager` → Target input` of **Trigger Custom Event**
         
 5.  Update the flow of your **OnTriggerEnter group** so it looks like this:
 
