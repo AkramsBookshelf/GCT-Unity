@@ -94,7 +94,7 @@ They are not needed for this interaction.
 2. Add a **Boolean** node and set it to `False` (unchecked)
    - Set the flow of the **Boolean** node into the **Animator Set Bool** value
 
-
+![Gate Prefab](imgs/interactions/gct-setBool-IsLocked.png)
 
 
 
