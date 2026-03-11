@@ -214,3 +214,12 @@ The graph should look like the following:
 ![Check Mission Complete](imgs/interactions/gct-levelManager-02.png)
 
 
+  ### Step 6 — Save Your Work
+1.  Save the scene: **File → Save** or **Ctrl + S**
+2.  Close Unity.
+3.  In **GitHub Desktop**:
+    -   Stage your changes
+    -   Commit with message:
+        -   `feat: Level Manager Mission Check.`
+4.  Push to the appropriate branch.
+
