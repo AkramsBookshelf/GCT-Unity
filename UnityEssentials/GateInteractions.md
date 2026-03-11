@@ -97,9 +97,14 @@ They are not needed for this interaction.
     - Set the name to `IsOpen`
     - Set the value to `True`
 
-
-
-
+### Step 6 - Playtest
+1. Enter **Play Mode**.
+2. Move the player into the gate trigger.
+   - Nothing should happen
+3. Collect the trash bags and deposit them in the trash bin
+   - _"Mission Complete"_ message should appear in the **Console**
+4. Return to the gate trigger
+   - The gate should now animate open. 
 
 
 
