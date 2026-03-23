@@ -94,6 +94,18 @@ By designing each mission check separately, you gain more control over player pr
 >
 
 ---
+## Updating the Trash Bin 
+Because the Level Manager event name has been re-named we need to update the Trash bin that triggers that event. 
+
+###  Step 1 — Update the TrashBin
+1. Select any one of the **TrashBin** from the **Hierarchy** window
+2. In the **Inspector** window choose **Edit Graph**.
+
+### Step 2 — Update Custom Trigger 
+1.  In the **Graph Editor**, locate the end of the `OnTriggerEnter`
+2.  Update the name of the **Custom event Trigger**  node at the end
+    - `CheckMission01Status`
+---
 
 ## Updating the Gate Script
 Right now, all gates check the **same condition**. Ideally, each gate should respond to the **specific mission it is associated with**—for example, Gate 1 opens when Mission 01 is complete, Gate 2 opens when Mission 02 is complete.
