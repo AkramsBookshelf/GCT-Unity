@@ -119,16 +119,103 @@ This allows all gates to share the **same script**, while still behaving differe
     -   **Type**: Integer
     -   **Default Value**: `1`
 
+> [!NOTE]  
+> Object Variables are **instance-based**, meaning each gate can have its own value.
+> These values can only be set on the instance in the scene.
+>
+
+# 
+
+## Step 3 — Add Switch Logic to OnTriggerEnter
+
+1.  Locate your existing **OnTriggerEnter flow**
+2.  After:
+    -   `Animator Get Bool (IsLocked)`
+    -   The following **If branch**
+3. Break the flow to the following **If branch**
+
+![Break the flow ](imgs/interactions/gct-BreakFlow.png)
+
+4.  Add **Switch on Integer** node
+5.  Connect the **True output** from the previous **If** → **Switch**
+6.  Add a **Get Variable (Object)**:
+    -   Set to `gateID`
+7.   Connect it into the **Switch input**
+8.  With the **Switch on Integer** node selected
+     - In the Graph Inspector, click the `+` in the **Options**
+     - Add two options: 
+         - 1
+         - 2 
+
+![Switch Options ](imgs/interactions/gct-SwitchOptions.png)
+
+>[!NOTE]
+> The options act as case statements in a traditional switch. These are the possible values of the variable we are comparing against.
+>
+
+#
+
+## Step 4 — Handle Mission 01
+
+1.  Locate your existing:
+    -   `Get Variable (Scene) → IsMissionComplete`
+2.  Update it to:
+    -   `IsMission01Complete`
+3.  Connect:
+    -   **Switch Case 1** → Mission 01 **If branch**
+
+![Mission 01 Case ](imgs/interactions/gct-SwitchMission01.png)
+
+## Step 5 — Add Mission 02 Logic
+
+1.  Copy:
+    -   `Get Variable (Scene) → IsMission01Complete`
+    -   Its **If branch**
+2.  Update the copied variable:
+    -   `IsMission02Complete`
+3.  Connect:
+    -   **Switch Case 2** → Second **If branch**
+
+![Mission 02 Case ](imgs/interactions/gct-SwitchMission02.png)
 
 
+#
+
+## Step 6 — Playtest
+
+1.  Enter **Play Mode**
+2.  Complete **Mission 01**
+    -   Gate 1 should open just as before. 
+
+# 
 
 
+## Step 7 — Configure Multiple Gates
+1. Select the second **Gate** from the **Hierarchy** window
+   - The gate that opens the final area of the game
+2. Set its `gateID = 2`
 
+# 
 
+## Step 8 — Playtest
 
+1.  Enter **Play Mode**
+2.  Complete **Mission 01**
+    -   Gate 1 should open just as before.
+3. Trigger the second area gate.
+   - This gate should not open until the second mission is completed.
+  
+# 
 
+## Step 09 — Save Your Work
 
-
-
-
+1.  Save the scene (**Ctrl + S**)
+2.  Close Unity
+3.  In **GitHub Desktop**:
+    -   Stage changes
+    -   Commit:
+        
+        `feat: Extend game for multiple missions.`
+        
+4.  Push to your branch
 
