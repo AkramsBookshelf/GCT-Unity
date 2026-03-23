@@ -89,9 +89,35 @@ By designing each mission check separately, you gain more control over player pr
 > You will create the second mission check on your own, with the criteria of your choosing. 
 > 
 
+>[!NOTE]  
+> You can continue with the tutorial and update the **Gate** script even if you have not yet created your second mission check. Just make sure the corresponding variable (e.g., `IsMission02Complete`) exists so the logic can be connected later.
+>
+
 ---
 
+## Updating the Gate Script
+Right now, all gates check the **same condition**. Ideally, each gate should respond to the **specific mission it is associated with**—for example, Gate 1 opens when Mission 01 is complete, Gate 2 opens when Mission 02 is complete.
 
+We don’t want to create a **separate custom script for each gate**, as that would be repetitive and hard to maintain. Instead, we can use a **flexible, scalable approach**:
+-   **Object Variable** – each gate can have its own ID or instance-specific value
+-   **Switch on Integer** – the gate checks the ID and executes the corresponding mission check
+
+This allows all gates to share the **same script**, while still behaving differently depending on the mission they are tied to.
+
+#
+
+###  Step 1 — Update the Gate Script
+1. Select the first **Gate** from the **Hierarchy** window
+   - This should be the gate that unlocks the second area of the level
+2. In the **Inspector** window choose **Edit Graph**.
+
+#
+
+## Step 2 — Add a Gate ID (Object Variable)
+1.  Create an **Object Variable**:
+    -   **Name**: `gateID`
+    -   **Type**: Integer
+    -   **Default Value**: `1`
 
 
 
