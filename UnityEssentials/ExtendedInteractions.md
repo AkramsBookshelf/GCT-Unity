@@ -43,6 +43,8 @@ This change makes our system more **flexible and scalable**, allowing us to buil
 2.  Rename the **Scene Variable** `IsMissionComplete`
     -   **`IsMission01Complete`**
 
+![Update Scene Variable](imgs/interactions/gct-IsMission01Complete-var.png)
+
 #
 
 ### Step 3 — Update the Event
@@ -50,6 +52,8 @@ This change makes our system more **flexible and scalable**, allowing us to buil
 2.  Rename it to **`CheckMission01Status`**
 3.  Update any set and get nodes that reference `IsMissionComplete`
     -   Update to **`IsMission01Complete`**
+
+![Update Check Mission Status Event ](imgs/interactions/gct-UpdateMission01Status.png)
 
 > [!TIP]
 > This naming convention allows us to scale cleanly as we add more missions.
@@ -62,6 +66,8 @@ This change makes our system more **flexible and scalable**, allowing us to buil
     -   **Name**: `IsMission02Complete`
     -   **Type**: Boolean
     -   **Default Value**: `False`
+
+![Update Scene Variable](imgs/interactions/gct-IsMission02Complete-var.png)
 
 #
 
