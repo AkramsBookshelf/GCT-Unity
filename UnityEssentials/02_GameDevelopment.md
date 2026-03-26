@@ -9,8 +9,8 @@ Once the initial game design is selected on, we can move into the actual game de
 > # 📝 Initial Concept Document – Park Clean-Up
 > ## Executive Summary
 > ### 📄 Overview
-> - **Title:** Park Clean-Up
-> - **Genre / Style:** Casual Puzzle / Exploration
+> - **Title:** Park Cleanup Adventure
+> - **Genre / Style:** Collection / Adventure
 > - **Platform(s):** Tablet, Chromebook, PC
 > - **Target Audience:** Ages 8–9 (3rd grade), motivated by creativity, achievement, and immersive exploration.
 >
