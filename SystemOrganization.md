@@ -61,3 +61,54 @@ To ensure clarity and consistency across the entire project, the following namin
 | **Avoid Redundancy**         | Do not repeat unnecessary words if the context is already clear from the folder structure. | `InventorySystem/InventoryScripts`    |
 
 ---
+## Namespaces as Invisible Organization
+
+Folders help us organize files, but they do not fully solve the problem of organization within the code itself. As projects grow, it becomes increasingly common for different systems to define classes with similar or identical names. A `Controller` in one system may have nothing to do with a `Controller` in another.
+
+Without additional structure, these naming collisions lead to confusion, ambiguity, and eventually errors.
+
+**Namespaces** provide a solution by acting as a form of “invisible folder structure” within the code. A **namespace** is a grouping of related classes, interfaces, and other types, used to organize code and prevent naming conflicts. It allows for the code to be categorized and managed more effectively.
+
+### Benefits of Namespaces 
+- Organize Code: Group related classes and functions together logically.
+- Avoid Naming Conflicts: Prevent naming collisions between classes, especially when integrating third-party libraries or assets.
+- Improve Readability: Make it clear where a class or function belongs within the project structure.
+- Modularity: Namespaces offer the ability to maintain a modular codebase that is easier to manage and update.
+
+In C#, classes can be accessed within a namespace by specifying the namespace when declaring or using the class. This is typically done with the `using` keyword at the top of a script, which simplifies referencing classes without needing to use their fully qualified names. For example, to use Unity's `MonoBehaviour` class, you include using `UnityEngine`; at the top of your script.
+
+> [!NOTE]
+> **Groups of Code** 
+> **Namespaces** should be thought of as groups of related code within a library. A library, on the other hand, is a collection of code that may include multiple namespaces. For example, **.NET framework** is a collection of libraries that
+includes many namespaces, like `System.Collections`, which groups related types for handling collections of objects.
+> 
+
+### Naming Convention for Namespaces
+A well-structured namespace typically reflects the same hierarchy as the project folders. For example, a script located within an inventory feature’s UI layer might belong to a namespace such as:'ProjectName.Inventory.UI'
+
+This approach creates a direct relationship between where a file exists and how it is referenced in code. It also ensures that systems remain logically grouped, even when viewed outside the context of the file browser.
+
+More importantly, namespaces reinforce modular thinking. A system is not just defined by where its files are stored, but by how it is conceptually separated from the rest of the project.
+
+General Guidelines
+
+-   **Hierarchical Structure**: Use a hierarchical structure to group related classes and functionality. Each level in the hierarchy represents a more specific category within a broader context.
+    
+-   **Company and Project name**: Start with your company or organization name, followed by project name. Use **General** for grouping generic classes that will be used by various projects.
+    
+-   **Descriptive and Clear**: Choose names that clearly describe the purpose or functionality of the classes within the namespace. This makes it easier for developers to understand the role of the code.
+    
+-   **Pascal Case**: Use PascalCase (where each word starts with a capital letter) for namespace names. This is consistent with C# naming conventions and improves readability.
+
+A namespace cencapsulates the class.
+
+Putting using directives inside or outside the namespace does not change how the code is compiled or how much memory it uses. However, it is most common to place using directives outside of the namespace. 
+
+
+
+
+
+
+
+
+
