@@ -294,6 +294,6 @@ A developer navigating the project can move from high-level concepts—such as i
 
 This structure also prepares the project for more advanced workflows. In particular, it aligns closely with the use of **assemblies**, which allow different parts of the codebase to be compiled and managed independently. Without a clear separation of systems, introducing assemblies can be difficult and error-prone. With this structure in place, however, the transition becomes much more natural.
 
-In this way, folder organization is not just about cleanliness—it is about laying the groundwork for scalability.
+In this way, folder organization is not just about cleanliness; it is about laying the groundwork for scalability.
 
 
