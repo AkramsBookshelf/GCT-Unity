@@ -161,15 +161,8 @@ A well-designed namespace communicates both ownership and purpose. A common name
 #### The Root Identifier 
 The **root identifier** in a namespace is typically represented by the **project name**, **company name**, or **developer**. This root acts as a top-level label that groups all code under a single, consistent identity and ownership. It also helps prevent naming conflicts when integrating third-party libraries or sharing code across multiple projects.
 
--   For **small projects** one off projets the root is usually the **project name**:
-```csharp
-RootIdentifier.Feature.Category
-```
-
--   For **reusable or modular systems** that might be copied across projects, the root can be a **company or developer name**:
-```csharp
-CSG.Feature.Category
-```
+-   For **small projects** one off projets the root is usually the **project name**:'CampCraft.Inventory.UI`
+-   For **reusable or modular systems** that might be copied across projects, the root can be a **company or developer name**:`CSG.GameManager.States`
 
 Both approaches provide a clear, top-level identifier, establishing **ownership** while maintaining **modularity**.
 
