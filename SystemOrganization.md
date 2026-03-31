@@ -163,7 +163,7 @@ The **root identifier** in a namespace is typically represented by the **project
 
 -   For **small projects** one off projets the root is usually the **project name**:
 ```csharp
-ProjectName.Feature.Category
+RootIdentifier.Feature.Category
 ```
 
 -   For **reusable or modular systems** that might be copied across projects, the root can be a **company or developer name**:
