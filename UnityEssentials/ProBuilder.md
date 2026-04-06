@@ -434,8 +434,7 @@ This tutorial will guide you through **creating and editing walls** using ProBui
 2.  Extrude top face  → **0.03125** → confirm.
 3.  Extrude one more time → **0.03125** → confirm.
 4.  Select **front and back faces** of the topmost section → **extrude 0.03125** → confirm.
-5.  Select the **top face again** → **extrude 0.03125** → confirm.
-6.  With the top face still selected → use the **Scale tool** → uniformly scale inward to create a **cap**.
+5.  With the top face still selected → use the **Scale tool** → uniformly scale inward to create a **cap**.
 
 ![End rail cap](imgs/probuilder/gct-probuilder-23.png)
 
