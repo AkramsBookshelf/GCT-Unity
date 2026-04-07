@@ -88,12 +88,12 @@ By separating these concerns into distinct folders, we maintain a clear boundary
 
 ```
 Assets/
-  ├── _Core/
+  ├── _Core/ (Abstract classes)
   │    └── Runtime/
   │         └── Patterns/
   │              └── Singleton.cs
   │
-  ├── _Shared/
+  ├── _Shared/ (Concrete Common classes)
   │    └── Channels/
   │         └── StateChangeChannel.asset
   │
