@@ -1,3 +1,55 @@
+CSG.Core 
+- DataTypes
+    -  SettingChange: strut to associate a GameSetting (enum) and value type
+- Enums
+    - GameCommand: named values of game commands (i.e., StartGame, QuitGame) 
+    - GameSetting: named value of game settings (i.e., FullScreen, MuteAll)
+ - Events
+     - ParamaterEventChannel: base class for event channels that pass a parameter
+     - VoidEventChannel: event channel with no parameter
+     - Folders are divided by parameter type for each channel
+
+CSG.Shared 
+  - Events: All event assets. These are channels that can be used to broadcast to or subscibe too.
+  - 
+
+CSG.UIManagement 
+ -UXML 
+   - All uxml documents (menus)
+ - SytleSheets
+ - UI-Setting
+    - DefaultSettings Pannel
+  - Assets
+     - Individual UI assets, that denote the prefab, name/id, and caching and the states the menu can live on
+- Prefabs: for each UI doc, has the controller attached
+- Scripts
+   - MODEL
+       - UIAssetData: data for each ui asset, like id, prefab, associated button name, caching, and states allowed
+   - VIEW 
+      - UIViewBase: sets up the ui document, finding all interactable items and registers the callbacks
+    - Controller
+        -UIMenuController: inherits UIViewBase, defines the channel to broadcast to, defines submenus, will boardcast event to trigger commands/behaviors
+      - DO I EVEN NEED SPECIFIC MENU CONTROLLERS??
+
+
+  UIInteractableRegistry - associates commands and settings with button names [MIGHT BE A BTTER WAY TO DO THIS]
+  UICommandHAndler: subscribes to events and handles the functions. [SHOULD THIS BE GLOBAL OR JUST FOR THE UI]
+  UIManager: handles all menus, activationa/deactivation and sorting
+  UIStateHandler: handles if UI assets are allowed on specific states 
+
+  UISettingHAndler - NEEDS FIXING 
+  IManageableUI -- NEEDS BUILDING (for self registeration to UIManger)
+
+
+
+
+
+
+
+
+
+
+
 | Category        | Class                   | What it does                                                   | How it works                                                                                                      |
 |----------------|------------------------|----------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
 | Communication  | UI Event Channels      | Acts as the "Cables" or "Intercoms" for the system.            | ScriptableObject assets that use the Observer pattern. One system calls `.Raise()`, and any number of listeners respond via the `OnRaised` action. |
