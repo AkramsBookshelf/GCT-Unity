@@ -32,10 +32,10 @@ CSG.UIManagement
       - DO I EVEN NEED SPECIFIC MENU CONTROLLERS??
 
 
-  UIInteractableRegistry - associates commands and settings with button names [MIGHT BE A BTTER WAY TO DO THIS]
-  UICommandHAndler: subscribes to events and handles the functions. [SHOULD THIS BE GLOBAL OR JUST FOR THE UI]
-  UIManager: handles all menus, activationa/deactivation and sorting
-  UIStateHandler: handles if UI assets are allowed on specific states 
+ -  UIInteractableRegistry - associates commands and settings with button names [MIGHT BE A BTTER WAY TO DO THIS]
+ - UICommandHAndler: subscribes to events and handles the functions. [SHOULD THIS BE GLOBAL OR JUST FOR THE UI]
+ - UIManager: handles all menus, activationa/deactivation and sorting
+ - UIStateHandler: handles if UI assets are allowed on specific states 
 
   UISettingHAndler - NEEDS FIXING 
   IManageableUI -- NEEDS BUILDING (for self registeration to UIManger)
