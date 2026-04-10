@@ -1,0 +1,1 @@
+the State Pattern allows an object to change its behavior based on its internal condition (e.g., a Character moving from "Idle" to "Running"), the Strategy Pattern allows an object to change its behavior based on its configuration (e.g., an Item deciding to use "CSV Logic" instead of "JSON Logic").
