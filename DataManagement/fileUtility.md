@@ -1,105 +1,41 @@
-# **FileUtility Cheatsheet**
+# FileUtility Class
 
-Namespace: `CSG.DataManagement`  
-Purpose: Helper methods to work with file paths and directories in Unity.
+The `FileUtility` class is a static utility designed for the Unity engine to provide a centralized, safe, and consistent way to handle file paths and directory management. It abstracts the complexity of working with Unity-specific paths (like Persistent Data and StreamingAssets) and ensures that operations like saving, loading, and backing up files are performed with proper validation.
 
-## **1\. `GetFilePath(string fileName)`**
+## Overview
 
-**What it does:**  
-Combines the **StreamingAssets folder path** with a file name to give the full path.
+-   Namespace: `CSG.DataManagement`
+    
+-   Access: `public static`
+    
+-   Core Purpose: Simplifies cross-platform path building, ensures directories exist before writing, and provides safety utilities like file backups and persistent data clearing.
 
-**Example:**
-```
-string path \= FileUtility.GetFilePath("data.csv");
-```
-**Imagine:**
+| Method | Parameters | Return | Description | When to Use |
+| :--- | :--- | :--- | :--- | :--- |
+| **GetSavePath** | `string fileName` | `string` | Returns the full path within `Application.persistentDataPath`. | Use for player save files, settings, or cached data. |
+| **GetStreamingAssetPath** | `string fileName` | `string` | Returns the full path within `Application.streamingAssetsPath`. | Use for read-only data included with the build (e.g., config). |
+| **GetPath** | `string fileName`, `DatabaseSaveLocation loc` | `string` | Builds a path based on the provided enum location. | Use to toggle between StreamingAssets and Persistent storage. |
+| **GetRelativePath** | `string fileName`, `DatabaseSaveLocation loc` | `string` | Converts an absolute path into a Unity-relative path ("Assets/..."). | Use for paths compatible with Unity Editor APIs (AssetDatabase). |
+| **GetAssetDirectoryPath** | `string assetDirectory` | `string` | Recursively checks/creates a directory inside the Assets folder. | Use in Editor tools to ensure folder structures exist before saving. |
+| **FileExists** | `string filePath`, `bool logError` | `bool` | Checks if a file exists, with an optional Console error log. | Use as a safety check before attempting to read a file. |
+| **ValidateDirectory** | `string directory` | `void` | Checks if a directory exists; if not, it creates it. | Call immediately before writing a file to prevent errors. |
+| **GetLastModified** | `string filePath` | `DateTime` | Returns the last write time or `DateTime.MinValue` if missing. | Use for version checking or identifying the latest save. |
+| **BackupFile** | `string filePath` | `void` | Creates a copy of the specified file with a `.bak` extension. | Use before overwriting critical data to prevent corruption loss. |
+| **DeleteAllPersistentData** | *None* | `void` | Deletes and recreates the Persistent Data folder. | Use for "Reset Game" features or clearing data during testing. |
+| **OpenDataFolder** | *None* | `void` | (Editor Only) Opens the OS file explorer to the persistent path. | Use via the Unity menu to quickly inspect saves in dev. |
 
--   `Application.streamingAssetsPath = "C:/MyUnityProject/Assets/StreamingAssets"`
+## Key Features & Safety
 
-**Returns:**
-```
-"C:/MyUnityProject/Assets/StreamingAssets/data.csv"
-```
-**Use case:**  
-Easily get the full path to a file in StreamingAssets without typing the whole path manually.
+### 1\. Unified Path Handling
 
-## **2\. `CheckAssetDirectory(string assetDirectory)`**
+By using `Path.Combine`, this class prevents issues with trailing slashes and ensures compatibility between different operating systems (Windows, Mac, Android, etc.).
 
-**What it does:**
+### 2\. Editor Integration
 
--   Checks if a folder exists under **Assets**.
--   Creates any missing folders along the path.
--   Only works in **Unity Editor**.
+The `GetAssetDirectoryPath` method uses `AssetDatabase` inside an `#if UNITY_EDITOR` block. This ensures that when you create folders within the Unity Editor, Unity recognizes them immediately and generates the necessary `.meta` files.
 
-**Example:**
-```
-string folderPath \= FileUtility.CheckAssetDirectory("Resources/Data/Collectables");
-```
-**What happens:**
+### 3\. Data Integrity
 
--   If `Assets/Resources/Data/Collectables` doesn’t exist, Unity will create it.
--   Always returns the **full path**:
+The `BackupFile` method provides a simple "Fail-Safe" mechanism. By calling this before saving, you ensure that if the computer crashes during a write operation, the user still has their previous save file (labeled `.bak`).
 
-"Assets/Resources/Data/Collectables"
-
-**Use case:**  
-Ensures required folders exist before saving assets.
-
-## **3\. `GetStreamingAssetPath(string fileName)`**
-
-**What it does:**  
-Same as `GetFilePath()`. Combines StreamingAssets folder with a file name.
-
-**Example:**
-```
-string fullPath \= FileUtility.GetStreamingAssetPath("level1.json");
-```
-**Returns:**
-```
-"C:/MyUnityProject/Assets/StreamingAssets/level1.json"
-```
-**Use case:**  
-Quick way to get a file path for reading/writing JSON, CSV, or other data files in StreamingAssets.
-
-## **4\. `CreateFileWithHeader(string filePath, string header)`**
-
-**What it does:**
-
--   Creates a new file at the specified path.
--   Writes the first line (header) to the file.
--   **Overwrites** the file if it already exists.
-
-**Example:**
-```
-string filePath \= FileUtility.GetStreamingAssetPath("data.csv");  
-FileUtility.CreateFileWithHeader(filePath, "Name,Age,Score");
-```
-**What happens:**
-
--   Creates `data.csv` in StreamingAssets.
--   First line of the file:
-
-Name,Age,Score
-
-**Use case:**  
-Start a CSV file with a proper header before writing data.
-
-## Summary Table
-| Method                  | What it does                                                | Example Input                   | Example Output / Behavior                                           |
-| ----------------------- | ----------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------------- |
-| `GetFilePath`           | Combines StreamingAssets path + file name                   | `"data.csv"`                    | `"C:/MyUnityProject/Assets/StreamingAssets/data.csv"`               |
-| `CheckAssetDirectory`   | Ensures folder exists under Assets, creates missing folders | `"Resources/Data/Collectables"` | `"Assets/Resources/Data/Collectables"` (folders created if missing) |
-| `GetStreamingAssetPath` | Combines StreamingAssets path + file name                   | `"level1.json"`                 | `"C:/MyUnityProject/Assets/StreamingAssets/level1.json"`            |
-| `CreateFileWithHeader`  | Creates a new file and writes header line                   | filePath + `"Name,Age,Score"`   | Creates/overwrites file with first line: `Name,Age,Score`           |
-
-
-# **Tips for Students / Teaching Notes**
-
-1.  **StreamingAssets folder**:
-    -   Unity keeps files here safe from builds stripping them out.
-    -   Good for CSV, JSON, or any data files your game needs at runtime.
-2.  **CheckAssetDirectory**:
-    -   Helps avoid errors like “folder doesn’t exist” before saving assets.
-    -   Only works in Editor, not at runtime on devices.
-3.  **CreateFileWithHeader**:
-    -   Always include the newline `\n` at the end so the next line of data can be written properly.
+---
