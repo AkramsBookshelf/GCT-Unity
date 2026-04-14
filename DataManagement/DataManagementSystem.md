@@ -173,7 +173,7 @@ This reflects a key architectural principle:
 > High-level systems should not depend on low-level implementation details.
 > 
 
-### 9\. Separating Responsibilities: Loader and Saver
+## 9\. Separating Responsibilities: Loader and Saver
 
 To maintain clean separation of concerns, the system divides responsibilities into two components:
 
@@ -182,9 +182,15 @@ To maintain clean separation of concerns, the system divides responsibilities in
 
 This separation ensures that reading and writing operations remain independent, making the system easier to extend and debug.
 
-Together, they form the core of the data pipeline.
+Alongside separating responsibilities into loaders and savers, we also need to separate **system configuration from system behavior**.
 
-### 10\. Extensibility Through the Factory Pattern
+To achieve this, the system introduces a dedicated configuration file:
+
+### [DatabaseSettings](DataManagement.md#databasesettings-enums)
+
+Rather than containing functional logic, this file defines a set of **enums that act as shared system rules** across the entire `CSG.DataManagement` namespace.
+
+## 10\. Extensibility Through the Factory Pattern
 
 At this point, the system must support multiple file formats. While CSV is useful for structured tabular data, other formats, such as JSON, are better suited for hierarchical or nested data structures.
 
@@ -208,7 +214,7 @@ This design ensures that the system is:
 
 New formats can be added without altering existing system logic.
 
-### 11\. The Strategy Pattern: Flexible Serialization Behavior
+## 11\. The Strategy Pattern: Flexible Serialization Behavior
 
 To support interchangeable serialization formats, we use the **Strategy Pattern**.
 
@@ -231,7 +237,7 @@ A shared base class, **[SerializationStrategyBase<T>](SerializationStrategy.md#s
 
 This design allows the system to dynamically switch formats without modifying the data pipeline itself.
 
-### 12\. File Handling and Data Utilities
+## 12\. File Handling and Data Utilities
 
 At the lowest level of the architecture, we isolate platform-specific and format-specific logic into utility classes.
 
@@ -246,7 +252,7 @@ At the lowest level of the architecture, we isolate platform-specific and format
 
 By isolating these concerns, the system avoids scattering low-level logic across multiple classes.
 
-### 13\. System Overview
+## 13\. System Overview
 
 When combined, the full architecture can be understood as a layered pipeline:
 
@@ -263,7 +269,7 @@ When combined, the full architecture can be understood as a layered pipeline:
 6.  **Utility Layer (File + CSV utilities)**  
     Handles low-level operations
 
-### 14\. Conclusion
+## 14\. Conclusion
 
 Although this system was motivated by a simple inventory system, it evolves into a **general-purpose data management architecture**.
 
