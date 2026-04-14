@@ -155,7 +155,70 @@ When the `DataLoader` is initialized, it is given an `assetPath`. This path is a
 Large portions of this class (specifically asset creation and saving) are wrapped in `#if UNITY_EDITOR` blocks. This ensures that the loader functions correctly as a data importer during development, but doesn't try to perform illegal "save to project" operations in a compiled game build.
 
 ---
+# DataSaver<T> Class
 
+The `DataSaver<T>` class is the final stage of the data management pipeline. Its primary role is to take memory-resident ScriptableObject entities and translate them back into persistent text files (like CSV or JSON). It provides both incremental saving for individual items and batch saving for entire databases, ensuring that data is synchronized accurately between Unity and external storage.
+
+## Overview
+
+-   Namespace: `CSG.DataManagement`
+    
+-   Access: `public`
+    
+-   Constraints: `where T : ScriptableObject, IDataEntity`
+    
+-   Core Purpose: To provide a standardized, format-agnostic way to write data entities to disk, either by updating existing records or rewriting full datasets.
+    
+
+## Method Reference Table
+
+| Method | Parameters | Return | Description | When to Use |
+| :--- | :--- | :--- | :--- | :--- |
+| **SaveData** | `T data`, `string fileName`, `ISerializationStrategy<T> strategy`, `DatabaseSaveLocation location` | `void` | **Static:** Performs an incremental save. It searches for an existing record to update or appends a new one. | Use for real-time updates where you only want to change one specific entity without rewriting the entire file. |
+| **SaveBatch** | `IEnumerable<T> dataObjects`, `string fileName`, `ISerializationStrategy<T> strategy`, `DatabaseSaveLocation location` | `void` | **Static:** Rewrites the entire file using a provided collection of entities. | Use when exporting large datasets or performing a full database synchronization. |
+| **UpdateExistingEntry** | `List<string> entries`, `T data`, `string newEntry`, `ISerializationStrategy<T> strategy` | `bool` | **Private:** Iterates through file rows and uses the strategy's `IsMatch` logic to find and replace a record. | Called internally by `SaveData` to determine if an entry needs to be overwritten or added as new. |
+
+## Key Features & Logic
+
+### 1\. Incremental vs. Batch Saving
+
+-   Incremental (`SaveData`): This is "smart" saving. It reads the current file, uses the `ISerializationStrategy` to find the line that matches the entity's ID, and swaps that specific line out. This prevents duplicating data if you save the same item twice.
+    
+-   Batch (`SaveBatch`): This is "clean slate" saving. It completely overwrites the target file with the current collection. This is generally faster for large initialization tasks or total database resets.
+    
+
+### 2\. Strategy-Driven Serialization
+
+Just like the `DataLoader`, the `DataSaver` does not know the difference between a comma or a curly brace. It asks the `ISerializationStrategy` to:
+
+1.  Serialize: Turn the object into a string.
+    
+2.  GetHeader: Provide the top-row column names (if required).
+    
+3.  IsMatch: Identify which existing line in the file belongs to which object.
+    
+
+### 3\. Automatic Directory Handling
+
+Before any file operation, `DataSaver` calls `FileUtility.ValidateDirectory`. This ensures that if the target folder (e.g., `Saves/User1/`) doesn't exist, it is created automatically, preventing "Path Not Found" exceptions.
+
+### 4\. Safety Checks
+
+The batch saver includes a null/empty check. If you attempt to save an empty list, the system logs a warning and aborts rather than deleting your existing data file by overwriting it with nothing.
+
+## Technical Details
+
+### Workflow Summary
+
+1.  Identify: Locate the file path via `FileUtility`.
+2.  Serialize: Convert the `ScriptableObject` fields into a string based on the chosen format.
+3.  Synchronize: Check if the record exists; if so, replace the line. If not, append it.
+4.  Write: Commit the list of strings to the physical disk.
+5.  Refresh: (Editor Only) Trigger `AssetDatabase.Refresh()` so the changes are immediately visible in the Unity project view.
+   
+
+### Conditional Compilation
+The `UnityEditor.AssetDatabase.Refresh()` call is wrapped in `#if UNITY_EDITOR`. This is essential because the `AssetDatabase` class does not exist in build players (Windows, Android, etc.), and including it would cause the game build to fail.
 
 
 
