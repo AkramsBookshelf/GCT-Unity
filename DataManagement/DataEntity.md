@@ -1,4 +1,4 @@
-# Documentation: IDataEntity Interface
+# IDataEntity Interface
 
 The `IDataEntity` interface is the essential blueprint for all data objects within the `CSG.DataManagement` system. It defines the "contract" that any game object (such as an item, quest, or character stat) must follow to be compatible with the automated loading and saving pipelines. By standardizing how an object identifies itself and how it exposes its internal variables, this interface allows the `DataLoader` and `DataSaver` to process any data type without needing to know its specific class details.
 
