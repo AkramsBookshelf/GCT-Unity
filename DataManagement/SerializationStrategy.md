@@ -88,6 +88,50 @@ The data entity itself remains blissfully unaware of these storage details, focu
 
 ---
 
+# SerializationStrategyBase<T> Class
+
+The `SerializationStrategyBase<T>` is an abstract base class that provides a common foundation for all concrete serialization strategies (like JSON or CSV). It implements the `ISerializationStrategy<T>` interface and serves two main purposes: reducing code duplication by providing "safe defaults" for optional methods and enforcing a strict contract for required serialization logic via abstract methods.
+
+## Overview
+
+-   Namespace: `CSG.DataManagement`
+    
+-   Access: `public abstract`
+    
+-   Implements: `ISerializationStrategy<T>`
+    
+-   Constraints: `where T : DataEntityBase<T>`
+    
+-   Core Purpose: To provide a template for serialization logic, allowing specific formats to only implement what is unique to them while inheriting shared behavior.    
+
+## Method Reference Table
+| Method | Parameters | Return | Description | When to Use |
+| :--- | :--- | :--- | :--- | :--- |
+| **ConfigureHeaders** | `string headerLine` | `void` | **Virtual:** A placeholder for formats like CSV that need header setup. | Override this only if your specific format requires pre-parsing of column names. |
+| **FindEntryByID** | `string allData`, `string id` | `string` | **Virtual:** A placeholder for optimized ID searching within a raw dataset. | Override this if your format supports fast lookup without parsing the entire file. |
+| **Serialize** | `T data` | `string` | **Abstract:** Forces child classes to define how an entity becomes a string. | Must be implemented by the child (e.g., calling `JsonUtility` or `CSVUtility`). |
+| **Deserialize** | `T entity`, `string[] data` | `void` | **Abstract:** Forces child classes to define how to fill an entity from parsed data. | Must be implemented to map raw strings back to object properties. |
+| **ParseRawEntry** | `string rawEntry` | `string[]` | **Abstract:** Forces child classes to define how to split a raw line into fields. | Implement this to handle the specific delimiters (commas, tabs, etc.) of the format. |
+| **IsMatch** | `string rawEntry`, `T data` | `bool` | **Abstract:** Forces child classes to define identity matching logic. | Implement to allow the system to find specific records for updates or deletions. |
+| **GetHeader** | *None* | `string` | **Abstract:** Forces child classes to provide a schema or header string. | Implement to define the "top line" of the data file for your specific format. |
+
+## Key Features & Architectural Role
+
+### 1\. Reducing "Boilerplate" Code
+
+Not every serialization format needs a header (JSON doesn't, but CSV does). By providing a virtual `ConfigureHeaders` method that does nothing by default, the `JSONStrategy` can simply ignore it, while the `CSVStrategy` can choose to override it. This keeps child classes clean and focused.
+
+### 2\. Enforcing Consistency
+
+By marking the core serialization methods as abstract, this base class guarantees that any new format added to the system (like XML or Binary) will have the exact same functional footprint. This ensures that the `SerializationFactory` and your Data Managers can treat all strategies the same way.
+
+### 3\. Type Safety
+
+The constraint `where T : DataEntityBase<T>` ensures that this base class is only ever used with entities that follow your project's specific data model. This prevents the strategy from being applied to incompatible objects.
+
+
+---
+
 # CSVStrategy<T> Class
 
 The `CsvStrategy<T>` is a concrete implementation of the `ISerializationStrategy<T>` interface. It is specifically designed to handle the conversion of `IDataEntity` objects into standard CSV (Comma-Separated Values) rows and back again. It relies on the `CSVUtility` class to ensure data integrity, especially when dealing with fields that contain commas or quotes.
