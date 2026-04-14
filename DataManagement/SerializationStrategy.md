@@ -45,9 +45,9 @@ The data entity itself remains blissfully unaware of these storage details, focu
 
 ---
 
-# CsvSerializationStrategy<T> Class
+# CsvStrategy<T> Class
 
-The `CsvSerializationStrategy<T>` is a concrete implementation of the `ISerializationStrategy<T>` interface. It is specifically designed to handle the conversion of `IDataEntity` objects into standard CSV (Comma-Separated Values) rows and back again. It relies on the `CSVUtility` class to ensure data integrity, especially when dealing with fields that contain commas or quotes.
+The `CsvStrategy<T>` is a concrete implementation of the `ISerializationStrategy<T>` interface. It is specifically designed to handle the conversion of `IDataEntity` objects into standard CSV (Comma-Separated Values) rows and back again. It relies on the `CSVUtility` class to ensure data integrity, especially when dealing with fields that contain commas or quotes.
 
 ## Overview
 
