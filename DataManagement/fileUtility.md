@@ -40,6 +40,18 @@ The `GetAssetDirectoryPath` method uses `AssetDatabase` inside an `#if UNITY_EDI
 
 The `BackupFile` method provides a simple "Fail-Safe" mechanism. By calling this before saving, you ensure that if the computer crashes during a write operation, the user still has their previous save file (labeled `.bak`).
 
+
+## Technical Details
+FileUtility helps by handling all file path logic for you. It automatically chooses the correct Unity folder based on the type of data you are working with. This makes file saving safe and predictable by preventing common errors like missing folders, incorrect paths, or platform-specific issues.
+
+### Unity File Path Types Used by FileUtility
+| Folder Type            | What It Is                                  | When You Use It                                                          | Example Use Case                                       | Key Notes                                |
+| ---------------------- | ------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------ | ---------------------------------------- |
+| `StreamingAssets`      | Read-only folder included in the built game | When data must be shipped with the game and should not change at runtime | CSV files, configuration data, game databases          | Cannot be safely modified in most builds |
+| `PersistentDataPath`   | Writable folder created per device by Unity | When storing player-generated or runtime data                            | Save files, settings, progress, unlocked content       | Safe across all platforms and builds     |
+| `Assets` (Editor only) | Unity project working directory             | When creating or managing project files inside the Unity Editor          | Editor tools, folder generation, development utilities | Not available in builds                  |
+
+
 ---
 # CSVUtility Class
 
