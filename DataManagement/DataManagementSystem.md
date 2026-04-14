@@ -254,20 +254,25 @@ By isolating these concerns, the system avoids scattering low-level logic across
 
 ## 13\. System Overview
 
-When combined, the full architecture can be understood as a layered pipeline:
+When combined, the architecture forms a layered and extensible data pipeline. Each component plays a specific role in transforming external data into structured Unity objects and back again.
+### Core Architecture Components
+| System Element                                                                           | Type                  | Purpose                                                                   |
+| ---------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------- |
+| [Scriptable Objects](#)                                                                  | Unity System          | Stores persistent game data as editable assets                            |
+| [IDataEntity](DataEntity.md#idataentity-interface)                                       | Interface             | Defines a shared contract for all data types                              |
+| [DataEntityBase<T>](DataEntity.md#dataentitybase-class)                                  | Abstract Base Class   | Provides shared identity, naming, and lifecycle behavior                  |
+| [DatabaseSettings](DataManagement.md#databasesettings-enums)                             | Configuration (Enums) | Centralized system rules for formats, storage, and serialization behavior |
+| [DatabaseManager<T>](DataManagement.md#databasemanager-class)                            | Core Controller       | Orchestrates loading, caching, and saving of all data types               |
+| [DataLoader<T>](DataManagement.md#dataloader-class)                                      | Pipeline Component    | Imports external data into Unity Scriptable Objects                       |
+| [DataSaver<T>](DataManagement.md#datasaver-class)                                        | Pipeline Component    | Exports Unity data back into external file formats                        |
+| [SerializationFactory](SerializationStrategy.md#serializationfactory-class)              | Creational Pattern    | Selects the correct serialization strategy at runtime                     |
+| [ISerializationStrategy<T>](SerializationStrategy.md#iserializationstrategy-interface)   | Interface             | Defines contract for converting data to/from storage formats              |
+| [SerializationStrategyBase<T>](SerializationStrategy.md#serializationstrategybase-class) | Abstract Base         | Provides shared serialization logic and default behavior                  |
+| [CSVStrategy<T>](SerializationStrategy.md#csvstrategy-class)                             | Concrete Strategy     | Handles serialization using CSV (row-based format)                        |
+| [JSONStrategy<T>](SerializationStrategy.md#jsonstrategy-class)                           | Concrete Strategy     | Handles serialization using JSON (hierarchical format)                    |
+| [FileUtility](fileUtility.md#fileutility-class)                                          | Static Utility        | Handles safe file operations and cross-platform paths                     |
+| [CSVUtility](fileUtility.md#csvutility-class)                                            | Static Utility        | Handles parsing, formatting, and escaping CSV data                        |
 
-1.  **Scriptable Object Layer**  
-    Defines game data assets
-2.  **Data Contract Layer (IDataEntity)**  
-    Standardizes structure
-3.  **Management Layer (DatabaseManager)**  
-    Coordinates system behavior
-4.  **Pipeline Layer (Loader / Saver)**  
-    Handles import/export flow
-5.  **Serialization Layer (Factory + Strategy)**  
-    Converts between formats
-6.  **Utility Layer (File + CSV utilities)**  
-    Handles low-level operations
 
 ## 14\. Conclusion
 
