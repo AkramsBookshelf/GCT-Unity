@@ -134,19 +134,14 @@ The constraint `where T : DataEntityBase<T>` ensures that this base class is onl
 
 # CSVStrategy<T> Class
 
-The `CsvStrategy<T>` is a concrete implementation of the `ISerializationStrategy<T>` interface. It is specifically designed to handle the conversion of `IDataEntity` objects into standard CSV (Comma-Separated Values) rows and back again. It relies on the `CSVUtility` class to ensure data integrity, especially when dealing with fields that contain commas or quotes.
+The `CSVStrategy<T>` class is a concrete implementation of the `SerializationStrategyBase<T>`. It specializes in converting `IDataEntity` objects into a row-based CSV (Comma-Separated Values) format. By inheriting from the base strategy class, it enforces a standardized data structure where every entry begins with an `EntityID` and a `Name`, followed by any custom data fields defined by the specific entity.
 
 ## Overview
-
 -   Namespace: `CSG.DataManagement`
-    
 -   Access: `public class`
-    
--   Inherits: `ISerializationStrategy<T>`
-    
--   Constraints: `where T : IDataEntity`
-    
--   Core Purpose: To provide a standardized CSV format for all game entities, ensuring that every record begins with an `EntityID` and `Name`, followed by custom data specific to the entity type.
+-   Inherits: `SerializationStrategyBase<T>` (Implements `ISerializationStrategy<T>`)
+-   Constraints: `where T : DataEntityBase<T>`
+-   Core Purpose: To provide a robust, tabular serialization method that handles complex CSV encoding rules while allowing for flexible entity extension.
     
 
 ## Method Reference Table
@@ -160,97 +155,86 @@ The `CsvStrategy<T>` is a concrete implementation of the `ISerializationStrategy
 | **IsMatch** | `string entry`, `T entity` | `bool` | Checks if a CSV row matches an entity based on its ID (primary) or Name (fallback). | Use when searching for an existing record to update or delete within a dataset. |
 | **FindEntryByID** | `string allData`, `string entityID` | `string` | Scans a large block of text to find the specific row starting with the provided ID. | Use to retrieve a single record from a loaded file without parsing the entire dataset. |
 
-## Key Features & Logic
+### Key Features & Logic
 
-### 1\. Standardized Data Format
+### 1\. Tabular Structure Enforcement
 
-This strategy enforces a specific column order to ensure consistency across the project:
+This strategy ensures that every CSV file created by the system is predictable. It forces the first two columns to always be the `EntityID` and the `Name`, which makes searching and debugging significantly easier across different entity types.
 
-1.  Index 0: `EntityID` (The unique identifier)
+### 2\. Intelligent Data Mapping
+
+When saving (Serialize), the strategy pulls custom data from the entity. When loading (Deserialize), it intelligently skips the first two columns (ID and Name) and passes the remaining "custom" array back to the entity. This keeps the serialization logic separate from the specific properties of the game objects.
+
+### 3\. Collision-Safe Indexing
+
+The implementation of `FindEntryByID` includes a vital safety check: it looks for `entityID + ","`.
+
+-   The Problem: If you search for ID `10` in a file, a simple search might find ID `101`.
     
-2.  Index 1: `Name` (The display name)
-    
-3.  Index 2+: `Custom Fields` (Data unique to the specific subclass)
-    
-
-### 2\. Flexible Extensions
-
-While it enforces a base structure (ID and Name), it uses `entity.GetDataFields()` and `entity.SetDataFields()` to handle any number of additional variables. This allows a "Player" entity and an "Enemy" entity to use the same strategy even if they have different amounts of data.
-
-### 3\. Collision-Safe Searching
-
-In the `FindEntryByID` method, the code checks for `entityID + ","`. This is a critical safety feature that prevents "Partial ID Collisions."
-
--   Without the comma: Searching for ID `1` might accidentally return the row for ID `10` or `100`.
-    
--   With the comma: It ensures that only an exact match for the ID is returned.
+-   The Solution: By appending the comma, the strategy ensures it only matches the exact ID column, preventing data corruption or incorrect lookups.
     
 
-### 4\. Integration with CSVUtility
+### 4\. Robust Parsing
 
-By delegating the heavy lifting of parsing and row creation to `CSVUtility`, this class remains focused strictly on the mapping between C# objects and the CSV structure, adhering to the Single Responsibility Principle.
+By overriding `ParseRawEntry` to use `CSVUtility`, this class can handle "dirty" data, such as a player description that contains its own commas or line breaks, without breaking the file structure.
 
 ---
 
-# Documentation: JSONStrategy<T> Class
+# JSONStrategy<T> Class
 
-The `JSONStrategy<T>` class is a concrete implementation of the `ISerializationStrategy<T>` interface. It leverages Unity's built-in `JsonUtility` to convert `IDataEntity` objects into a structured JSON format. Unlike row-based formats like CSV, JSON stores data as an object tree, making it excellent for complex data structures and ScriptableObjects where hierarchy matters more than column order.
+The `JSONStrategy<T>` class is a concrete implementation of the `SerializationStrategyBase<T>`. It specializes in converting `IDataEntity` objects into a structured JSON format using Unity's native `JsonUtility`. Unlike row-based formats (like CSV), this strategy treats each entity as a self-contained, hierarchical data block, making it ideal for complex data or ScriptableObject persistence.
 
 ## Overview
 -   Namespace: `CSG.DataManagement`
 -   Access: `public class`
--   Inherits: `ISerializationStrategy<T>`
+-   Inherits: `SerializationStrategyBase<T>` (Implements `ISerializationStrategy<T>`)
 -   Constraints: `where T : DataEntityBase<T>`
--   Core Purpose: To provide a single-block serialization method that handles nested data more naturally than a flat table.
-
+-   Core Purpose: To provide a streamlined serialization path that preserves object hierarchy and supports Unity’s internal serialization rules.
+    
 
 ## Method Reference Table
 | Method | Parameters | Return | Description | When to Use |
 | :--- | :--- | :--- | :--- | :--- |
-| **GetHeader** | *None* | `string` | Returns a fixed label ("JSON_DATA_BLOB"). | Use as a placeholder since JSON is schema-less and doesn't require column headers. |
-| **Serialize** | `T data` | `string` | Converts the entire object (base fields + custom fields) into a JSON string with pretty-printing. | Use when saving data to a file where readability or object hierarchy is important. |
-| **Deserialize** | `T entity`, `string[] data` | `void` | Uses `JsonUtility.FromJsonOverwrite` to map values from a JSON string directly into an existing object. | Use when loading an entity to ensure the specific instance is updated with saved data. |
-| **ParseRawEntry** | `string rawEntry` | `string[]` | Returns the raw string wrapped in a single-element array. | Used internally to satisfy the interface contract while treating JSON as a single field. |
-| **IsMatch** | `string rawEntry`, `T data` | `bool` | Performs a string-based search to see if the JSON contains the specific Entity ID. | Use when searching for a specific record within a larger collection of JSON entries. |
+| **GetHeader** | *None* | `string` | Returns the placeholder string `"JSON_DATA_BLOB"`. | Use when a file system expects a schema label, even though JSON is schema-less. |
+| **Serialize** | `T data` | `string` | Uses `JsonUtility.ToJson` with pretty-printing enabled. | Use to convert an entity into a human-readable JSON string for saving. |
+| **Deserialize** | `T entity`, `string[] data` | `void` | Uses `JsonUtility.FromJsonOverwrite` to update an existing object's fields. | Use when loading data into an existing instance to minimize memory allocations. |
+| **ParseRawEntry** | `string rawEntry` | `string[]` | Wraps the raw JSON string into a single-element array. | Use to satisfy the interface contract where "data fields" are expected as an array. |
+| **IsMatch** | `string rawEntry`, `T data` | `bool` | Performs a fast string-containment check for the `_entityID` key. | Use to quickly identify if a specific JSON block belongs to a target entity without full parsing. |
 
 ## Key Features & Logic
 
-### 1\. Object Overwriting
+### 1\. Unified Serialization
 
-The `Deserialize` method uses `JsonUtility.FromJsonOverwrite`. This is a powerful Unity feature that takes an existing object in memory and fills its fields with the data found in the JSON string. This is much more memory-efficient than creating a brand-new object instance every time you load data.
+Because it inherits from `SerializationStrategyBase<T>`, it fulfills the system-wide contract for data handling. However, it overrides the Abstract methods to specifically use `JsonUtility`, ensuring that any field marked `[SerializeField]` is captured.
 
-### 2\. Flat vs. Structured
+### 2\. Fast Identity Matching
 
-While the interface supports `ParseRawEntry` (splitting lines), this JSON strategy intentionally returns a single-item array. This is because a JSON "entry" is a self-contained object. It doesn't need to be split into columns because the keys (like `"name": "Value"`) act as the column identifiers.
+The `IsMatch` implementation is optimized for performance. Instead of deserializing the entire JSON string to check an ID, it searches the raw text for the specific key-value pair format used by Unity's serializer: `"_entityID": "YOUR_ID"`.
 
-### 3\. Identity Matching
+### 3\. Memory Efficiency
 
-The `IsMatch` method uses a formatted string check:
+By using `JsonUtility.FromJsonOverwrite`, the strategy avoids creating new object instances during the load process. It simply "pours" the saved data into the fields of the object already sitting in memory.
 
--   Logic: `rawEntry.Contains("\"_entityID\": \"" + data.EntityID + "\"")`
+### 4\. Format Limitations
+
+Developers should be aware that this class is bound by Unity’s `JsonUtility` constraints:
+
+-   No Dictionaries: Nested dictionaries will not be saved.
     
--   Why: Since we don't want to fully parse a massive JSON string just to check an ID, this string-matching approach provides a fast way to identify the correct data block before committing to a full `Deserialize` operation.
+-   Fields Only: Properties with `{ get; set; }` are ignored unless they have a backing field marked `[SerializeField]`.
     
-
-### 4\. Unity JsonUtility Limitations
-
-Since this class uses Unity's native `JsonUtility`, it inherits certain constraints:
-
--   Fields only: It serializes `public` fields or `private` fields marked with `[SerializeField]`.
-    
--   No Dictionaries: It cannot serialize `Dictionary<K, V>` types directly.
-    
--   No Top-Level Arrays: The JSON string must represent a single object (enclosed in `{ }`).
-    
-
-> Note: Because this strategy uses `T : DataEntityBase<T>`, it ensures that the objects being saved are compatible with Unity's internal serialization system.
+-   Single Object: The input must be a single JSON object, not a top-level array.
 
 
+## Comparison: JSON vs. CSV Behavior
 
-
-
-
-
+| Feature | JSONStrategy | CSVStrategy |
+| :--- | :--- | :--- |
+| **Data Structure** | Hierarchical / Nested | Flat / Tabular |
+| **Header Requirement** | None (Placeholder) | Required (Column Names) |
+| **Parsing Style** | Single Block | Delimiter Split (Commas) |
+| **Unity Integration** | High (JsonUtility) | Manual (CSVUtility) |
+| **Best For** | Complex Entities | Item Databases / Lists |
 
 
 
