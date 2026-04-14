@@ -1,3 +1,46 @@
+# SerializationFactory Class
+
+The `SerializationFactory` is a static factory class that serves as the central decision-making point for the system's data layer. It implements the Factory Pattern to instantiate and return the correct `ISerializationStrategy<T>` (e.g., CSV or JSON) based on the provided `DatabaseType`.
+
+This abstraction allows the rest of your project to request a "Save Strategy" without needing to know the specific implementation details or class names of the underlying formats.
+
+## Overview
+-   Namespace: `CSG.DataManagement`
+-   Access: `public static`
+-   Pattern: Factory Method / Strategy Pattern
+-   Core Purpose: To decouple the selection of a file format from the logic that saves or loads data.
+
+## Method Reference Table
+| Method | Parameters | Return | Description | When to Use |
+| :--- | :--- | :--- | :--- | :--- |
+| **GetStrategy<T>** | `DatabaseType type` | `ISerializationStrategy<T>` | Examines the `DatabaseType` enum and returns a new instance of the corresponding strategy class. | Use whenever you are initializing a Data Manager or Database and need to define how files should be parsed. |
+
+## Key Features & Logic
+
+### 1\. Centralized Management
+
+Without this factory, you would have to write `if (type == JSON) { strategy = new JSONStrategy<T>(); }` everywhere in your code. The factory centralizes this logic into one place. If you decide to add a new format (like XML or Binary) in the future, you only need to update this one `switch` expression.
+
+### 2\. Type Safety with Generics
+
+The method uses a generic type parameter `<T>` with the constraint `where T : DataEntityBase<T>`. This ensures that the factory only produces strategies for valid data entities, maintaining strict type safety across the entire data management pipeline.
+
+### 3\. The "Fail-Fast" Mechanism
+
+The factory includes a default switch case (`_ => throw ...`). If a developer adds a new type to the `DatabaseType` enum but forgets to implement the strategy in the factory, the system will throw an immediate and descriptive `ArgumentException`. This prevents the game from failing silently or crashing in unpredictable ways later during a save operation.
+
+## Example Usage
+```csharp
+// Example of how the factory is used to grab a strategy dynamically
+DatabaseType selectedType = DatabaseType.CSV;
+
+// The factory handles the logic of whether to give you a CSVStrategy or JSONStrategy
+ISerializationStrategy<PlayerData> myStrategy = SerializationFactory.GetStrategy<PlayerData>(selectedType);
+
+Debug.Log($"Active Strategy: {myStrategy.GetType().Name}");
+```
+---
+
 # ISerializationStrategy<T> Interface
 
 The `ISerializationStrategy<T>` is a generic interface that defines a consistent contract for converting data entities to and from stored formats (such as CSV, JSON, or XML). By utilizing the Strategy Pattern, this interface allows developers to swap serialization methods without altering the core logic of the data entities themselves.
@@ -45,7 +88,7 @@ The data entity itself remains blissfully unaware of these storage details, focu
 
 ---
 
-# CsvStrategy<T> Class
+# CSVStrategy<T> Class
 
 The `CsvStrategy<T>` is a concrete implementation of the `ISerializationStrategy<T>` interface. It is specifically designed to handle the conversion of `IDataEntity` objects into standard CSV (Comma-Separated Values) rows and back again. It relies on the `CSVUtility` class to ensure data integrity, especially when dealing with fields that contain commas or quotes.
 
