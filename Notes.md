@@ -16,6 +16,33 @@ Foundation:
 - Tools & Editor
 - Coordinate System & Space
 - Directory Structure
+   - Asset/Content Folder
+   - Special folders / Developer Folder
 - Editor Preferences
 - Plugins/Packages
-- Units of measure 
+- Units of measure
+
+Assets/Content:
+- Project/Content Panel
+  - Organizing
+  - Displaying
+  - Searching
+ 
+Project Templates : 
+- Templates
+- Creating a new project
+- Opening a project
+- Updating projects
+- Custom Template
+
+
+
+
+
+
+
+
+
+
+
+
