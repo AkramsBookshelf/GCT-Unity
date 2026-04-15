@@ -22,18 +22,50 @@ Foundation:
 - Plugins/Packages
 - Units of measure
 
-Assets/Content:
-- Project/Content Panel
-  - Organizing
-  - Displaying
-  - Searching
- 
 Project Templates : 
 - Templates
 - Creating a new project
 - Opening a project
 - Updating projects
 - Custom Template
+
+Assets/Content:
+- Project/Content Panel
+  - Organizing
+  - Displaying
+  - Searching
+- Importing Assets
+- Working with Assets
+ 
+GameObjects / Actors : 
+- Working with GameObjects/Actors
+- Manipulating GameObjects/Actors
+  - Snapping 
+- Components (Transform)
+- Prefabs / Blueprints 
+
+Level Design: 
+- Working with Scenes/Levels
+- Managing Multiple Scenes/Levels
+- Project Settings
+  - Global / World Settings
+  - Default Level
+ 
+Interactions: 
+ - Colliders/Collision
+ - Visual Scripting / Blueprints
+
+Creating User Interface: 
+[https://dev.epicgames.com/documentation/unreal-engine/creating-user-interfaces-with-umg-and-slate-in-unreal-engine](https://dev.epicgames.com/documentation/unreal-engine/creating-user-interfaces-with-umg-and-slate-in-unreal-engine)
+- Best Practices
+- Building UI
+- Displaying UI
+
+Buliding
+- Build Settings
+- Publishing 
+ 
+
 
 
 
