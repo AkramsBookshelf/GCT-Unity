@@ -8,3 +8,14 @@
 | Assignment      | 🎯 Challenge   | Independent problem/task                                                   |
 | Summary         | 🛡️ Checkpoint | Wrap-up, review key points                                                 |
 
+
+
+[Reference: https://dev.epicgames.com/documentation/unreal-engine/understanding-the-basics-of-unreal-engine](https://dev.epicgames.com/documentation/unreal-engine/understanding-the-basics-of-unreal-engine)
+Foundation: 
+- Terminology
+- Tools & Editor
+- Coordinate System & Space
+- Directory Structure
+- Editor Preferences
+- Plugins/Packages
+- Units of measure 
