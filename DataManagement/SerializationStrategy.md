@@ -43,48 +43,46 @@ Debug.Log($"Active Strategy: {myStrategy.GetType().Name}");
 
 # ISerializationStrategy<T> Interface
 
-The `ISerializationStrategy<T>` is a generic interface that defines a consistent contract for converting data entities to and from stored formats (such as CSV, JSON, or XML). By utilizing the Strategy Pattern, this interface allows developers to swap serialization methods without altering the core logic of the data entities themselves.
+The `ISerializationStrategy<T>` is a generic interface that defines a consistent contract for converting data entities into and out of stored formats (such as CSV, JSON, or XML). It is designed using the Strategy Pattern, allowing the data management system to swap serialization logic without changing the underlying data structures or manager logic.
+
+Each implementation is responsible for defining the "how" of data transformation—turning an object into a string for saving and reconstructing that string back into an object for loading.
+
 
 ## Overview
 -   Namespace: `CSG.DataManagement`
 -   Type: `interface`
 -   Constraints: `where T : IDataEntity`
--   Core Purpose: To decouple data storage logic from the data objects, ensuring that how an object is saved (serialized) and loaded (deserialized) can be changed independently of the data structure.
-    
+-   Core Purpose: To decouple the data layer from specific storage formats and parsing logic, ensuring high flexibility and maintainability.    
 
 ## Method Reference Table
+
 | Method | Parameters | Return | Description | When to Use |
 | :--- | :--- | :--- | :--- | :--- |
-| **ConfigureHeaders** | `string headerLine` | `void` | Parses and stores the header configuration to map data fields correctly. | Use during the initialization of a load operation to identify column/field order. |
-| **GetHeader** | *None* | `string` | Returns a string representing the top-level structure (e.g., column names for CSV). | Use when creating a new save file to ensure the header matches the data format. |
-| **Serialize** | `T entity` | `string` | Converts a single data entity object into its string-based representation. | Use when saving a specific object to a file or database. |
-| **Deserialize** | `T entity`, `string[] data` | `void` | Populates the fields of an existing entity using an array of parsed string data. | Use when loading data from a storage source back into an active object. |
-| **ParseRawEntry** | `string rawEntry` | `string[]` | Breaks a raw line of text from storage into an array of individual data fields. | Use to convert a raw file line into a format that the `Deserialize` method can understand. |
-| **IsMatch** | `string entry`, `T entity` | `bool` | Compares a raw entry string against an entity to check for a match (usually by ID). | Use when performing updates or deletions to identify the correct row in a dataset. |
-| **FindEntryByID** | `string allData`, `string entityID` | `string` | Searches a block of text for a specific entry that matches the provided Unique ID. | Use when you need to retrieve a single specific record from a large text-based dataset. |
+| **ConfigureHeaders** | `string headerLine` | `void` | Processes the header row to define the expected data structure for the current load operation. | Called during initialization to map column order for row-based formats. |
+| **GetHeader** | *None* | `string` | Builds a header row or schema label describing the serialized structure. | Used when creating new files to ensure the top-row metadata is correct. |
+| **Serialize** | `T entity` | `string` | Converts a concrete data entity into its serialized string representation. | Use when preparing an object instance to be written to a file. |
+| **Deserialize** | `T entity`, `string[] data` | `void` | Populates an existing entity instance with values from a serialized field array. | Use when loading data from a storage source back into Unity memory. |
+| **ParseRawEntry** | `string rawEntry` | `string[]` | Converts a single raw line of stored data into an array of structured fields. | Use as the first step of loading to break down raw text into manageable pieces. |
+| **IsMatch** | `string entry`, `T entity` | `bool` | Determines if a raw serialized entry matches a specific entity (typically via ID). | Use during incremental saves to find the correct record to update. |
+| **FindEntryByID** | `string allData`, `string entityID` | `string` | Scans a full dataset to find the specific entry string associated with a unique ID. | Use for targeted lookups when you do not wish to parse the entire database file. |
 
-## Key Features & Strategy Implementation
+## Key Features & Architectural Role
 
 ### 1\. The Strategy Pattern
 
-This interface is the "Strategy" in the design pattern. You can create different classes that implement this interface (e.g., `CSVSerializationStrategy`, `JSONSerializationStrategy`) and swap them at runtime. This allows your project to support multiple file types with minimal code changes.
+This interface is the "contract" for the Strategy Pattern. It allows the `DatabaseManager` to remain format-agnostic. The manager simply calls `Serialize()` or `Deserialize()`, and the specific strategy (e.g., `CSVStrategy` or `JSONStrategy`) handles the format-specific heavy lifting.
 
-### 2\. Generic Constraints
+### 2\. Standardized Reconstruction
 
-The use of `<T> where T : IDataEntity` ensures that this interface can only be used with classes that implement the `IDataEntity` interface. This provides type safety and ensures that any object being serialized has the necessary properties (like an ID) to be handled correctly.
+The combination of `ParseRawEntry` and `Deserialize` ensures that data reconstruction is a two-step, predictable process. By breaking raw strings into arrays first, the system can perform validation (checking `MinimumFieldCount`) before attempting to apply values to an object, preventing runtime crashes due to malformed data.
 
-### 3\. Decoupled Parsing
+### 3\. Targeted Lookups
 
-The inclusion of `ParseRawEntry` and `ConfigureHeaders` ensures that the strategy handles the "flavor" of the data. For example:
+The `FindEntryByID` method allows implementations to optimize how they search through data. For example, a `CSVStrategy` can use prefix-matching logic to find a row in a large text file much faster than a generic parser that would have to deserialize every object in the list.
 
--   A CSV Strategy would split by commas.
-    
--   A Tab Strategy would split by tabs.
-    
--   A Fixed-Width Strategy would split by character count.
-    
+### 4\. Format-Agnostic Headers
 
-The data entity itself remains blissfully unaware of these storage details, focusing only on its own properties.
+While some formats (like CSV) use explicit headers and others (like JSON) are self-describing, the `ConfigureHeaders` and `GetHeader` methods ensure that any format-specific "metadata" is handled gracefully by the strategy rather than the entity itself.
 
 ---
 
