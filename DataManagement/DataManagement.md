@@ -40,48 +40,55 @@ Because these are Enums, your IDE (like Visual Studio or Rider) will provide aut
 
 # DatabaseManager<T> Class
 
-The `DatabaseManager<T>` is a generic controller that serves as the central hub for your data pipeline in Unity. It coordinates the lifecycle of game data—from loading external files into a runtime cache to merging new assets and saving them back to disk. By sitting between the file system and your game logic, it ensures that your data remains organized, searchable, and consistent.
+The `DatabaseManager<T>` is a generic controller that serves as the central hub for your data pipeline in Unity. It coordinates the lifecycle of game data—from loading external files into a runtime cache to managing in-memory sync status and saving data back to disk. By sitting between the file system and your game logic, it ensures that your data remains organized, searchable, and consistent across both Runtime and the Unity Editor.
 
 ## Overview
 -   Namespace: `CSG.DataManagement`
 -   Access: `public abstract` (Must be inherited by a specific manager, e.g., `InventoryManager`)
 -   Inherits: `MonoBehaviour`
 -   Constraints: `where T : DataEntityBase<T>`
--   Core Purpose: To provide a high-level API for managing collections of game entities while remaining agnostic of the underlying file format (CSV, JSON, etc.) via the Strategy Pattern.
+-   Core Purpose: To provide a high-level coordinator for managing collections of game entities while remaining agnostic of the underlying file format (CSV, JSON, etc.) via the Strategy Pattern.
     
 
 ## Method Reference Table
 | Method | Parameters | Return | Description | When to Use |
 | :--- | :--- | :--- | :--- | :--- |
-| **LoadFromFile** | `string fileName`, `DatabaseSaveLocation loc`, `DatabaseType type` | `void` | Uses a `DataLoader` to read an external file and populate the internal `_dataList` cache. | Call this during `Awake()` or `Start()` to initialize your game data from a file. |
-| **RegisterAndSave** | *None* | `void` | Merges objects in the `_assetRegistrationList` into the main cache and triggers a save. | Use when you have created new ScriptableObjects in the editor and want to add them to the permanent database. |
-| **SaveToDatabase** | *None* | `void` | **Private:** Orchestrates the actual write operation using `DataSaver` and the active `Strategy`. | Called internally by `RegisterAndSave` to commit the current memory cache to disk. |
-| **ValidateAssetPath** | *None* | `void` | **Editor Only:** Cleans up the folder path string to ensure it is relative to the "Assets" folder. | Automatically called via `OnValidate` to prevent common pathing errors in the Inspector. |
+| **LoadFromFile** | `string fileName`, `DatabaseSaveLocation loc`, `DatabaseType type` | `void` | Reads external content, replaces the in-memory cache, and marks all entities as synced. | Call during `Awake()` or `Start()` to initialize the game state from a database file. |
+| **ClearDataListCache** | *None* | `void` | Wipes the current `_dataList` to prepare for a fresh data state. | Used internally during reloads or when switching databases. |
+| **MarkAsSaved** | `List<T> dataList` | `void` | **Private:** Iterates through entities and sets their internal sync status to `true`. | Automatically called after a successful load to ensure UI/Editor state reflects reality. |
+| **SaveToDatabase** | *None* | `void` | Persists the registration list to disk, clears the queue, and refreshes the runtime cache. | Call this when you need to commit newly registered ScriptableObjects to the permanent file. |
+| **ValidateAssetPath** | *None* | `void` | **Editor Only:** Strips "Assets/" prefixes from path strings to prevent file utility errors. | Automatically called via `OnValidate` to ensure Inspector settings are correctly formatted. |
 
 ## Key Features & Logic
 
-### 1\. The Data Pipeline
+### 1\. Refactored Data Flow
 
-The `DatabaseManager` acts as the "brain" of the following workflow:
+The manager acts as the "brain" of the following synchronized workflow:
 
-1.  Load: `DataLoader` reads a file → Converts text to objects → `DatabaseManager` stores them in `_dataList`.
+1.  Load: `DataLoader` reads a file → Converts text to objects → `DatabaseManager` caches them in `_dataList` and marks them as Synced.
     
-2.  Modify: Developer adds new assets to the `_assetRegistrationList`.
+2.  Register: Developer adds new assets to the `_assetRegistrationList` (the "pending" queue).
     
-3.  Save: `DatabaseManager` merges lists → `DataSaver` converts objects back to text via `Strategy` → File is written.
+3.  Save: `DataSaver` writes the pending list to the file via the selected `Strategy`.
+    
+4.  Refresh: The manager clears the old cache and reloads from the newly written file to ensure memory and disk are perfectly aligned.
     
 
-### 4\. Lazy Strategy Initialization
+### 2\. Strategy Decoupling (Refactored)
 
-The manager uses a "Lazy Loaded" property for the `Strategy`. It doesn't create the CSV or JSON strategy until the exact moment it is needed. Once created, it caches it for the remainder of the session to improve performance.
+The class is now more strictly decoupled from serialization logic. It uses a Lazy Loaded property for the `Strategy`. It doesn't instantiate the CSV or JSON logic until the moment of the first file operation, then caches that instance for performance.
 
-### 3\. Safety & Validation
+### 3\. Sync Status Management
 
--   Duplicate Prevention: When merging new assets, the manager checks if the object already exists in the cache to prevent double-entries in your database.
+With the latest update, the `DatabaseManager` now takes responsibility for the "handshake" between the file and the objects. By calling `entry.SetSyncStatus(true)` upon loading, it allows individual ScriptableObjects to visually or logically indicate that they match the data stored on disk.
+
+### 4\. Safety & Validation
+
+-   Asset Registration Guard: The `SaveToDatabase` method includes a check to prevent "empty saves." If no new assets are in the registration list, the operation is aborted to avoid unnecessary file I/O.
     
--   Empty Save Guard: If the database is empty, the manager aborts the save process to prevent accidentally overwriting a valid data file with a blank one.
+-   Path Cleaning: The `ValidateAssetPath` method automatically corrects user input in the Unity Inspector, ensuring that folder paths don't include redundant "Assets/" prefixes that would break the `Path.Combine` logic in `FileUtility`.
     
--   Timestamping: It records the exact time the file was last modified during a load, providing a "Last Modified" read-out in the Inspector for debugging.
+-   Timestamping: For debugging, the manager records the `LastModified` time of the database file at the exact moment of loading, which is visible as a read-only field in the Inspector.
 
 ---
 
