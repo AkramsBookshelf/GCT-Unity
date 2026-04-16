@@ -94,7 +94,7 @@ With the latest update, the `DatabaseManager` now takes responsibility for the "
 
 # DataLoader<T> Class
 
-The `DataLoader<T>` class is the primary import engine of the data management system. Its job is to bridge the gap between external text files (like CSV or JSON) and Unity’s native ScriptableObject system. It handles reading raw data, delegating the parsing to a serialization strategy, and ensuring that the data is correctly converted into permanent assets within the Unity Project.
+The `DataLoader<T>` class is the primary import engine of the data management system. Its job is to bridge the gap between external text files (like CSV or JSON) and Unity’s native ScriptableObject system. It handles reading raw data, delegating the parsing to a serialization strategy, and ensuring that the data is correctly converted into permanent, standardized assets within the Unity Project.
 
 ## Overview
 
@@ -108,63 +108,67 @@ The `DataLoader<T>` class is the primary import engine of the data management sy
     
 
 ## Method Reference Table
+
 | Method | Parameters | Return | Description | When to Use |
 | :--- | :--- | :--- | :--- | :--- |
-| **LoadSingleEntity** | `T entity`, `string fileName`, `DatabaseSaveLocation loc`, `ISerializationStrategy<T> strategy` | `void` | Finds a specific record by ID in a file and populates an existing object instance. | Use when you only need to refresh or load a single specific item rather than the whole database. |
-| **LoadAllData** | `string fileName`, `DatabaseSaveLocation loc`, `ISerializationStrategy<T> strategy` | `List<T>` | Reads an entire file, configures headers, and initiates the batch conversion process. | Use as the main entry point to load an entire database (e.g., all weapons or all quests). |
-| **ProcessEntries** | `string[] rawEntries`, `ISerializationStrategy<T> strategy` | `List<T>` | **Private:** Iterates through raw rows, creates object instances, and triggers asset saving. | Called internally by `LoadAllData` to handle the conversion loop. |
-| **CreateEntityFromEntry** | `string entry`, `ISerializationStrategy<T> strategy` | `T` | **Private:** Instantiates a new ScriptableObject and uses the strategy to populate its fields. | Called internally to transform a single line of text into a memory-resident object. |
-| **SaveAsset** | `T dataEntry` | `T` | **Editor Only:** Writes the ScriptableObject to the Project folder or updates an existing one. | Called internally during import to ensure data persists as a `.asset` file in the Unity Editor. |
+| **LoadSingleEntity** | `T entity`, `string fileName`, `DatabaseSaveLocation loc`, `ISerializationStrategy<T> strategy` | `void` | **Static:** Finds a record by ID, deserializes it into the provided instance, and enforces naming rules. | Use to "rehydrate" or refresh a single existing ScriptableObject from the database. |
+| **LoadAllData** | `string fileName`, `DatabaseSaveLocation loc`, `ISerializationStrategy<T> strategy` | `List<T>` | Reads an entire file, configures the header schema, and initiates batch processing. | Use as the main entry point to load an entire database (e.g., all weapons or all quests). |
+| **ProcessEntries** | `string[] rawEntries`, `ISerializationStrategy<T> strategy` | `List<T>` | **Private:** Iterates through raw rows (skipping header) to generate the final list of entities. | Called internally by `LoadAllData` to handle the conversion loop. |
+| **CreateEntityFromEntry** | `string entry`, `ISerializationStrategy<T> strategy` | `T` | **Private:** Instantiates a new ScriptableObject and uses the strategy to map raw fields. | Called internally to transform a single line of text into a memory-resident object. |
+| **SaveAsset** | `T dataEntry` | `T` | **Editor Only:** Writes the ScriptableObject to disk or updates an existing one using `CopySerialized`. | Called internally during import to ensure data persists as a `.asset` file in the project. |
 | **FinalizeLoad** | `int count` | `void` | **Editor Only:** Saves the AssetDatabase and refreshes the Project window. | Called after a batch import to make newly created assets visible in the Unity Inspector. |
 
+## Key Features & Pipeline Logic
 ## Key Features & Pipeline Logic
 
 ### 1\. The Transformation Pipeline
 
 The `DataLoader` follows a strict sequence to ensure data integrity:
 
-1.  Read: Fetches the raw string or array of lines from a file.
+1.  Read: Fetches the raw string array from the resolved `FileUtility` path.
     
-2.  Configure: Passes the header (first row) to the strategy to define the data schema.
+2.  Configure: Passes the header row to the `ISerializationStrategy` to define the data structure.
     
 3.  Instantiate: Creates a "clean" `ScriptableObject` instance in memory.
     
-4.  Populate: Asks the `ISerializationStrategy` to fill that object with data.
+4.  Populate: Delegates to the strategy to `Deserialize` the raw text into object fields.
     
-5.  Persist: (Editor Only) Saves that object as a physical `.asset` file in the project.
-    
-
-### 2\. Strategy Delegation
-
-The `DataLoader` does not know how to read CSV or JSON. It simply holds a reference to an `ISerializationStrategy`. This means you can use the same `DataLoader` code for any file format, as long as you provide the correct strategy.
-
-### 3\. Smart Asset Sync (Editor)
-
-The `SaveAsset` method is designed to be non-destructive:
-
--   If an asset with the same name already exists in your folder, it uses `EditorUtility.CopySerialized` to update the values without breaking existing references in your scenes.
-    
--   If the asset doesn't exist, it creates a brand new one.
+5.  Persist: (Editor Only) Resolves the directory and saves the object as a physical `.asset` file.
     
 
-### 4\. Standardized Naming
+### 2\. Format Agnosticism
 
-The loader uses `DataEntityBase<T>.GenerateStandardizedName` to ensure that assets created from the database follow a consistent naming convention (e.g., `Item_001_IronSword`), making the project hierarchy much easier to navigate.
+By delegating all `ParseRawEntry` and `Deserialize` calls to the `ISerializationStrategy`, the `DataLoader` remains completely agnostic of the file format. Whether you are loading a CSV or a JSON file, this class uses the same logic.
+
+### 3\. Smart Asset Syncing (Editor)
+
+To prevent breaking existing scene references, the `SaveAsset` method is non-destructive:
+
+-   Update: If an asset with the same name already exists, it uses `EditorUtility.CopySerialized` to overwrite values while keeping the internal GUID intact.
+    
+-   Create: If no asset exists, it uses `AssetDatabase.CreateAsset` to generate a new file.
+    
+
+### 4\. Direct Entity Refresh
+
+The updated `LoadSingleEntity` is now static. This allows a specific data entity to trigger its own refresh logic by passing itself into the loader. It ensures that the Unity asset name is updated to match the database state immediately.
 
 ## Technical Details
 
 ### Asset Path Management
 
-When the `DataLoader` is initialized, it is given an `assetPath`. This path is automatically validated by the `FileUtility` to ensure it exists within the Unity `Assets/` folder.
+When the `DataLoader` is initialized via its constructor, it stores a target `_assetDirectoryPath`. During processing, it uses `FileUtility.GetAssetDirectoryPath` to verify and, if necessary, recursively create the folder structure inside the Unity project.
 
 ### Conditional Compilation
 
-Large portions of this class (specifically asset creation and saving) are wrapped in `#if UNITY_EDITOR` blocks. This ensures that the loader functions correctly as a data importer during development, but doesn't try to perform illegal "save to project" operations in a compiled game build.
+Asset management logic (saving, dirtying, and refreshing) is wrapped in `#if UNITY_EDITOR` blocks. This ensures that the loader functions as a data importer during development but remains lightweight and safe for runtime-only file reading in built games.
 
 ---
 # DataSaver<T> Class
 
-The `DataSaver<T>` class is the final stage of the data management pipeline. Its primary role is to take memory-resident ScriptableObject entities and translate them back into persistent text files (like CSV or JSON). It provides both incremental saving for individual items and batch saving for entire databases, ensuring that data is synchronized accurately between Unity and external storage.
+The `DataSaver<T>` class is the final stage of the data management pipeline. Its primary role is to take memory-resident ScriptableObject entities and translate them back into persistent text files (like CSV or JSON).
+
+This refactored version optimizes the Batch Save logic: instead of blindly overwriting the entire file, it now performs an intelligent merge, checking for existing records and updating them while preserving other data in the file.
 
 ## Overview
 
@@ -174,61 +178,73 @@ The `DataSaver<T>` class is the final stage of the data management pipeline. Its
     
 -   Constraints: `where T : ScriptableObject, IDataEntity`
     
--   Core Purpose: To provide a standardized, format-agnostic way to write data entities to disk, either by updating existing records or rewriting full datasets.
+-   Core Purpose: To provide a standardized, format-agnostic way to write data entities to disk using intelligent row-matching and insertion logic.
     
 
 ## Method Reference Table
 
 | Method | Parameters | Return | Description | When to Use |
 | :--- | :--- | :--- | :--- | :--- |
-| **SaveData** | `T data`, `string fileName`, `ISerializationStrategy<T> strategy`, `DatabaseSaveLocation location` | `void` | **Static:** Performs an incremental save. It searches for an existing record to update or appends a new one. | Use for real-time updates where you only want to change one specific entity without rewriting the entire file. |
-| **SaveBatch** | `IEnumerable<T> dataObjects`, `string fileName`, `ISerializationStrategy<T> strategy`, `DatabaseSaveLocation location` | `void` | **Static:** Rewrites the entire file using a provided collection of entities. | Use when exporting large datasets or performing a full database synchronization. |
-| **UpdateExistingEntry** | `List<string> entries`, `T data`, `string newEntry`, `ISerializationStrategy<T> strategy` | `bool` | **Private:** Iterates through file rows and uses the strategy's `IsMatch` logic to find and replace a record. | Called internally by `SaveData` to determine if an entry needs to be overwritten or added as new. |
+| **SaveData** | `T data`, `string fileName`, `DatabaseSaveLocation loc`, `ISerializationStrategy<T> strategy` | `void` | **Static:** Performs an incremental save. It searches for an existing record to update or appends a new one. | Use for real-time updates where you only want to change one specific entity. |
+| **SaveBatch** | `IEnumerable<T> dataObjects`, `string fileName`, `DatabaseSaveLocation loc`, `ISerializationStrategy<T> strategy` | `void` | **Static:** Rewrites the dataset by merging a collection of entities into the existing file. | Use when synchronizing a list of new assets (like from the Registration List) into the main database. |
+| **UpdateExistingEntry** | `List<string> entries`, `T data`, `string newEntry`, `ISerializationStrategy<T> strategy` | `bool` | **Private:** Iterates through file rows and uses the strategy's `IsMatch` logic to find and replace a record. | Called internally by both save methods to prevent duplicate IDs in the same file. |
 
 ## Key Features & Logic
 
-### 1\. Incremental vs. Batch Saving
+### 1\. Intelligent Merging (Refactored)
 
--   Incremental (`SaveData`): This is "smart" saving. It reads the current file, uses the `ISerializationStrategy` to find the line that matches the entity's ID, and swaps that specific line out. This prevents duplicating data if you save the same item twice.
+Unlike previous versions that simply wiped the file clean, the new `SaveBatch` implementation follows a "Smart Merge" workflow:
+
+-   It reads the existing file contents first.
     
--   Batch (`SaveBatch`): This is "clean slate" saving. It completely overwrites the target file with the current collection. This is generally faster for large initialization tasks or total database resets.
+-   It iterates through your objects and uses `UpdateExistingEntry` to see if that ID already exists in the file.
+    
+-   Update: If the ID matches, it replaces that specific line.
+    
+-   Insert: If the ID is new, it appends it to the bottom.
     
 
 ### 2\. Strategy-Driven Serialization
 
-Just like the `DataLoader`, the `DataSaver` does not know the difference between a comma or a curly brace. It asks the `ISerializationStrategy` to:
+The `DataSaver` remains completely format-agnostic. It delegates all technical formatting to the `ISerializationStrategy`:
 
-1.  Serialize: Turn the object into a string.
+1.  Serialize: Turns the object fields into a string row.
     
-2.  GetHeader: Provide the top-row column names (if required).
+2.  GetHeader: Provides column names if the file is being created for the first time.
     
-3.  IsMatch: Identify which existing line in the file belongs to which object.
+3.  IsMatch: Identifies which line in a CSV or JSON block belongs to which unique ID.
     
 
 ### 3\. Automatic Directory Handling
 
-Before any file operation, `DataSaver` calls `FileUtility.ValidateDirectory`. This ensures that if the target folder (e.g., `Saves/User1/`) doesn't exist, it is created automatically, preventing "Path Not Found" exceptions.
+Before writing, `DataSaver` calls `FileUtility.ValidateDirectory`. This ensures the target path exists, preventing crashes if you try to save to a subfolder that hasn't been created yet.
 
 ### 4\. Safety Checks
 
-The batch saver includes a null/empty check. If you attempt to save an empty list, the system logs a warning and aborts rather than deleting your existing data file by overwriting it with nothing.
+Both methods include guards to prevent illegal operations. If you attempt to save an empty collection, the system simply returns, ensuring you don't accidentally corrupt or erase an existing database file with an empty operation.
 
 ## Technical Details
 
 ### Workflow Summary
 
-1.  Identify: Locate the file path via `FileUtility`.
-2.  Serialize: Convert the `ScriptableObject` fields into a string based on the chosen format.
-3.  Synchronize: Check if the record exists; if so, replace the line. If not, append it.
-4.  Write: Commit the list of strings to the physical disk.
-5.  Refresh: (Editor Only) Trigger `AssetDatabase.Refresh()` so the changes are immediately visible in the Unity project view.
-   
+1.  Path Resolution: Locate the absolute file path via `FileUtility`.
+    
+2.  Existing Check: Load current file lines into memory.
+    
+3.  Header Logic: If the file is new, grab the header string from the strategy.
+    
+4.  Serialization: Convert Unity objects into strings via `strategy.Serialize`.
+    
+5.  Sync/Merge: Search for matching entries to replace; otherwise, append.
+    
+6.  Disk Write: Commit the updated list of strings to storage.
+    
+7.  Asset Refresh: (Editor Only) Trigger `AssetDatabase.Refresh()` to update the Project window.
+    
 
 ### Conditional Compilation
-The `UnityEditor.AssetDatabase.Refresh()` call is wrapped in `#if UNITY_EDITOR`. This is essential because the `AssetDatabase` class does not exist in build players (Windows, Android, etc.), and including it would cause the game build to fail.
 
-
-
+The `UnityEditor.AssetDatabase.Refresh()` call is wrapped in `#if UNITY_EDITOR`. This is critical as the `AssetDatabase` class is excluded from final game builds (Windows, Mac, mobile). Without this wrap, your game would fail to compile during the build process.
 
 
 
