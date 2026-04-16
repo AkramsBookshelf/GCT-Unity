@@ -44,9 +44,8 @@ By providing a `MinimumFieldCount`, the interface allows the system to verify da
 
 # DataEntityBase<T> Class
 
-The `DataEntityBase<T>` is the foundational abstract ScriptableObject that powers the entire persistence system. Every piece of game data—whether it’s a sword, a quest, or a player stat—should inherit from this class.
+The `DataEntityBase<T>` is the foundational abstract ScriptableObject that powers the persistence system. It manages the identity, naming consistency, and synchronization lifecycle for all game data assets (items, quests, etc.). This refactored version delegates the heavy lifting of file I/O to static utility classes, keeping the entity focused on its data state.
 
-It manages the "Identity" of an object (making sure it has a unique ID), its "Naming" (keeping the file name in sync with the data), and its "Lifecycle" (handling how it saves to and loads from external files like CSV or JSON).
 
 ## Overview
 -   Namespace: `CSG.DataManagement`
@@ -56,33 +55,47 @@ It manages the "Identity" of an object (making sure it has a unique ID), its "Na
 -   Core Purpose: To provide a standardized, automated way to handle Unity assets that need to stay in sync with an external database.
 
 ## Method Reference Table
+
 | Method | Parameters | Return | Description | When to Use |
 | :--- | :--- | :--- | :--- | :--- |
-| **GenerateEntityID** | *None* | `void` | Generates a unique, stable ID based on the class type and Unity GUID. | Automatically called; ensures the object can be found in a database even if renamed. |
-| **GenerateStandardizedName** | `Type type`, `string raw` | `string` | **Static:** Formats a string into a safe file name (e.g., `Item_Sword_Data`). | Used to ensure all assets in your project follow the same naming convention. |
-| **SaveToDatabase** | *None* | `void` | Triggers the external save process to sync the asset with a file. | Call this when you want to "push" changes from the Unity Inspector to the database file. |
-| **LoadEntityData** | *None* | `void` | Uses a `DataLoader` to pull external file data back into this specific asset. | Call this to "rehydrate" or update an asset from the master database file. |
-| **GetFullHeaderString** | *None* | `string` | Combines base headers (ID, Name) with custom fields from the child class. | Used by savers to write the top row of a CSV or define a JSON schema. |
-| **GetDataFields** | *None* | `object[]` | **Abstract:** Converts child class variables into a raw array for saving. | **Required override:** Define which of your custom variables should be saved. |
-| **SetDataFields** | `object[] fields` | `void` | **Abstract:** Maps a raw array of loaded values back to child class variables. | **Required override:** Define how to map loaded text back to your variables. |
+| **GenerateEntityID** | *None* | `void` | Generates a unique, stable ID based on class type and Unity GUID. | Automatically called to ensure the object is matchable in a database. |
+| **GenerateStandardizedName** | `Type type`, `string raw` | `string` | **Static:** Formats a string into a safe file name (e.g., `Item_Sword_Data`). | Used to maintain project-wide naming conventions for assets. |
+| **SetSyncStatus** | `bool status` | `void` | Updates the internal boolean tracking if the asset matches the disk file. | Use when manually forcing a sync state or after custom I/O operations. |
+| **SaveEntityData** | *None* | `void` | Delegates saving to `DataSaver` using the entity's specific strategy and location. | Call to "push" local Inspector changes to the external database. |
+| **LoadEntityData** | *None* | `void` | Delegates loading to `DataLoader` to refresh the asset with data from disk. | Call to "pull" the latest values from the database into the Unity asset. |
+| **GetCoreFieldNames** | *None* | `string[]` | Returns the fundamental fields used across all entities (`_entityID`, `_name`). | Used by serialization strategies to define the base schema. |
+| **GetDatabaseFileName**| *None* | `string` | Builds a filename based on the class type and format (e.g., `ItemDatabase.csv`). | Used to resolve which file this specific asset belongs to. |
 
-## Key Features
+## Key Features & Logic
 
-### 1\. Identity & GUID Mapping
+### 1\. Advanced Sync Tracking
 
-The class generates a unique `EntityID` by combining the type name with the first 8 characters of Unity's internal GUID. This ensures that even if you move the asset to a different folder or rename it, the database still recognizes it as the same entity.
+The class now features a robust synchronization state:
 
-### 2\. Automated Naming Convention (Editor Only)
-
-To keep your project clean, `DataEntityBase` automatically renames the asset file to match the format: `[Type]_[Name]_Data`.
-
--   Example: An `ItemData` asset named "Iron Sword" becomes `Item_IronSword_Data`.
+-   `IsDataSynced`: A read-only property that tracks if the Inspector data matches the external file.
+    
+-   `MarkAsUnsaved`: Automatically resets the sync status to `false` whenever a value is changed in the Inspector (via `OnValidate`).
+    
+-   Freshness Guard: Uses a private `_isFreshlyLoaded` flag to prevent the asset from immediately marking itself as "unsaved" during the initialization/loading process.
     
 
-### 3\. Data Synchronization Tracking
+### 2\. Identity & GUID Persistence
 
-The `_isDataSynced` boolean tracks whether the data you see in the Unity Inspector matches what is saved in the external CSV/JSON file. If you change a value in the Inspector, the system marks the asset as "unsynced" until you save it.
+The `EntityID` is generated once and stored. It combines the stripped type name (e.g., "Item") with the Unity Asset GUID. This ensures that even if you move the asset file or change its display name, its Database Identity remains immutable.
 
-### 4\. Format Agnostic
+### 3\. Automated Editor Naming
 
-Because this class uses the `SerializationFactory`, a child class can choose to be a CSV entity or a JSON entity simply by changing a single property. The underlying logic for saving and loading remains identical.
+To prevent project clutter, the class enforces a naming convention: `Type_Name_Data`.
+
+-   Standardization: It automatically removes spaces and ensures the correct prefix and suffix exist.
+    
+-   Syncing: If the internal `_name` field is changed, the `RenameAssetFile` method (Editor only) renames the actual file on disk to match.
+    
+
+### 4\. Strategy & Location Delegation
+
+The entity is completely format-agnostic. It defines what its format is (CSV, JSON, etc.) and where it should live, but delegates the how to the `SerializationFactory`:
+
+-   `GetSerializationStrategy()`: Dynamically fetches the correct CSV or JSON logic at runtime.
+    
+-   `SaveLocation`: Determines if the asset belongs in the read-only `StreamingAssets` or the writable `PersistentData`.
