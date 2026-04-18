@@ -96,3 +96,74 @@ By using the interface, your "Manager" classes don't need to be generic themselv
 | **Logic** | Great for shared code/methods. | Great for identification and "broad" logic. |
 
 > **Key Takeaway:** Use the **Abstract Class** to save yourself from writing the same code twice, but use the **Interface** to allow your systems to talk to those classes without caring about the specific data types they hold.
+
+
+### Section 2: The "Type Chain" — Linking Interfaces to Base Classes
+
+When you use a generic interface, like `ISerializationStrategy<T>`, you are setting a strict rule: "Anyone implementing this must handle type $T$." 
+
+If you want to build a **Base Class** to handle the heavy lifting (so you don't have to rewrite the same code for JSON, XML, or Binary formats), that base class usually needs to be generic as well. This creates what we call a **Type Chain**.
+
+---
+
+### 1. Why the Base Class Must Be Generic
+If your interface is generic, it is "open." It hasn't decided what $T$ is yet. For your base class to implement that interface without picking a specific type (like `int` or `string`), it must also stay "open."
+
+
+
+```csharp
+// The Generic Interface (The Contract)
+public interface ISerializationStrategy<T> 
+{
+    void Save(T data);
+}
+
+// The Generic Base Class (The Template)
+// It "carries" the T from the interface down to the specific strategies.
+public abstract class SerializationBase<T> : ISerializationStrategy<T> 
+{
+    // Shared code for all strategies
+    protected string GetFilePath() => "Assets/SaveData/";
+
+    // We leave the actual saving logic for the specific classes
+    public abstract void Save(T data);
+}
+```
+
+---
+
+### 2. Passing the $T$ Down the Line
+Think of the generic $T$ as a relay baton.
+* **The Interface** starts the race by saying "We need a $T$."
+* **The Base Class** takes the baton and says "I'll handle the general stuff for any $T$."
+* **The Concrete Class** (the one you actually use) finishes the race by picking a specific type.
+
+```csharp
+// Finally, we "close" the chain by picking 'PlayerProfile'
+public class JsonPlayerStrategy : SerializationBase<PlayerProfile> 
+{
+    public override void Save(PlayerProfile data) 
+    {
+        string path = GetFilePath(); // Used from the Base Class
+        // Logic to turn PlayerProfile into JSON...
+    }
+}
+```
+
+---
+
+### 3. The "Abstract Generic" Advantage
+By having a **Generic Abstract Class** implement a **Generic Interface**, you get the best of both worlds:
+
+1.  **Contract Enforcement:** You are guaranteed that every strategy follows the `ISerializationStrategy` rules.
+2.  **Code Reuse:** You write your "LogErrors," "ValidatePath," or "Encryption" logic once in the `SerializationBase<T>`, and it works for every single data type in your game.
+3.  **Strict Typing:** You never have to worry about accidentally trying to save an `Inventory` object using a `PlayerStats` strategy; the compiler simply won't let you.
+
+---
+
+### Lesson Summary
+* **Generic Interface:** Defines the **What** (The behavior contract).
+* **Generic Base Class:** Defines the **How** (The shared implementation logic).
+* **Non-Generic Interface (Optional):** Used as the "Bridge" to allow you to check against the class without knowing $T$ at all (as we learned in Section 1).
+
+> **Pro-Tip:** In game architecture, if your base class isn't generic but your interface is, you'll be forced to use `object` as your data type, which leads to "boxing" and "unboxing"—costly operations that can slow down your game's performance! Using the Type Chain keeps everything fast and type-safe.
